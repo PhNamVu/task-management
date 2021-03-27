@@ -14,10 +14,9 @@ import { negativeToast, positiveToast } from "../helpers/toaster";
 import { StyledInput } from "./StyledInput";
 import { PrimaryBtn } from "./PrimaryBtn";
 
-
 export const FormExample = () => {
-  const [show, setShow] = React.useState(false)
-  const handleClick = () => setShow(!show)
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow(!show);
 
   return (
     <Formik
@@ -36,7 +35,7 @@ export const FormExample = () => {
             actions.setSubmitting(false);
           }, 2000);
         } catch (error) {
-          negativeToast({ title: "Login fail", description: error })
+          negativeToast({ title: "Login fail", description: error });
         }
       }}
     >
@@ -73,7 +72,6 @@ export const FormExample = () => {
 
             <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
           </FormControl>
-          
           <PrimaryBtn
             mt={10}
             isLoading={formik.isSubmitting}
