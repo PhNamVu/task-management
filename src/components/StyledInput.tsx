@@ -11,6 +11,7 @@ export const StyledInput = ({...props } : any) => {
             {...props}
             isInValid={meta.error && meta.touched}
             errorBorderColor="crimson"
+            focusBorderColor="cyan.400"
         />
     )
 }

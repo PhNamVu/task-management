@@ -8,13 +8,14 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
-import { LoginSchemaValidation } from "../helpers/validation";
-import { negativeToast, positiveToast } from "../helpers/toaster";
-import { StyledInput } from "./StyledInput";
-import { PrimaryBtn } from "./PrimaryBtn";
+import { LoginSchemaValidation } from "../../helpers/validation";
+import { negativeToast, positiveToast } from "../../helpers/toaster";
+import { StyledInput } from "../StyledInput";
+import { PrimaryBtn } from "../PrimaryBtn";
 
-export const FormExample = () => {
+export const LoginForm = () => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
 
@@ -42,7 +43,7 @@ export const FormExample = () => {
       {(formik: any) => (
         <Form>
           <FormControl
-            mb="2em"
+            mb="0.5em"
             isRequired
             isInvalid={formik.errors.email && formik.touched.email}
           >
@@ -64,8 +65,14 @@ export const FormExample = () => {
                 name="password"
               />
               <InputRightElement width="4.5rem">
-                <Button h="1.75rem" size="sm" onClick={handleClick}>
-                  {show ? "Hide" : "Show"}
+                <Button 
+                  h="1.75rem" 
+                  size="sm" 
+                  onClick={handleClick} 
+                  variant="ghost"
+                  
+                >
+                  {show ? <AiFillEye/> : <AiFillEyeInvisible/>}
                 </Button>
               </InputRightElement>
             </InputGroup>
@@ -73,11 +80,12 @@ export const FormExample = () => {
             <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
           </FormControl>
           <PrimaryBtn
-            mt={10}
+            mt={5}
+            width='100%'
             isLoading={formik.isSubmitting}
             type="submit"
           >
-            Submit
+            Sign In
           </PrimaryBtn>
         </Form>
       )}
