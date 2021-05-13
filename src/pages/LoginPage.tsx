@@ -2,7 +2,7 @@ import React from 'react'
 import { Center, SimpleGrid, Heading, useMediaQuery, useColorModeValue } from '@chakra-ui/react'
 import { Helmet } from 'react-helmet'
 
-import LoginImage from './Login.svg'
+import LoginImage from '../images/Login.svg'
 import { LoginForm } from '../components/forms/Login'
 import { ColorModeSwitcher } from '../ColorModeSwitcher'
 

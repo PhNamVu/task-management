@@ -1,0 +1,11 @@
+overwrite: true
+schema: "https://task-management.hasura.app/v1/graphql"
+headers:
+  x-hasura-admin-secret: "12345678"
+documents: "src/generated/queries/**.gql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
