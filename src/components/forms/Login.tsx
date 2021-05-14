@@ -12,8 +12,8 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 import { LoginSchemaValidation } from "../../helpers/validation";
 import { negativeToast, positiveToast } from "../../helpers/toaster";
-import { StyledInput } from "../StyledInput";
-import { PrimaryBtn } from "../PrimaryBtn";
+import { StyledInput } from "../shared/StyledInput";
+import { PrimaryBtn } from "../shared/PrimaryBtn";
 
 export const LoginForm = () => {
   const [show, setShow] = React.useState(false);

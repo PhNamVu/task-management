@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Select, { components } from 'react-select'
-import { colourOptions } from '../doc/data';
+import { colourOptions } from '../../doc/data';
 
 
 const MultiValueLabel = (props : any) => {
