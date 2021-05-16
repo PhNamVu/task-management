@@ -1,14 +1,25 @@
-import * as React from "react"
-import { Box, Grid } from "@chakra-ui/react"
+import React, { Suspense } from "react"
+import { Route, Routes } from "react-router-dom"
+import { ApolloProvider } from '@apollo/client'
+import { createClient } from "./apollo/create-client"
 
-import { FormExample } from "./components/Form"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
+import { useAuth } from "./hooks/use-auth"
+import { FallbackLoading } from "./components/activity/fall-back-loading"
 
-export const App = () => (
-  <Box textAlign="center" fontSize="xl">
-    <Grid minH="100vh" p={8} w="25vw">
-      <ColorModeSwitcher />
-      <FormExample />
-    </Grid>
-  </Box>
-);
+import { LoginPage } from "./pages/LoginPage"
+
+
+export const App = () => {
+  const { state }: any = useAuth()
+  const [client, role, isUserLoggedin] = createClient(state)
+  console.log(role, isUserLoggedin)
+  return (
+    <Suspense fallback={<FallbackLoading />}>
+      <ApolloProvider client={client}>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+        </Routes>
+      </ApolloProvider>
+    </Suspense>
+  )
+}

@@ -1,8 +1,8 @@
 import React from 'react'
 import { useField } from 'formik'
-import { Input } from "@chakra-ui/react"
+import { Input, InputProps } from "@chakra-ui/react"
 
-export const StyledInput = ({...props } : any) => {
+export const StyledInput = ({...props } : InputProps) => {
     const [field, meta] = useField(props as any)
 
     return (
@@ -11,6 +11,7 @@ export const StyledInput = ({...props } : any) => {
             {...props}
             isInValid={meta.error && meta.touched}
             errorBorderColor="crimson"
+            focusBorderColor="cyan.400"
         />
     )
 }
