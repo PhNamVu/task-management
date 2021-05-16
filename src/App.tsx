@@ -6,7 +6,9 @@ import { createClient } from "./apollo/create-client"
 import { useAuth } from "./hooks/use-auth"
 import { FallbackLoading } from "./components/activity/fall-back-loading"
 
+/* ./pages */
 import { LoginPage } from "./pages/LoginPage"
+import { LandingPage } from "./pages"
 
 
 export const App = () => {
@@ -17,7 +19,8 @@ export const App = () => {
     <Suspense fallback={<FallbackLoading />}>
       <ApolloProvider client={client}>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </ApolloProvider>
     </Suspense>
