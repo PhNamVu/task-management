@@ -33,7 +33,7 @@ export const Header = () => {
                         <Box>
                             <NavLink to="/">
                                 <Flex alignItems="center">
-                                <Image h="2.5em" w="2.5em" src="/assets/logo.svg" mr="0.5rem"/>
+                                    <Image h="2.5em" w="2.5em" src="/assets/logo.svg" mr="0.5rem"/>
                                     <Heading as="h3" size="md" >
                                         Birdy
                                     </Heading>
@@ -48,7 +48,7 @@ export const Header = () => {
                             justifyContent="flex-end"
                         >
                             <ColorModeSwitcher variant="steal"/>
-                            <NavLink to="/login">
+                            <NavLink to="/auth/login">
                                 <PrimaryBtn 
                                     ml="1.5rem" 
                                     variant="outline"
@@ -57,7 +57,7 @@ export const Header = () => {
                                     Login
                                 </PrimaryBtn>
                             </NavLink>
-                            <NavLink to="/sign-up">
+                            <NavLink to="/auth/sign-up">
                                 <PrimaryBtn ml="1rem" >Sign up</PrimaryBtn>
                             </NavLink>
                         </Flex>
