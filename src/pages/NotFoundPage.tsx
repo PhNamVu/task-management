@@ -1,11 +1,9 @@
 import React from 'react'
 import {
   Center,
-  SimpleGrid,
   Heading,
   useMediaQuery,
   Box,
-  useColorModeValue,
   Image,
   Button,
   Flex,
@@ -42,7 +40,6 @@ export const NotFoundPage = () => {
               onClick={() => navigate('/')}
               color="white"
               leftIcon={<ArrowBackIcon/>}
-              // onClick={() => navigate('/workspace')}}
             >
               Back to home
             </Button>
