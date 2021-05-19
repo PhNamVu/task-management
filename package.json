@@ -17,7 +17,7 @@
     "@types/react-dom": "^16.9.0",
     "firebase": "^8.6.1",
     "formik": "^2.2.6",
-    "framer-motion": ">=3.0.0",
+    "framer-motion": "3.10.6",
     "graphql": "^15.5.0",
     "history": "^5.0.0",
     "nprogress": "^0.2.0",
