@@ -49,6 +49,20 @@ export type String_Comparison_Exp = {
   _similar?: Maybe<Scalars['String']>;
 };
 
+export type UserSetupInput = {
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  role: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type UserSetupRes = {
+  __typename?: 'UserSetupRes';
+  message?: Maybe<Scalars['String']>;
+  status: Scalars['String'];
+  statusCode?: Maybe<Scalars['Int']>;
+};
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -64,6 +78,7 @@ export type Mutation_Root = {
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
   update_users_by_pk?: Maybe<Users>;
+  userSetup?: Maybe<UserSetupRes>;
 };
 
 
@@ -104,6 +119,12 @@ export type Mutation_RootUpdate_UsersArgs = {
 export type Mutation_RootUpdate_Users_By_PkArgs = {
   _set?: Maybe<Users_Set_Input>;
   pk_columns: Users_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUserSetupArgs = {
+  input: UserSetupInput;
 };
 
 /** column ordering options */
@@ -208,9 +229,9 @@ export type Users = {
   created_at?: Maybe<Scalars['timestamptz']>;
   dialCode?: Maybe<Scalars['String']>;
   email: Scalars['String'];
-  first_name?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
   id: Scalars['uuid'];
-  last_name?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   photoUrl?: Maybe<Scalars['String']>;
   role: Scalars['String'];
@@ -247,9 +268,9 @@ export type Users_Bool_Exp = {
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   dialCode?: Maybe<String_Comparison_Exp>;
   email?: Maybe<String_Comparison_Exp>;
-  first_name?: Maybe<String_Comparison_Exp>;
+  firstName?: Maybe<String_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
-  last_name?: Maybe<String_Comparison_Exp>;
+  lastName?: Maybe<String_Comparison_Exp>;
   phone?: Maybe<String_Comparison_Exp>;
   photoUrl?: Maybe<String_Comparison_Exp>;
   role?: Maybe<String_Comparison_Exp>;
@@ -269,9 +290,9 @@ export type Users_Insert_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
   dialCode?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  first_name?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
-  last_name?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   photoUrl?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
@@ -284,9 +305,9 @@ export type Users_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   dialCode?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  first_name?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
-  last_name?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   photoUrl?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
@@ -299,9 +320,9 @@ export type Users_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   dialCode?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  first_name?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
-  last_name?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   photoUrl?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
@@ -329,9 +350,9 @@ export type Users_Order_By = {
   created_at?: Maybe<Order_By>;
   dialCode?: Maybe<Order_By>;
   email?: Maybe<Order_By>;
-  first_name?: Maybe<Order_By>;
+  firstName?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
-  last_name?: Maybe<Order_By>;
+  lastName?: Maybe<Order_By>;
   phone?: Maybe<Order_By>;
   photoUrl?: Maybe<Order_By>;
   role?: Maybe<Order_By>;
@@ -352,11 +373,11 @@ export enum Users_Select_Column {
   /** column name */
   Email = 'email',
   /** column name */
-  FirstName = 'first_name',
+  FirstName = 'firstName',
   /** column name */
   Id = 'id',
   /** column name */
-  LastName = 'last_name',
+  LastName = 'lastName',
   /** column name */
   Phone = 'phone',
   /** column name */
@@ -372,9 +393,9 @@ export type Users_Set_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
   dialCode?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  first_name?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
-  last_name?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   photoUrl?: Maybe<Scalars['String']>;
   role?: Maybe<Scalars['String']>;
@@ -390,11 +411,11 @@ export enum Users_Update_Column {
   /** column name */
   Email = 'email',
   /** column name */
-  FirstName = 'first_name',
+  FirstName = 'firstName',
   /** column name */
   Id = 'id',
   /** column name */
-  LastName = 'last_name',
+  LastName = 'lastName',
   /** column name */
   Phone = 'phone',
   /** column name */

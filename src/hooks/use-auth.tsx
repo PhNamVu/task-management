@@ -15,6 +15,7 @@ if (!firebase.apps.length) {
 export const fbase = firebase
 export const storage = firebase.storage()
 export const fdb = firebase.firestore()
+export const fana = firebase.analytics()
 
 export interface AuthContextProps {
   state: {

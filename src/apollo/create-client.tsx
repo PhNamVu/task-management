@@ -1,3 +1,4 @@
+/* eslint-disable */
 import createAuthApolloClient from './auth-client'
 import createUnAuthClient from './unauth-client'
 
@@ -8,26 +9,24 @@ export function createClient(state: any) {
 
   if (!state.user) {
     client = createUnAuthClient()
-    role = 'nonUser'
+    role = "nonUser"
     isUserLoggedin = false
-  } else if (state.user && !state.user.emailVerified) {
+} else {
+    if (state.user && !state.user.emailVerified) {
     client = createUnAuthClient()
-    role = 'nonVerifiedUser'
+    role = "nonVerifiedUser"
     isUserLoggedin = false
-  } else if (
-    Object.prototype.hasOwnProperty.call(state, 'https://hasura.io/jwt/claims')
-  ) {
-    client = createUnAuthClient()
-    role = 'noRoleUser'
-    isUserLoggedin = false
-  } else {
-    client = createAuthApolloClient(state.user)
-    role =
-      state.customClaims.claims['https://hasura.io/jwt/claims'][
-        'x-hasura-default-role'
-      ]
-    isUserLoggedin = true
+    } else {
+      if (!state.customClaims.claims.hasOwnProperty('https://hasura.io/jwt/claims')) {
+        client = createUnAuthClient()
+        role = "noRoleUser"
+        isUserLoggedin = false
+    } else {
+        client = createAuthApolloClient(state.user)
+        role = state.customClaims.claims['https://hasura.io/jwt/claims']['x-hasura-default-role'] || 'anonymous'
+        isUserLoggedin = true
+    }
   }
-
+}
   return [client, role, isUserLoggedin]
 }

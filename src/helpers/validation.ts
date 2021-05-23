@@ -12,8 +12,6 @@ export const LoginSchemaValidation = Yup.object({
 })
 
 export const SignUpSchemaValidation = Yup.object({
-  firstName: Yup.string().required('First name is required.'),
-  lastName: Yup.string().required('Last name is required.'),
   email: Yup.string()
     .email('Invalid email')
     .required('Email is required.'),
@@ -25,4 +23,12 @@ export const SignUpSchemaValidation = Yup.object({
     [Yup.ref('password'), undefined],
     'Passwords does not match'
   ).required('Please confirm your password'),
+})
+
+export const SetUpAccountValidation = Yup.object({
+  firstName: Yup.string().required('First name is required.'),
+  lastName: Yup.string().required('Last name is required.'),
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Email is required.'),
 })
