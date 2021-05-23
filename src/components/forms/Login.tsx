@@ -50,18 +50,16 @@ export const LoginForm = () => {
         password: '',
       }}
       validationSchema={LoginSchemaValidation}
-      onSubmit={(values, actions) => {
+      onSubmit={async(values, actions) => {
         try {
-          setTimeout(() => {
-            positiveToast({
-              title: 'Login successful',
-              description: `Welcome back ${values.email}`,
-            })
-            actions.setSubmitting(false)
-          }, 2000)
+          actions.setSubmitting(true)
+          await fbase
+            .auth()
+            .signInWithEmailAndPassword(values.email, values.password)
         } catch (error) {
-          negativeToast({ title: 'Login fail', description: error })
+          negativeToast({ title: 'Login fail', description: error.message })
         }
+        actions.setSubmitting(false)
       }}
     >
       {(formik: any) => (

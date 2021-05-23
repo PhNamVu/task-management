@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 import { Route, Routes } from "react-router-dom"
 import { ApolloProvider } from '@apollo/client'
-import { createClient } from "./apollo/create-client"
 
+import { createClient } from "./apollo/create-client"
 import { useAuth } from "./hooks/use-auth"
 import { FallbackLoading } from "./components/activity/fall-back-loading"
 
@@ -26,9 +26,9 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="login" element={LoginPage(role)} />
+            <Route path="sign-up" element={SignUpPage(role)} />
+            <Route path="forgot-password" element={<ForgotPasswordPage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

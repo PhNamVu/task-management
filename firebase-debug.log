@@ -1,0 +1,20 @@
+[debug] [2021-05-23T09:23:23.521Z] ----------------------------------------------------------------------
+[debug] [2021-05-23T09:23:23.522Z] Command:       /Users/namvu/.nvm/versions/node/v14.15.4/bin/node /Users/namvu/.nvm/versions/node/v14.15.4/bin/firebase functions:config:get prod
+[debug] [2021-05-23T09:23:23.523Z] CLI Version:   9.5.0
+[debug] [2021-05-23T09:23:23.523Z] Platform:      darwin
+[debug] [2021-05-23T09:23:23.523Z] Node Version:  v14.15.4
+[debug] [2021-05-23T09:23:23.524Z] Time:          Sun May 23 2021 16:23:23 GMT+0700 (Indochina Time)
+[debug] [2021-05-23T09:23:23.524Z] ----------------------------------------------------------------------
+[debug] [2021-05-23T09:23:23.524Z] 
+[debug] [2021-05-23T09:23:23.533Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-05-23T09:23:23.533Z] > authorizing via signed-in user
+[debug] [2021-05-23T09:23:23.535Z] [iam] checking project task-management-f47b5 for permissions ["firebase.projects.get","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.variables.get","runtimeconfig.variables.list"]
+[debug] [2021-05-23T09:23:23.536Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-05-23T09:23:23.536Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-05-23T09:23:23.876Z] <<< HTTP RESPONSE 200 {"date":"Sun, 23 May 2021 09:23:23 GMT","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-05-23T09:23:23.899Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/task-management-f47b5:testIamPermissions  
+ {"permissions":["firebase.projects.get","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.variables.get","runtimeconfig.variables.list"]}
+[debug] [2021-05-23T09:23:24.954Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Sun, 23 May 2021 09:23:24 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=817","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-05-23T09:23:24.955Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/task-management-f47b5/services/runtimeconfig.googleapis.com  
+ 

@@ -3,7 +3,6 @@ import { Form, Formik } from 'formik'
 import {
   Button,
   Divider,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -19,7 +18,7 @@ import { SignUpSchemaValidation } from '../../helpers/validation'
 import { negativeToast, positiveToast } from '../../helpers/toaster'
 import { StyledInput } from '../shared/StyledInput'
 import { PrimaryBtn } from '../shared/PrimaryBtn'
-import { fbase } from '../../hooks/use-auth'
+import { fana, fbase } from '../../hooks/use-auth'
 
 export const SignUpForm = () => {
   const [show, setShow] = React.useState(false)
@@ -44,52 +43,27 @@ export const SignUpForm = () => {
   return (
     <Formik
       initialValues={{
-        firstName: '',
-        lastName: '',
         email: '',
         password: '',
         passwordConfirmation: '',
       }}
       validationSchema={SignUpSchemaValidation}
-      onSubmit={(values, actions) => {
+      onSubmit={async(values) => {
         try {
-          setTimeout(() => {
-            positiveToast({
-              title: 'Sign up successfully',
-            })
-            actions.setSubmitting(false)
-          }, 2000)
+          const userRes = await fbase
+            .auth()
+            .createUserWithEmailAndPassword(values.email, values.password)
+          if (userRes) {
+            await userRes.user?.sendEmailVerification()
+            fana.setUserId(userRes.user?.uid as string)
+          }
         } catch (error) {
-          negativeToast({ title: 'Sign up fail', description: error })
+          negativeToast({ title: 'Login fail', description: error.message })
         }
       }}
     >
       {(formik: any) => (
         <Form>
-          <Flex justifyContent="space-between">
-            <FormControl
-              w="47%"
-              mb="0.5em"
-              isRequired
-              isInvalid={formik.errors.firstName && formik.touched.firstName}
-            >
-              <FormLabel htmlFor="firstName">First Name</FormLabel>
-              <StyledInput placeholder="Enter your first name" name="firstName" />
-              <FormErrorMessage>{formik.errors.firstName}</FormErrorMessage>
-            </FormControl>
-
-            <FormControl
-              w="47%"
-              mb="0.5em"
-              isRequired
-              isInvalid={formik.errors.lastName && formik.touched.lastName}
-            >
-              <FormLabel htmlFor="lastName">Last Name</FormLabel>
-              <StyledInput placeholder="Enter your last name" name="lastName" />
-              <FormErrorMessage>{formik.errors.lastName}</FormErrorMessage>
-            </FormControl>
-          </Flex>
-
           <FormControl
             mb="0.5em"
             isRequired
