@@ -29,6 +29,7 @@ module.exports = {
 
   },
   rules: {
+    'react/prop-types': 0,
     'linebreak-style': 'off',
     'prettier/prettier': ["off"],
     '@typescript-eslint/semi': 'off',
@@ -41,5 +42,7 @@ module.exports = {
       "props": false
     }],
     'no-console': 'off',
+    "@typescript-eslint/naming-convention": 'off',
+    "import/newline-after-import": ["off"]
   },
 };

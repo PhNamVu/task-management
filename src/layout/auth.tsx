@@ -29,8 +29,6 @@ export const AuthLayout = () => {
       }
 
       if (state.user.emailVerified && role === 'admin') {
-        console.log('user state after loggin from firebase ', state)
-        console.log('my role is ', role)
         localStorage.removeItem('isRedirect')
         navigate('/admin')
       }

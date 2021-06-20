@@ -1,5 +1,24 @@
 query getUser {
-    users {
-        email
-    }
+  users {
+    email
+  }
+}
+
+mutation updateUserAvatar($photoUrl: String, $currentPhotoUrl: String) {
+  update_users(
+    where: {}
+    _set: { photoUrl: $photoUrl, currentPhotoUrl: $currentPhotoUrl }
+  ) {
+    affected_rows
+  }
+}
+
+query users($id: String) {
+  users(where: { id: { _eq: $id } }) {
+    id
+    firstName
+    lastName
+    photoUrl
+    currentPhotoUrl
+  }
 }

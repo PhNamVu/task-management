@@ -6,14 +6,18 @@ import { createClient } from "./apollo/create-client"
 import { useAuth } from "./hooks/use-auth"
 import { FallbackLoading } from "./components/activity/fall-back-loading"
 
-/* pages */
-
-import { LandingPage } from "./pages"
+/* layout */
 import { AuthLayout } from "./layout/auth"
+import { WorkspaceLayout } from "./layout/workspace"
+
+/* pages */
+import { LandingPage } from "./pages"
 import { LoginPage } from "./pages/auth/LoginPage"
 import { SignUpPage } from "./pages/auth/SignUpPage"
 import { ForgotPasswordPage } from "./pages/auth/ForgotPassword"
 import { NotFoundPage } from "./pages/NotFoundPage"
+import WorkspacePage from "./pages/workspace"
+
 
 
 export const App = () => {
@@ -24,11 +28,14 @@ export const App = () => {
     <Suspense fallback={<FallbackLoading />}>
       <ApolloProvider client={client}>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/"  element={<LandingPage isUserLoggedin={isUserLoggedin}/>}/>
           <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={LoginPage(role)} />
             <Route path="sign-up" element={SignUpPage(role)} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          </Route>
+          <Route path="/w" element={<WorkspaceLayout isUserLoggedin={isUserLoggedin}/>}>
+            <Route path="/" element={<WorkspacePage/>} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

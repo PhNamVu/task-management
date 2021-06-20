@@ -17,5 +17,5 @@ export const LoginPage = (role: any) => {
   if (role === "noRoleUser") {
     return <SetupAccount />
   } 
-  return <Navigate to="/"/>
+  return <Navigate to="/w"/>
 }
