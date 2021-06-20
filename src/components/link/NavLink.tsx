@@ -18,19 +18,18 @@ export const StyledNavLink: React.FC<NavLinkProps> = ({
         end
         to={href}
         activeStyle={{
-          backgroundColor: '#76E4F7',
-          color: '#FFFFFF',   
+          color: '#0BC5EA',   
           fontWeight: 'bold'      
         }}
         style={{
           width:'100%',
           padding: '5px',
           borderRadius: '5px', 
-          marginBottom: '0.7em',
+          marginBottom: '1em',
           
         }}
       >
-        <Flex alignItems="center" pl={5}>
+        <Flex alignItems="flex-end" pl={5}>
           <chakra.div mr={2}>
             {icon}
           </chakra.div>

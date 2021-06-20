@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 
+import { AccountSetting } from '../setting/AccountSetting'
 import { AvatarSetting } from '../setting/AvatarSetting'
 
 export const SettingModal = ({ isOpen, onClose }: any) => {
@@ -23,8 +24,9 @@ export const SettingModal = ({ isOpen, onClose }: any) => {
       <ModalContent>
         <ModalHeader>Account setting</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody padding={5}>
           <AvatarSetting />
+          <AccountSetting/>
         </ModalBody>
       </ModalContent>
     </Modal>
