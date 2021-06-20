@@ -1,5 +1,5 @@
 /* eslint consistent-return: ["off", { "treatUndefinedAsUnspecified": true }] */
-import { Avatar, Flex, Spinner } from '@chakra-ui/react'
+import { Avatar, chakra, Flex, Spinner } from '@chakra-ui/react'
 import React from 'react'
 
 import { useUpdateUserAvatarMutation } from '../../generated/graphql'
@@ -16,7 +16,7 @@ export const AvatarSetting = () => {
 
   const handleFileChange = (e: any) => {
     setUpload(true)
-    
+
     const uploadFiles = Array.from(e.target.files as FileList).map(
       async (file: File) => {
         const validImageTypes = [
@@ -34,9 +34,7 @@ export const AvatarSetting = () => {
           setUpload(false)
         } else {
           const storageRef = storage.ref()
-          const ref = storageRef.child(
-            `users/${user.uid}/avatar/${file.name}`
-          )
+          const ref = storageRef.child(`users/${user.uid}/avatar/${file.name}`)
           const metadata = {
             uid: user.uid,
             size: file.size,
@@ -47,7 +45,7 @@ export const AvatarSetting = () => {
           const assetUrl = await ref.getDownloadURL()
           return { ...metadata, assetUrl }
         }
-      } 
+      }
     )
     if (uploadFiles[0] !== undefined) {
       uploadFiles[0]
@@ -79,20 +77,26 @@ export const AvatarSetting = () => {
     } else {
       setUpload(false)
     }
-    
   }
+
   return (
-    <Flex w="100%" flexDirection="column" alignItems="center">
-      <Avatar name={user.displayName} src={user.photoUrl} size="xl"/>
-      {user.photoUrl}
-      { upload ? (
+    <Flex w="100%" flexDirection="column" alignItems="center" mb={5}>
+      <Avatar name={user.displayName} src={user?.photoURL} size="xl" />
+
+      {upload ? (
         <Spinner />
-      ) : 
-      <> 
-        <label
-            htmlFor="upload-button"
-        >
-            <span>Change</span>
+      ) : (
+        <>
+          <label htmlFor="upload-button">
+            <chakra.span
+              _hover={{
+                fontWeight: '500',
+                cursor: 'pointer',
+                textDecoration: 'underline',
+              }}
+            >
+              Edit
+            </chakra.span>
             <input
               accept="image/*"
               multiple
@@ -102,17 +106,9 @@ export const AvatarSetting = () => {
               hidden
             />
           </label>
-        
-      </> 
-      }
-      {errors ? (
-        <div>
-          {errors}
-        </div>
-      ) : (
-        ''
+        </>
       )}
+      {errors ? <div>{errors}</div> : ''}
     </Flex>
-    
   )
 }

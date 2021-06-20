@@ -16,7 +16,6 @@ export const Menu = () => {
         h="100%"
         direction="column"
         alignItems="flex-start"
-        w="99.5%"
         mt={5}
       >
         <StyledNavLink
@@ -28,7 +27,7 @@ export const Menu = () => {
           alignItems="center"
           pl={5}
           ml={1}
-          mb={2}
+          mb={3}
           onClick={onOpen}
           cursor="pointer"
         >

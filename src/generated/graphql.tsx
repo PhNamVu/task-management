@@ -216,7 +216,6 @@ export type Timestamptz_Comparison_Exp = {
 export type Users = {
   __typename?: 'users'
   created_at?: Maybe<Scalars['timestamptz']>
-  currentPhotoUrl?: Maybe<Scalars['String']>
   dialCode?: Maybe<Scalars['String']>
   email: Scalars['String']
   firstName?: Maybe<Scalars['String']>
@@ -255,7 +254,6 @@ export type Users_Bool_Exp = {
   _not?: Maybe<Users_Bool_Exp>
   _or?: Maybe<Array<Users_Bool_Exp>>
   created_at?: Maybe<Timestamptz_Comparison_Exp>
-  currentPhotoUrl?: Maybe<String_Comparison_Exp>
   dialCode?: Maybe<String_Comparison_Exp>
   email?: Maybe<String_Comparison_Exp>
   firstName?: Maybe<String_Comparison_Exp>
@@ -278,7 +276,6 @@ export enum Users_Constraint {
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   created_at?: Maybe<Scalars['timestamptz']>
-  currentPhotoUrl?: Maybe<Scalars['String']>
   dialCode?: Maybe<Scalars['String']>
   email?: Maybe<Scalars['String']>
   firstName?: Maybe<Scalars['String']>
@@ -294,7 +291,6 @@ export type Users_Insert_Input = {
 export type Users_Max_Fields = {
   __typename?: 'users_max_fields'
   created_at?: Maybe<Scalars['timestamptz']>
-  currentPhotoUrl?: Maybe<Scalars['String']>
   dialCode?: Maybe<Scalars['String']>
   email?: Maybe<Scalars['String']>
   firstName?: Maybe<Scalars['String']>
@@ -310,7 +306,6 @@ export type Users_Max_Fields = {
 export type Users_Min_Fields = {
   __typename?: 'users_min_fields'
   created_at?: Maybe<Scalars['timestamptz']>
-  currentPhotoUrl?: Maybe<Scalars['String']>
   dialCode?: Maybe<Scalars['String']>
   email?: Maybe<Scalars['String']>
   firstName?: Maybe<Scalars['String']>
@@ -341,7 +336,6 @@ export type Users_On_Conflict = {
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
   created_at?: Maybe<Order_By>
-  currentPhotoUrl?: Maybe<Order_By>
   dialCode?: Maybe<Order_By>
   email?: Maybe<Order_By>
   firstName?: Maybe<Order_By>
@@ -362,8 +356,6 @@ export type Users_Pk_Columns_Input = {
 export enum Users_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
-  /** column name */
-  CurrentPhotoUrl = 'currentPhotoUrl',
   /** column name */
   DialCode = 'dialCode',
   /** column name */
@@ -387,7 +379,6 @@ export enum Users_Select_Column {
 /** input type for updating data in table "users" */
 export type Users_Set_Input = {
   created_at?: Maybe<Scalars['timestamptz']>
-  currentPhotoUrl?: Maybe<Scalars['String']>
   dialCode?: Maybe<Scalars['String']>
   email?: Maybe<Scalars['String']>
   firstName?: Maybe<Scalars['String']>
@@ -403,8 +394,6 @@ export type Users_Set_Input = {
 export enum Users_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
-  /** column name */
-  CurrentPhotoUrl = 'currentPhotoUrl',
   /** column name */
   DialCode = 'dialCode',
   /** column name */
@@ -425,15 +414,8 @@ export enum Users_Update_Column {
   Status = 'status',
 }
 
-export type GetUserQueryVariables = Exact<{ [key: string]: never }>
-
-export type GetUserQuery = { __typename?: 'query_root' } & {
-  users: Array<{ __typename?: 'users' } & Pick<Users, 'email'>>
-}
-
 export type UpdateUserAvatarMutationVariables = Exact<{
   photoUrl?: Maybe<Scalars['String']>
-  currentPhotoUrl?: Maybe<Scalars['String']>
 }>
 
 export type UpdateUserAvatarMutation = { __typename?: 'mutation_root' } & {
@@ -453,64 +435,28 @@ export type UsersQuery = { __typename?: 'query_root' } & {
   users: Array<
     { __typename?: 'users' } & Pick<
       Users,
-      'id' | 'firstName' | 'lastName' | 'photoUrl' | 'currentPhotoUrl'
+      'id' | 'firstName' | 'lastName' | 'photoUrl' | 'email'
     >
   >
 }
 
-export const GetUserDocument = gql`
-  query getUser {
-    users {
-      email
-    }
-  }
-`
+export type UpdateProfileMutationVariables = Exact<{
+  id?: Maybe<Scalars['String']>
+  object: Users_Set_Input
+}>
 
-/**
- * __useGetUserQuery__
- *
- * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetUserQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options
-  )
+export type UpdateProfileMutation = { __typename?: 'mutation_root' } & {
+  update_users?: Maybe<
+    { __typename?: 'users_mutation_response' } & Pick<
+      Users_Mutation_Response,
+      'affected_rows'
+    > & { returning: Array<{ __typename?: 'users' } & Pick<Users, 'id'>> }
+  >
 }
-export function useGetUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options
-  )
-}
-export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>
-export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>
-export type GetUserQueryResult = Apollo.QueryResult<
-  GetUserQuery,
-  GetUserQueryVariables
->
+
 export const UpdateUserAvatarDocument = gql`
-  mutation updateUserAvatar($photoUrl: String, $currentPhotoUrl: String) {
-    update_users(
-      where: {}
-      _set: { photoUrl: $photoUrl, currentPhotoUrl: $currentPhotoUrl }
-    ) {
+  mutation updateUserAvatar($photoUrl: String) {
+    update_users(where: {}, _set: { photoUrl: $photoUrl }) {
       affected_rows
     }
   }
@@ -534,7 +480,6 @@ export type UpdateUserAvatarMutationFn = Apollo.MutationFunction<
  * const [updateUserAvatarMutation, { data, loading, error }] = useUpdateUserAvatarMutation({
  *   variables: {
  *      photoUrl: // value for 'photoUrl'
- *      currentPhotoUrl: // value for 'currentPhotoUrl'
  *   },
  * });
  */
@@ -565,7 +510,7 @@ export const UsersDocument = gql`
       firstName
       lastName
       photoUrl
-      currentPhotoUrl
+      email
     }
   }
 `
@@ -609,4 +554,57 @@ export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>
 export type UsersQueryResult = Apollo.QueryResult<
   UsersQuery,
   UsersQueryVariables
+>
+export const UpdateProfileDocument = gql`
+  mutation updateProfile($id: String, $object: users_set_input!) {
+    update_users(where: { id: { _eq: $id } }, _set: $object) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type UpdateProfileMutationFn = Apollo.MutationFunction<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
+>
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateProfileMutation,
+    UpdateProfileMutationVariables
+  >(UpdateProfileDocument, options)
+}
+export type UpdateProfileMutationHookResult = ReturnType<
+  typeof useUpdateProfileMutation
+>
+export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
 >
