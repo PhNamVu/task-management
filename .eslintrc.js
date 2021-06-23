@@ -43,6 +43,7 @@ module.exports = {
     }],
     'no-console': 'off',
     "@typescript-eslint/naming-convention": 'off',
-    "import/newline-after-import": ["off"]
+    "import/newline-after-import": ["off"],
+    'react/require-default-props': 'off',
   },
 };

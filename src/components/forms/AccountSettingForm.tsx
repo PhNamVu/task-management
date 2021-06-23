@@ -7,10 +7,7 @@ import {
 } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import React from 'react'
-import {
-  UsersDocument,
-  useUpdateProfileMutation,
-} from '../../generated/graphql'
+import { UsersDocument, useUpdateProfileMutation } from '../../generated/hooks'
 
 import { negativeToast, positiveToast } from '../../helpers/toaster'
 import { SetUpAccountValidation } from '../../helpers/validation'

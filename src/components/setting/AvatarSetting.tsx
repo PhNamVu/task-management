@@ -1,8 +1,8 @@
 /* eslint consistent-return: ["off", { "treatUndefinedAsUnspecified": true }] */
 import { Avatar, chakra, Flex, Spinner } from '@chakra-ui/react'
 import React from 'react'
+import { useUpdateUserAvatarMutation } from '../../generated/hooks'
 
-import { useUpdateUserAvatarMutation } from '../../generated/graphql'
 import { storage, useAuth } from '../../hooks/use-auth'
 
 export const AvatarSetting = () => {

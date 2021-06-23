@@ -32,3 +32,8 @@ export const SetUpAccountValidation = Yup.object({
     .email('Invalid email')
     .required('Email is required.'),
 })
+
+export const AddWorkspaceValidation = Yup.object({
+  title: Yup.string().required('Title is required.'),
+  description: Yup.string().required('Description is required.'),
+})
