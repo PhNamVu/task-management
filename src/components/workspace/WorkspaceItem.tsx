@@ -21,16 +21,17 @@ export const WorkspaceItem: React.FC<WorkspaceItemProps> = ({ id }) => {
   if (loading) return <ProgressLoading />
   if (error) return <Error />
 
-  const total = data?.total.aggregate?.count || 0
   const title = data?.detail[0].title || ''
-  const status = data?.detail[0].status || ''
+  const members = data?.members
+  const ownerId = data?.detail[0].ownerId || ''
+
   return (
     <Box mb={10}>
       <Flex w="100%" justifyContent="space-between" mb={3}>
         <WorkspaceTitle title={title} />
         <Flex>
-          <WorkspaceMember total={total} />
-          <WorkspaceSetting status={status} id={id} />
+          <WorkspaceMember id={id} members={members} />
+          <WorkspaceSetting id={id} ownerId={ownerId} />
         </Flex>
       </Flex>
     </Box>

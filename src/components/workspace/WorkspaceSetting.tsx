@@ -3,69 +3,73 @@ import {
   MenuButton,
   Button,
   MenuList,
-  MenuOptionGroup,
-  MenuItemOption,
-  MenuDivider,
   Heading,
   useDisclosure,
 } from '@chakra-ui/react'
 import React from 'react'
-import { useUpdateWorkspaceStatusMutation } from '../../generated/hooks'
+import {
+  GetWorkspacesDocument,
+  useUpdateWorkspaceMutation,
+} from '../../generated/hooks'
 
 import { negativeToast, positiveToast } from '../../helpers/toaster'
+import { useAuth } from '../../hooks/use-auth'
 import { AlertModal } from '../modal/alert'
 
 interface WorkspaceSettingProps {
-  status: string
   id: string
+  ownerId: string
 }
 
 export const WorkspaceSetting: React.FC<WorkspaceSettingProps> = ({
-  status,
   id,
+  ownerId,
 }) => {
+  const { state }: any = useAuth()
+  const userId: any =
+    state.customClaims.claims['https://hasura.io/jwt/claims'][
+      'x-hasura-user-id'
+    ]
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
-  const [updateStatus] = useUpdateWorkspaceStatusMutation()
+  const [deleteWorkspace] = useUpdateWorkspaceMutation()
 
-  const handleUpdate = async (value: any) => {
+  const handleDelete = async () => {
     try {
-      await updateStatus({
+      await deleteWorkspace({
         variables: {
           id,
-          status: value,
+          object: {
+            status: 'removed',
+            deletedAt: new Date().toISOString(),
+          },
         },
+        refetchQueries: [
+          {
+            query: GetWorkspacesDocument,
+            variables: {
+              userId,
+            },
+          },
+        ],
       })
       positiveToast({
-        title: 'Updated',
+        title: 'Removed',
       })
     } catch (error) {
       negativeToast({
-        title: 'Update fail',
+        title: 'Remove fail',
       })
     }
-  }
-  const handleDelete = () => {
-    positiveToast({
-      title: 'Deleted',
-    })
   }
   return (
     <>
       <Menu closeOnSelect={false}>
-        <MenuButton as={Button}>Settings</MenuButton>
+        <MenuButton as={Button} isDisabled={ownerId !== userId}>
+          Settings
+        </MenuButton>
         <MenuList minWidth="240px">
-          <MenuOptionGroup
-            defaultValue={status}
-            type="radio"
-            onChange={(e) => {
-              handleUpdate(e)
-            }}
-          >
-            <MenuItemOption value="public">Public</MenuItemOption>
-            <MenuItemOption value="private">Private</MenuItemOption>
-          </MenuOptionGroup>
-          <MenuDivider />
+          {/* <MenuDivider /> */}
           <Heading
             as="h3"
             size="xs"

@@ -63,7 +63,7 @@ export const AddWorkspaceForm: React.FC<Props> = ({ onClose }) => {
                 data: {
                   user_workspace: [
                     ...existingWorkspaces.user_workspace,
-                    data!.insert_user_workspace!.returning[0].workspace,
+                    data?.insert_user_workspace?.returning[0].workspace,
                   ],
                 },
               })

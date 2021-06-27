@@ -23,7 +23,6 @@ export const Header = () => {
       >
         <Flex
           alignItems="center"
-          webkitBoxAlign="center"
           webkitBoxPack="justify"
           justifyContent="space-between"
           w="100%"
@@ -41,7 +40,6 @@ export const Header = () => {
           </Box>
           <Flex
             w="100%"
-            webkitBoxAlign="center"
             webkitBoxPack="end"
             alignItems="center"
             justifyContent="flex-end"

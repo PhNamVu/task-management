@@ -1,5 +1,63 @@
 import * as Types from './schemas'
 
+export type GetWorkspacesQueryVariables = Types.Exact<{
+  userId?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type GetWorkspacesQuery = { __typename?: 'query_root' } & {
+  user_workspace: Array<
+    { __typename?: 'user_workspace' } & {
+      workspace: { __typename?: 'workspaces' } & Pick<Types.Workspaces, 'id'>
+    }
+  >
+}
+
+export type PostUserWorkspaceMutationVariables = Types.Exact<{
+  object: Types.User_Workspace_Insert_Input
+}>
+
+export type PostUserWorkspaceMutation = { __typename?: 'mutation_root' } & {
+  insert_user_workspace?: Types.Maybe<
+    { __typename?: 'user_workspace_mutation_response' } & Pick<
+      Types.User_Workspace_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'user_workspace' } & Pick<
+            Types.User_Workspace,
+            'userId'
+          > & {
+              workspace: { __typename?: 'workspaces' } & Pick<
+                Types.Workspaces,
+                'id'
+              >
+            }
+        >
+      }
+  >
+}
+
+export type DeleteMemberMutationVariables = Types.Exact<{
+  userId: Types.Scalars['String']
+  workspaceId: Types.Scalars['String']
+}>
+
+export type DeleteMemberMutation = { __typename?: 'mutation_root' } & {
+  delete_user_workspace?: Types.Maybe<
+    { __typename?: 'user_workspace_mutation_response' } & Pick<
+      Types.User_Workspace_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'user_workspace' } & Pick<
+            Types.User_Workspace,
+            'userId'
+          >
+        >
+      }
+  >
+}
+
 export type UpdateUserAvatarMutationVariables = Types.Exact<{
   photoUrl?: Types.Maybe<Types.Scalars['String']>
 }>
@@ -57,70 +115,30 @@ export type PostWorkspaceMutation = { __typename?: 'mutation_root' } & {
   >
 }
 
-export type PostUserWorkspaceMutationVariables = Types.Exact<{
-  object: Types.User_Workspace_Insert_Input
-}>
-
-export type PostUserWorkspaceMutation = { __typename?: 'mutation_root' } & {
-  insert_user_workspace?: Types.Maybe<
-    { __typename?: 'user_workspace_mutation_response' } & Pick<
-      Types.User_Workspace_Mutation_Response,
-      'affected_rows'
-    > & {
-        returning: Array<
-          { __typename?: 'user_workspace' } & Pick<
-            Types.User_Workspace,
-            'userId'
-          > & {
-              workspace: { __typename?: 'workspaces' } & Pick<
-                Types.Workspaces,
-                'id'
-              >
-            }
-        >
-      }
-  >
-}
-
-export type GetWorkspacesQueryVariables = Types.Exact<{
-  userId?: Types.Maybe<Types.Scalars['String']>
-}>
-
-export type GetWorkspacesQuery = { __typename?: 'query_root' } & {
-  user_workspace: Array<
-    { __typename?: 'user_workspace' } & {
-      workspace: { __typename?: 'workspaces' } & Pick<Types.Workspaces, 'id'>
-    }
-  >
-}
-
 export type GetWorkspaceDetailQueryVariables = Types.Exact<{
   id?: Types.Maybe<Types.Scalars['String']>
 }>
 
 export type GetWorkspaceDetailQuery = { __typename?: 'query_root' } & {
   detail: Array<
-    { __typename?: 'workspaces' } & Pick<
-      Types.Workspaces,
-      'title' | 'ownerId' | 'status'
-    >
+    { __typename?: 'workspaces' } & Pick<Types.Workspaces, 'title' | 'ownerId'>
   >
-  total: { __typename?: 'user_workspace_aggregate' } & {
-    aggregate?: Types.Maybe<
-      { __typename?: 'user_workspace_aggregate_fields' } & Pick<
-        Types.User_Workspace_Aggregate_Fields,
-        'count'
+  members: Array<
+    { __typename?: 'user_workspace' } & {
+      user: { __typename?: 'users' } & Pick<
+        Types.Users,
+        'id' | 'displayName' | 'photoUrl'
       >
-    >
-  }
+    }
+  >
 }
 
-export type UpdateWorkspaceStatusMutationVariables = Types.Exact<{
+export type UpdateWorkspaceMutationVariables = Types.Exact<{
   id?: Types.Maybe<Types.Scalars['String']>
-  status?: Types.Maybe<Types.Scalars['String']>
+  object: Types.Workspaces_Set_Input
 }>
 
-export type UpdateWorkspaceStatusMutation = { __typename?: 'mutation_root' } & {
+export type UpdateWorkspaceMutation = { __typename?: 'mutation_root' } & {
   update_workspaces?: Types.Maybe<
     { __typename?: 'workspaces_mutation_response' } & Pick<
       Types.Workspaces_Mutation_Response,
@@ -131,4 +149,30 @@ export type UpdateWorkspaceStatusMutation = { __typename?: 'mutation_root' } & {
         >
       }
   >
+}
+
+export type GetWorkspaceMemberQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type GetWorkspaceMemberQuery = { __typename?: 'query_root' } & {
+  detail: Array<
+    { __typename?: 'workspaces' } & Pick<Types.Workspaces, 'title' | 'ownerId'>
+  >
+  members: Array<
+    { __typename?: 'user_workspace' } & {
+      user: { __typename?: 'users' } & Pick<
+        Types.Users,
+        'id' | 'displayName' | 'photoUrl'
+      >
+    }
+  >
+  total: { __typename?: 'user_workspace_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'user_workspace_aggregate_fields' } & Pick<
+        Types.User_Workspace_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
 }

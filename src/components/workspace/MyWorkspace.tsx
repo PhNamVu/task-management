@@ -16,6 +16,7 @@ export const MyWorkspace = () => {
     variables: {
       userId,
     },
+    fetchPolicy: 'network-only',
   })
   if (loading) return <ProgressLoading />
   if (error) return <Error />

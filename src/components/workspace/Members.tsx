@@ -13,62 +13,102 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { HiOutlineUsers } from 'react-icons/hi'
-import { positiveToast } from '../../helpers/toaster'
+import {
+  GetWorkspacesDocument,
+  useDeleteMemberMutation,
+} from '../../generated/hooks'
+import { negativeToast, positiveToast } from '../../helpers/toaster'
+import { useAuth } from '../../hooks/use-auth'
 import { AlertModal } from '../modal/alert'
-
-interface WorkspaceMemberProps {
-  id?: string
-  total: number
-}
-
-interface Member {
-  name: string
+interface User {
+  displayName: string
   photoUrl: string
   id: string
 }
 
-interface MemberItemProps {
-  member: Member
+interface Member {
+  user: User
 }
 
-const members = [
-  { id: '1', photoUrl: 'https://placekitten.com/100/100', name: 'Phuong Nam' },
-  { id: '2', photoUrl: 'https://placekitten.com/100/100', name: 'Vi Minh' },
-]
+interface WorkspaceMemberProps {
+  id: string
+  members: any
+}
+interface MemberItemProps {
+  member: Member
+  id: string // workspace id
+}
 
-const MemberItem: React.FC<MemberItemProps> = ({ member }) => {
+const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
+  const { state }: any = useAuth()
+  const myId: any =
+    state.customClaims.claims['https://hasura.io/jwt/claims'][
+      'x-hasura-user-id'
+    ]
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
-  const handleDelete = (name: string) => {
-    positiveToast({
-      title: `Remove ${name}`,
-    })
+
+  const [deleteMember] = useDeleteMemberMutation()
+  const handleDelete = async (userId: string, workspaceId: string) => {
+    try {
+      const res = await deleteMember({
+        variables: {
+          userId,
+          workspaceId,
+        },
+        refetchQueries: [
+          {
+            query: GetWorkspacesDocument,
+            variables: {
+              userId: myId,
+            },
+          },
+        ],
+      })
+      if (res.data?.delete_user_workspace?.affected_rows === 1) {
+        positiveToast({
+          title: 'Removed',
+        })
+      } else {
+        negativeToast({
+          title: 'Remove fail',
+          description: 'Only the owner can remove members',
+        })
+      }
+    } catch (error) {
+      negativeToast({
+        title: 'Remove fail',
+      })
+    }
   }
+
   return (
     <>
       <MenuItem minH="48px">
         <Flex w="100%" justifyContent="space-between">
           <Flex>
             <Avatar
-              name={member.name}
-              src={member.photoUrl}
+              name={member.user.displayName}
+              src={member.user.photoUrl}
               size="sm"
               alt="avt"
             />
             <Text fontSize="lg" ml={2}>
-              {member.name}
+              {member.user.displayName}
             </Text>
           </Flex>
-          <CloseButton size="md" color="red.500" onClick={onOpen} />
+          {member.user.id !== myId && (
+            <CloseButton size="md" color="red.500" onClick={onOpen} />
+          )}
         </Flex>
       </MenuItem>
       <AlertModal
         title="Are you sure want to remove this member"
         isOpen={isOpen}
         onClose={onClose}
-        submit={() => handleDelete(member.name)}
+        submit={() => handleDelete(member.user.id, id)}
         cancelRef={cancelRef}
-        message="This user will not join the workspace in the future"
+        message="This user will not able to access the workspace in the future"
       />
     </>
   )
@@ -76,7 +116,7 @@ const MemberItem: React.FC<MemberItemProps> = ({ member }) => {
 
 export const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({
   id,
-  total,
+  members,
 }) => {
   return (
     <Box px={5}>
@@ -84,12 +124,12 @@ export const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({
         <MenuButton as={Button}>
           <Flex>
             <HiOutlineUsers />
-            <Box ml={2}>Member ({total})</Box>
+            <Box ml={2}>Member ({members.length})</Box>
           </Flex>
         </MenuButton>
         <MenuList minWidth="240px">
-          {members.map((item) => {
-            return <MemberItem member={item} />
+          {members?.map((item: Member) => {
+            return <MemberItem member={item} id={id} key={item.user.id} />
           })}
         </MenuList>
       </Menu>

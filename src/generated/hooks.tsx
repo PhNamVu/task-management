@@ -1,9 +1,186 @@
+import * as Types from './operations'
+
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
-
-import * as Types from './operations'
 const defaultOptions = {}
 
+export const GetWorkspacesDocument = gql`
+  query getWorkspaces($userId: String) {
+    user_workspace(
+      where: {
+        userId: { _eq: $userId }
+        workspace: { status: { _neq: "removed" } }
+      }
+    ) {
+      workspace {
+        id
+      }
+    }
+  }
+`
+
+/**
+ * __useGetWorkspacesQuery__
+ *
+ * To run a query within a React component, call `useGetWorkspacesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWorkspacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWorkspacesQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetWorkspacesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetWorkspacesQuery,
+    Types.GetWorkspacesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.GetWorkspacesQuery,
+    Types.GetWorkspacesQueryVariables
+  >(GetWorkspacesDocument, options)
+}
+export function useGetWorkspacesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetWorkspacesQuery,
+    Types.GetWorkspacesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetWorkspacesQuery,
+    Types.GetWorkspacesQueryVariables
+  >(GetWorkspacesDocument, options)
+}
+export type GetWorkspacesQueryHookResult = ReturnType<
+  typeof useGetWorkspacesQuery
+>
+export type GetWorkspacesLazyQueryHookResult = ReturnType<
+  typeof useGetWorkspacesLazyQuery
+>
+export type GetWorkspacesQueryResult = Apollo.QueryResult<
+  Types.GetWorkspacesQuery,
+  Types.GetWorkspacesQueryVariables
+>
+export const PostUserWorkspaceDocument = gql`
+  mutation postUserWorkspace($object: user_workspace_insert_input!) {
+    insert_user_workspace(objects: [$object]) {
+      affected_rows
+      returning {
+        userId
+        workspace {
+          id
+        }
+      }
+    }
+  }
+`
+export type PostUserWorkspaceMutationFn = Apollo.MutationFunction<
+  Types.PostUserWorkspaceMutation,
+  Types.PostUserWorkspaceMutationVariables
+>
+
+/**
+ * __usePostUserWorkspaceMutation__
+ *
+ * To run a mutation, you first call `usePostUserWorkspaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostUserWorkspaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postUserWorkspaceMutation, { data, loading, error }] = usePostUserWorkspaceMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function usePostUserWorkspaceMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.PostUserWorkspaceMutation,
+    Types.PostUserWorkspaceMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.PostUserWorkspaceMutation,
+    Types.PostUserWorkspaceMutationVariables
+  >(PostUserWorkspaceDocument, options)
+}
+export type PostUserWorkspaceMutationHookResult = ReturnType<
+  typeof usePostUserWorkspaceMutation
+>
+export type PostUserWorkspaceMutationResult = Apollo.MutationResult<Types.PostUserWorkspaceMutation>
+export type PostUserWorkspaceMutationOptions = Apollo.BaseMutationOptions<
+  Types.PostUserWorkspaceMutation,
+  Types.PostUserWorkspaceMutationVariables
+>
+export const DeleteMemberDocument = gql`
+  mutation deleteMember($userId: String!, $workspaceId: String!) {
+    delete_user_workspace(
+      where: {
+        _and: { userId: { _eq: $userId }, workspaceId: { _eq: $workspaceId } }
+      }
+    ) {
+      affected_rows
+      returning {
+        userId
+      }
+    }
+  }
+`
+export type DeleteMemberMutationFn = Apollo.MutationFunction<
+  Types.DeleteMemberMutation,
+  Types.DeleteMemberMutationVariables
+>
+
+/**
+ * __useDeleteMemberMutation__
+ *
+ * To run a mutation, you first call `useDeleteMemberMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMemberMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMemberMutation, { data, loading, error }] = useDeleteMemberMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      workspaceId: // value for 'workspaceId'
+ *   },
+ * });
+ */
+export function useDeleteMemberMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteMemberMutation,
+    Types.DeleteMemberMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteMemberMutation,
+    Types.DeleteMemberMutationVariables
+  >(DeleteMemberDocument, options)
+}
+export type DeleteMemberMutationHookResult = ReturnType<
+  typeof useDeleteMemberMutation
+>
+export type DeleteMemberMutationResult = Apollo.MutationResult<Types.DeleteMemberMutation>
+export type DeleteMemberMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteMemberMutation,
+  Types.DeleteMemberMutationVariables
+>
 export const UpdateUserAvatarDocument = gql`
   mutation updateUserAvatar($photoUrl: String) {
     update_users(where: {}, _set: { photoUrl: $photoUrl }) {
@@ -216,131 +393,17 @@ export type PostWorkspaceMutationOptions = Apollo.BaseMutationOptions<
   Types.PostWorkspaceMutation,
   Types.PostWorkspaceMutationVariables
 >
-export const PostUserWorkspaceDocument = gql`
-  mutation postUserWorkspace($object: user_workspace_insert_input!) {
-    insert_user_workspace(objects: [$object]) {
-      affected_rows
-      returning {
-        userId
-        workspace {
-          id
-        }
-      }
-    }
-  }
-`
-export type PostUserWorkspaceMutationFn = Apollo.MutationFunction<
-  Types.PostUserWorkspaceMutation,
-  Types.PostUserWorkspaceMutationVariables
->
-
-/**
- * __usePostUserWorkspaceMutation__
- *
- * To run a mutation, you first call `usePostUserWorkspaceMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePostUserWorkspaceMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [postUserWorkspaceMutation, { data, loading, error }] = usePostUserWorkspaceMutation({
- *   variables: {
- *      object: // value for 'object'
- *   },
- * });
- */
-export function usePostUserWorkspaceMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    Types.PostUserWorkspaceMutation,
-    Types.PostUserWorkspaceMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<
-    Types.PostUserWorkspaceMutation,
-    Types.PostUserWorkspaceMutationVariables
-  >(PostUserWorkspaceDocument, options)
-}
-export type PostUserWorkspaceMutationHookResult = ReturnType<
-  typeof usePostUserWorkspaceMutation
->
-export type PostUserWorkspaceMutationResult = Apollo.MutationResult<Types.PostUserWorkspaceMutation>
-export type PostUserWorkspaceMutationOptions = Apollo.BaseMutationOptions<
-  Types.PostUserWorkspaceMutation,
-  Types.PostUserWorkspaceMutationVariables
->
-export const GetWorkspacesDocument = gql`
-  query getWorkspaces($userId: String) {
-    user_workspace(where: { userId: { _eq: $userId } }) {
-      workspace {
-        id
-      }
-    }
-  }
-`
-
-/**
- * __useGetWorkspacesQuery__
- *
- * To run a query within a React component, call `useGetWorkspacesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetWorkspacesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetWorkspacesQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useGetWorkspacesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    Types.GetWorkspacesQuery,
-    Types.GetWorkspacesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<
-    Types.GetWorkspacesQuery,
-    Types.GetWorkspacesQueryVariables
-  >(GetWorkspacesDocument, options)
-}
-export function useGetWorkspacesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    Types.GetWorkspacesQuery,
-    Types.GetWorkspacesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<
-    Types.GetWorkspacesQuery,
-    Types.GetWorkspacesQueryVariables
-  >(GetWorkspacesDocument, options)
-}
-export type GetWorkspacesQueryHookResult = ReturnType<
-  typeof useGetWorkspacesQuery
->
-export type GetWorkspacesLazyQueryHookResult = ReturnType<
-  typeof useGetWorkspacesLazyQuery
->
-export type GetWorkspacesQueryResult = Apollo.QueryResult<
-  Types.GetWorkspacesQuery,
-  Types.GetWorkspacesQueryVariables
->
 export const GetWorkspaceDetailDocument = gql`
   query getWorkspaceDetail($id: String) {
     detail: workspaces(where: { id: { _eq: $id } }) {
       title
       ownerId
-      status
     }
-    total: user_workspace_aggregate(where: { workspaceId: { _eq: $id } }) {
-      aggregate {
-        count
+    members: user_workspace(where: { workspaceId: { _eq: $id } }) {
+      user {
+        id
+        displayName
+        photoUrl
       }
     }
   }
@@ -396,9 +459,9 @@ export type GetWorkspaceDetailQueryResult = Apollo.QueryResult<
   Types.GetWorkspaceDetailQuery,
   Types.GetWorkspaceDetailQueryVariables
 >
-export const UpdateWorkspaceStatusDocument = gql`
-  mutation updateWorkspaceStatus($id: String, $status: String) {
-    update_workspaces(where: { id: { _eq: $id } }, _set: { status: $status }) {
+export const UpdateWorkspaceDocument = gql`
+  mutation updateWorkspace($id: String, $object: workspaces_set_input!) {
+    update_workspaces(where: { id: { _eq: $id } }, _set: $object) {
       affected_rows
       returning {
         id
@@ -406,46 +469,117 @@ export const UpdateWorkspaceStatusDocument = gql`
     }
   }
 `
-export type UpdateWorkspaceStatusMutationFn = Apollo.MutationFunction<
-  Types.UpdateWorkspaceStatusMutation,
-  Types.UpdateWorkspaceStatusMutationVariables
+export type UpdateWorkspaceMutationFn = Apollo.MutationFunction<
+  Types.UpdateWorkspaceMutation,
+  Types.UpdateWorkspaceMutationVariables
 >
 
 /**
- * __useUpdateWorkspaceStatusMutation__
+ * __useUpdateWorkspaceMutation__
  *
- * To run a mutation, you first call `useUpdateWorkspaceStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateWorkspaceStatusMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateWorkspaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWorkspaceMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateWorkspaceStatusMutation, { data, loading, error }] = useUpdateWorkspaceStatusMutation({
+ * const [updateWorkspaceMutation, { data, loading, error }] = useUpdateWorkspaceMutation({
  *   variables: {
  *      id: // value for 'id'
- *      status: // value for 'status'
+ *      object: // value for 'object'
  *   },
  * });
  */
-export function useUpdateWorkspaceStatusMutation(
+export function useUpdateWorkspaceMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    Types.UpdateWorkspaceStatusMutation,
-    Types.UpdateWorkspaceStatusMutationVariables
+    Types.UpdateWorkspaceMutation,
+    Types.UpdateWorkspaceMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions }
   return Apollo.useMutation<
-    Types.UpdateWorkspaceStatusMutation,
-    Types.UpdateWorkspaceStatusMutationVariables
-  >(UpdateWorkspaceStatusDocument, options)
+    Types.UpdateWorkspaceMutation,
+    Types.UpdateWorkspaceMutationVariables
+  >(UpdateWorkspaceDocument, options)
 }
-export type UpdateWorkspaceStatusMutationHookResult = ReturnType<
-  typeof useUpdateWorkspaceStatusMutation
+export type UpdateWorkspaceMutationHookResult = ReturnType<
+  typeof useUpdateWorkspaceMutation
 >
-export type UpdateWorkspaceStatusMutationResult = Apollo.MutationResult<Types.UpdateWorkspaceStatusMutation>
-export type UpdateWorkspaceStatusMutationOptions = Apollo.BaseMutationOptions<
-  Types.UpdateWorkspaceStatusMutation,
-  Types.UpdateWorkspaceStatusMutationVariables
+export type UpdateWorkspaceMutationResult = Apollo.MutationResult<Types.UpdateWorkspaceMutation>
+export type UpdateWorkspaceMutationOptions = Apollo.BaseMutationOptions<
+  Types.UpdateWorkspaceMutation,
+  Types.UpdateWorkspaceMutationVariables
+>
+export const GetWorkspaceMemberDocument = gql`
+  query getWorkspaceMember($id: String) {
+    detail: workspaces(where: { id: { _eq: $id } }) {
+      title
+      ownerId
+    }
+    members: user_workspace(where: { workspaceId: { _eq: $id } }) {
+      user {
+        id
+        displayName
+        photoUrl
+      }
+    }
+    total: user_workspace_aggregate(where: { workspaceId: { _eq: $id } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useGetWorkspaceMemberQuery__
+ *
+ * To run a query within a React component, call `useGetWorkspaceMemberQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWorkspaceMemberQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWorkspaceMemberQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetWorkspaceMemberQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetWorkspaceMemberQuery,
+    Types.GetWorkspaceMemberQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.GetWorkspaceMemberQuery,
+    Types.GetWorkspaceMemberQueryVariables
+  >(GetWorkspaceMemberDocument, options)
+}
+export function useGetWorkspaceMemberLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetWorkspaceMemberQuery,
+    Types.GetWorkspaceMemberQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetWorkspaceMemberQuery,
+    Types.GetWorkspaceMemberQueryVariables
+  >(GetWorkspaceMemberDocument, options)
+}
+export type GetWorkspaceMemberQueryHookResult = ReturnType<
+  typeof useGetWorkspaceMemberQuery
+>
+export type GetWorkspaceMemberLazyQueryHookResult = ReturnType<
+  typeof useGetWorkspaceMemberLazyQuery
+>
+export type GetWorkspaceMemberQueryResult = Apollo.QueryResult<
+  Types.GetWorkspaceMemberQuery,
+  Types.GetWorkspaceMemberQueryVariables
 >
