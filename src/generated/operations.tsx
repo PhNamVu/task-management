@@ -1,5 +1,28 @@
 import * as Types from './schemas'
 
+export type PostBoardMutationVariables = Types.Exact<{
+  object: Types.Boards_Insert_Input
+}>
+
+export type PostBoardMutation = { __typename?: 'mutation_root' } & {
+  insert_boards?: Types.Maybe<
+    { __typename?: 'boards_mutation_response' } & Pick<
+      Types.Boards_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<{ __typename?: 'boards' } & Pick<Types.Boards, 'id'>>
+      }
+  >
+}
+
+export type GetBoardsQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type GetBoardsQuery = { __typename?: 'query_root' } & {
+  boards: Array<{ __typename?: 'boards' } & Pick<Types.Boards, 'title' | 'id'>>
+}
+
 export type GetWorkspacesQueryVariables = Types.Exact<{
   userId?: Types.Maybe<Types.Scalars['String']>
 }>
@@ -149,30 +172,4 @@ export type UpdateWorkspaceMutation = { __typename?: 'mutation_root' } & {
         >
       }
   >
-}
-
-export type GetWorkspaceMemberQueryVariables = Types.Exact<{
-  id?: Types.Maybe<Types.Scalars['String']>
-}>
-
-export type GetWorkspaceMemberQuery = { __typename?: 'query_root' } & {
-  detail: Array<
-    { __typename?: 'workspaces' } & Pick<Types.Workspaces, 'title' | 'ownerId'>
-  >
-  members: Array<
-    { __typename?: 'user_workspace' } & {
-      user: { __typename?: 'users' } & Pick<
-        Types.Users,
-        'id' | 'displayName' | 'photoUrl'
-      >
-    }
-  >
-  total: { __typename?: 'user_workspace_aggregate' } & {
-    aggregate?: Types.Maybe<
-      { __typename?: 'user_workspace_aggregate_fields' } & Pick<
-        Types.User_Workspace_Aggregate_Fields,
-        'count'
-      >
-    >
-  }
 }

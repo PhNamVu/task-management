@@ -63,9 +63,182 @@ export type UserSetupRes = {
   statusCode?: Maybe<Scalars['Int']>
 }
 
+/** columns and relationships of "boards" */
+export type Boards = {
+  __typename?: 'boards'
+  createdAt: Scalars['timestamptz']
+  id: Scalars['String']
+  title: Scalars['String']
+  /** An object relationship */
+  workspace: Workspaces
+  workspaceId: Scalars['String']
+}
+
+/** aggregated selection of "boards" */
+export type Boards_Aggregate = {
+  __typename?: 'boards_aggregate'
+  aggregate?: Maybe<Boards_Aggregate_Fields>
+  nodes: Array<Boards>
+}
+
+/** aggregate fields of "boards" */
+export type Boards_Aggregate_Fields = {
+  __typename?: 'boards_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<Boards_Max_Fields>
+  min?: Maybe<Boards_Min_Fields>
+}
+
+/** aggregate fields of "boards" */
+export type Boards_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Boards_Select_Column>>
+  distinct?: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "boards" */
+export type Boards_Aggregate_Order_By = {
+  count?: Maybe<Order_By>
+  max?: Maybe<Boards_Max_Order_By>
+  min?: Maybe<Boards_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "boards" */
+export type Boards_Arr_Rel_Insert_Input = {
+  data: Array<Boards_Insert_Input>
+  /** on conflict condition */
+  on_conflict?: Maybe<Boards_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "boards". All fields are combined with a logical 'AND'. */
+export type Boards_Bool_Exp = {
+  _and?: Maybe<Array<Boards_Bool_Exp>>
+  _not?: Maybe<Boards_Bool_Exp>
+  _or?: Maybe<Array<Boards_Bool_Exp>>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  id?: Maybe<String_Comparison_Exp>
+  title?: Maybe<String_Comparison_Exp>
+  workspace?: Maybe<Workspaces_Bool_Exp>
+  workspaceId?: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "boards" */
+export enum Boards_Constraint {
+  /** unique or primary key constraint */
+  BoardsPkey = 'boards_pkey',
+}
+
+/** input type for inserting data into table "boards" */
+export type Boards_Insert_Input = {
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  workspace?: Maybe<Workspaces_Obj_Rel_Insert_Input>
+  workspaceId?: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Boards_Max_Fields = {
+  __typename?: 'boards_max_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  workspaceId?: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "boards" */
+export type Boards_Max_Order_By = {
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  title?: Maybe<Order_By>
+  workspaceId?: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Boards_Min_Fields = {
+  __typename?: 'boards_min_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  workspaceId?: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "boards" */
+export type Boards_Min_Order_By = {
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  title?: Maybe<Order_By>
+  workspaceId?: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "boards" */
+export type Boards_Mutation_Response = {
+  __typename?: 'boards_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Boards>
+}
+
+/** on conflict condition type for table "boards" */
+export type Boards_On_Conflict = {
+  constraint: Boards_Constraint
+  update_columns?: Array<Boards_Update_Column>
+  where?: Maybe<Boards_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "boards". */
+export type Boards_Order_By = {
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  title?: Maybe<Order_By>
+  workspace?: Maybe<Workspaces_Order_By>
+  workspaceId?: Maybe<Order_By>
+}
+
+/** primary key columns input for table: boards */
+export type Boards_Pk_Columns_Input = {
+  id: Scalars['String']
+}
+
+/** select columns of table "boards" */
+export enum Boards_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  WorkspaceId = 'workspaceId',
+}
+
+/** input type for updating data in table "boards" */
+export type Boards_Set_Input = {
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  workspaceId?: Maybe<Scalars['String']>
+}
+
+/** update columns of table "boards" */
+export enum Boards_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  WorkspaceId = 'workspaceId',
+}
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root'
+  /** delete data from the table: "boards" */
+  delete_boards?: Maybe<Boards_Mutation_Response>
+  /** delete single row from the table: "boards" */
+  delete_boards_by_pk?: Maybe<Boards>
   /** delete data from the table: "user_workspace" */
   delete_user_workspace?: Maybe<User_Workspace_Mutation_Response>
   /** delete single row from the table: "user_workspace" */
@@ -78,6 +251,10 @@ export type Mutation_Root = {
   delete_workspaces?: Maybe<Workspaces_Mutation_Response>
   /** delete single row from the table: "workspaces" */
   delete_workspaces_by_pk?: Maybe<Workspaces>
+  /** insert data into the table: "boards" */
+  insert_boards?: Maybe<Boards_Mutation_Response>
+  /** insert a single row into the table: "boards" */
+  insert_boards_one?: Maybe<Boards>
   /** insert data into the table: "user_workspace" */
   insert_user_workspace?: Maybe<User_Workspace_Mutation_Response>
   /** insert a single row into the table: "user_workspace" */
@@ -90,6 +267,10 @@ export type Mutation_Root = {
   insert_workspaces?: Maybe<Workspaces_Mutation_Response>
   /** insert a single row into the table: "workspaces" */
   insert_workspaces_one?: Maybe<Workspaces>
+  /** update data of the table: "boards" */
+  update_boards?: Maybe<Boards_Mutation_Response>
+  /** update single row of the table: "boards" */
+  update_boards_by_pk?: Maybe<Boards>
   /** update data of the table: "user_workspace" */
   update_user_workspace?: Maybe<User_Workspace_Mutation_Response>
   /** update single row of the table: "user_workspace" */
@@ -103,6 +284,16 @@ export type Mutation_Root = {
   /** update single row of the table: "workspaces" */
   update_workspaces_by_pk?: Maybe<Workspaces>
   userSetup?: Maybe<UserSetupRes>
+}
+
+/** mutation root */
+export type Mutation_RootDelete_BoardsArgs = {
+  where: Boards_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Boards_By_PkArgs = {
+  id: Scalars['String']
 }
 
 /** mutation root */
@@ -134,6 +325,18 @@ export type Mutation_RootDelete_WorkspacesArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Workspaces_By_PkArgs = {
   id: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootInsert_BoardsArgs = {
+  objects: Array<Boards_Insert_Input>
+  on_conflict?: Maybe<Boards_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Boards_OneArgs = {
+  object: Boards_Insert_Input
+  on_conflict?: Maybe<Boards_On_Conflict>
 }
 
 /** mutation root */
@@ -170,6 +373,18 @@ export type Mutation_RootInsert_WorkspacesArgs = {
 export type Mutation_RootInsert_Workspaces_OneArgs = {
   object: Workspaces_Insert_Input
   on_conflict?: Maybe<Workspaces_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_BoardsArgs = {
+  _set?: Maybe<Boards_Set_Input>
+  where: Boards_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Boards_By_PkArgs = {
+  _set?: Maybe<Boards_Set_Input>
+  pk_columns: Boards_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -231,6 +446,12 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root'
+  /** An array relationship */
+  boards: Array<Boards>
+  /** An aggregate relationship */
+  boards_aggregate: Boards_Aggregate
+  /** fetch data from the table: "boards" using primary key columns */
+  boards_by_pk?: Maybe<Boards>
   /** fetch data from the table: "user_workspace" */
   user_workspace: Array<User_Workspace>
   /** fetch aggregated fields from the table: "user_workspace" */
@@ -249,6 +470,26 @@ export type Query_Root = {
   workspaces_aggregate: Workspaces_Aggregate
   /** fetch data from the table: "workspaces" using primary key columns */
   workspaces_by_pk?: Maybe<Workspaces>
+}
+
+export type Query_RootBoardsArgs = {
+  distinct_on?: Maybe<Array<Boards_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Boards_Order_By>>
+  where?: Maybe<Boards_Bool_Exp>
+}
+
+export type Query_RootBoards_AggregateArgs = {
+  distinct_on?: Maybe<Array<Boards_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Boards_Order_By>>
+  where?: Maybe<Boards_Bool_Exp>
+}
+
+export type Query_RootBoards_By_PkArgs = {
+  id: Scalars['String']
 }
 
 export type Query_RootUser_WorkspaceArgs = {
@@ -314,6 +555,12 @@ export type Query_RootWorkspaces_By_PkArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root'
+  /** An array relationship */
+  boards: Array<Boards>
+  /** An aggregate relationship */
+  boards_aggregate: Boards_Aggregate
+  /** fetch data from the table: "boards" using primary key columns */
+  boards_by_pk?: Maybe<Boards>
   /** fetch data from the table: "user_workspace" */
   user_workspace: Array<User_Workspace>
   /** fetch aggregated fields from the table: "user_workspace" */
@@ -332,6 +579,26 @@ export type Subscription_Root = {
   workspaces_aggregate: Workspaces_Aggregate
   /** fetch data from the table: "workspaces" using primary key columns */
   workspaces_by_pk?: Maybe<Workspaces>
+}
+
+export type Subscription_RootBoardsArgs = {
+  distinct_on?: Maybe<Array<Boards_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Boards_Order_By>>
+  where?: Maybe<Boards_Bool_Exp>
+}
+
+export type Subscription_RootBoards_AggregateArgs = {
+  distinct_on?: Maybe<Array<Boards_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Boards_Order_By>>
+  where?: Maybe<Boards_Bool_Exp>
+}
+
+export type Subscription_RootBoards_By_PkArgs = {
+  id: Scalars['String']
 }
 
 export type Subscription_RootUser_WorkspaceArgs = {
@@ -411,6 +678,7 @@ export type Timestamptz_Comparison_Exp = {
 /** columns and relationships of "user_workspace" */
 export type User_Workspace = {
   __typename?: 'user_workspace'
+  createdAt?: Maybe<Scalars['timestamptz']>
   /** An object relationship */
   user: Users
   userId: Scalars['String']
@@ -459,6 +727,7 @@ export type User_Workspace_Bool_Exp = {
   _and?: Maybe<Array<User_Workspace_Bool_Exp>>
   _not?: Maybe<User_Workspace_Bool_Exp>
   _or?: Maybe<Array<User_Workspace_Bool_Exp>>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
   user?: Maybe<Users_Bool_Exp>
   userId?: Maybe<String_Comparison_Exp>
   workspace?: Maybe<Workspaces_Bool_Exp>
@@ -473,6 +742,7 @@ export enum User_Workspace_Constraint {
 
 /** input type for inserting data into table "user_workspace" */
 export type User_Workspace_Insert_Input = {
+  createdAt?: Maybe<Scalars['timestamptz']>
   user?: Maybe<Users_Obj_Rel_Insert_Input>
   userId?: Maybe<Scalars['String']>
   workspace?: Maybe<Workspaces_Obj_Rel_Insert_Input>
@@ -482,12 +752,14 @@ export type User_Workspace_Insert_Input = {
 /** aggregate max on columns */
 export type User_Workspace_Max_Fields = {
   __typename?: 'user_workspace_max_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
   userId?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
 
 /** order by max() on columns of table "user_workspace" */
 export type User_Workspace_Max_Order_By = {
+  createdAt?: Maybe<Order_By>
   userId?: Maybe<Order_By>
   workspaceId?: Maybe<Order_By>
 }
@@ -495,12 +767,14 @@ export type User_Workspace_Max_Order_By = {
 /** aggregate min on columns */
 export type User_Workspace_Min_Fields = {
   __typename?: 'user_workspace_min_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
   userId?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
 
 /** order by min() on columns of table "user_workspace" */
 export type User_Workspace_Min_Order_By = {
+  createdAt?: Maybe<Order_By>
   userId?: Maybe<Order_By>
   workspaceId?: Maybe<Order_By>
 }
@@ -523,6 +797,7 @@ export type User_Workspace_On_Conflict = {
 
 /** Ordering options when selecting data from "user_workspace". */
 export type User_Workspace_Order_By = {
+  createdAt?: Maybe<Order_By>
   user?: Maybe<Users_Order_By>
   userId?: Maybe<Order_By>
   workspace?: Maybe<Workspaces_Order_By>
@@ -538,6 +813,8 @@ export type User_Workspace_Pk_Columns_Input = {
 /** select columns of table "user_workspace" */
 export enum User_Workspace_Select_Column {
   /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
   UserId = 'userId',
   /** column name */
   WorkspaceId = 'workspaceId',
@@ -545,12 +822,15 @@ export enum User_Workspace_Select_Column {
 
 /** input type for updating data in table "user_workspace" */
 export type User_Workspace_Set_Input = {
+  createdAt?: Maybe<Scalars['timestamptz']>
   userId?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
 
 /** update columns of table "user_workspace" */
 export enum User_Workspace_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
   /** column name */
   UserId = 'userId',
   /** column name */
@@ -821,6 +1101,10 @@ export enum Users_Update_Column {
 /** columns and relationships of "workspaces" */
 export type Workspaces = {
   __typename?: 'workspaces'
+  /** An array relationship */
+  boards: Array<Boards>
+  /** An aggregate relationship */
+  boards_aggregate: Boards_Aggregate
   createdAt?: Maybe<Scalars['timestamptz']>
   deletedAt?: Maybe<Scalars['timestamptz']>
   description: Scalars['String']
@@ -835,6 +1119,24 @@ export type Workspaces = {
   user_workspaces: Array<User_Workspace>
   /** An aggregate relationship */
   user_workspaces_aggregate: User_Workspace_Aggregate
+}
+
+/** columns and relationships of "workspaces" */
+export type WorkspacesBoardsArgs = {
+  distinct_on?: Maybe<Array<Boards_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Boards_Order_By>>
+  where?: Maybe<Boards_Bool_Exp>
+}
+
+/** columns and relationships of "workspaces" */
+export type WorkspacesBoards_AggregateArgs = {
+  distinct_on?: Maybe<Array<Boards_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Boards_Order_By>>
+  where?: Maybe<Boards_Bool_Exp>
 }
 
 /** columns and relationships of "workspaces" */
@@ -895,6 +1197,7 @@ export type Workspaces_Bool_Exp = {
   _and?: Maybe<Array<Workspaces_Bool_Exp>>
   _not?: Maybe<Workspaces_Bool_Exp>
   _or?: Maybe<Array<Workspaces_Bool_Exp>>
+  boards?: Maybe<Boards_Bool_Exp>
   createdAt?: Maybe<Timestamptz_Comparison_Exp>
   deletedAt?: Maybe<Timestamptz_Comparison_Exp>
   description?: Maybe<String_Comparison_Exp>
@@ -915,6 +1218,7 @@ export enum Workspaces_Constraint {
 
 /** input type for inserting data into table "workspaces" */
 export type Workspaces_Insert_Input = {
+  boards?: Maybe<Boards_Arr_Rel_Insert_Input>
   createdAt?: Maybe<Scalars['timestamptz']>
   deletedAt?: Maybe<Scalars['timestamptz']>
   description?: Maybe<Scalars['String']>
@@ -1002,6 +1306,7 @@ export type Workspaces_On_Conflict = {
 
 /** Ordering options when selecting data from "workspaces". */
 export type Workspaces_Order_By = {
+  boards_aggregate?: Maybe<Boards_Aggregate_Order_By>
   createdAt?: Maybe<Order_By>
   deletedAt?: Maybe<Order_By>
   description?: Maybe<Order_By>

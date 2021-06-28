@@ -4,6 +4,115 @@ import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
 const defaultOptions = {}
 
+export const PostBoardDocument = gql`
+  mutation postBoard($object: boards_insert_input!) {
+    insert_boards(objects: [$object]) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type PostBoardMutationFn = Apollo.MutationFunction<
+  Types.PostBoardMutation,
+  Types.PostBoardMutationVariables
+>
+
+/**
+ * __usePostBoardMutation__
+ *
+ * To run a mutation, you first call `usePostBoardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostBoardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postBoardMutation, { data, loading, error }] = usePostBoardMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function usePostBoardMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.PostBoardMutation,
+    Types.PostBoardMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.PostBoardMutation,
+    Types.PostBoardMutationVariables
+  >(PostBoardDocument, options)
+}
+export type PostBoardMutationHookResult = ReturnType<
+  typeof usePostBoardMutation
+>
+export type PostBoardMutationResult = Apollo.MutationResult<Types.PostBoardMutation>
+export type PostBoardMutationOptions = Apollo.BaseMutationOptions<
+  Types.PostBoardMutation,
+  Types.PostBoardMutationVariables
+>
+export const GetBoardsDocument = gql`
+  query getBoards($id: String) {
+    boards(where: { workspaceId: { _eq: $id } }) {
+      title
+      id
+    }
+  }
+`
+
+/**
+ * __useGetBoardsQuery__
+ *
+ * To run a query within a React component, call `useGetBoardsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBoardsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBoardsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetBoardsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetBoardsQuery,
+    Types.GetBoardsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<Types.GetBoardsQuery, Types.GetBoardsQueryVariables>(
+    GetBoardsDocument,
+    options
+  )
+}
+export function useGetBoardsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetBoardsQuery,
+    Types.GetBoardsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetBoardsQuery,
+    Types.GetBoardsQueryVariables
+  >(GetBoardsDocument, options)
+}
+export type GetBoardsQueryHookResult = ReturnType<typeof useGetBoardsQuery>
+export type GetBoardsLazyQueryHookResult = ReturnType<
+  typeof useGetBoardsLazyQuery
+>
+export type GetBoardsQueryResult = Apollo.QueryResult<
+  Types.GetBoardsQuery,
+  Types.GetBoardsQueryVariables
+>
 export const GetWorkspacesDocument = gql`
   query getWorkspaces($userId: String) {
     user_workspace(
@@ -511,75 +620,4 @@ export type UpdateWorkspaceMutationResult = Apollo.MutationResult<Types.UpdateWo
 export type UpdateWorkspaceMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateWorkspaceMutation,
   Types.UpdateWorkspaceMutationVariables
->
-export const GetWorkspaceMemberDocument = gql`
-  query getWorkspaceMember($id: String) {
-    detail: workspaces(where: { id: { _eq: $id } }) {
-      title
-      ownerId
-    }
-    members: user_workspace(where: { workspaceId: { _eq: $id } }) {
-      user {
-        id
-        displayName
-        photoUrl
-      }
-    }
-    total: user_workspace_aggregate(where: { workspaceId: { _eq: $id } }) {
-      aggregate {
-        count
-      }
-    }
-  }
-`
-
-/**
- * __useGetWorkspaceMemberQuery__
- *
- * To run a query within a React component, call `useGetWorkspaceMemberQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetWorkspaceMemberQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetWorkspaceMemberQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetWorkspaceMemberQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    Types.GetWorkspaceMemberQuery,
-    Types.GetWorkspaceMemberQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<
-    Types.GetWorkspaceMemberQuery,
-    Types.GetWorkspaceMemberQueryVariables
-  >(GetWorkspaceMemberDocument, options)
-}
-export function useGetWorkspaceMemberLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    Types.GetWorkspaceMemberQuery,
-    Types.GetWorkspaceMemberQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<
-    Types.GetWorkspaceMemberQuery,
-    Types.GetWorkspaceMemberQueryVariables
-  >(GetWorkspaceMemberDocument, options)
-}
-export type GetWorkspaceMemberQueryHookResult = ReturnType<
-  typeof useGetWorkspaceMemberQuery
->
-export type GetWorkspaceMemberLazyQueryHookResult = ReturnType<
-  typeof useGetWorkspaceMemberLazyQuery
->
-export type GetWorkspaceMemberQueryResult = Apollo.QueryResult<
-  Types.GetWorkspaceMemberQuery,
-  Types.GetWorkspaceMemberQueryVariables
 >

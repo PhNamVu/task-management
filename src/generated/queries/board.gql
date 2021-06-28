@@ -1,0 +1,15 @@
+mutation postBoard($object: boards_insert_input!) {
+  insert_boards(objects: [$object]) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+query getBoards($id: String) {
+  boards(where: { workspaceId: { _eq: $id } }) {
+    title
+    id
+  }
+}

@@ -6,6 +6,7 @@ import { WorkspaceSetting } from './WorkspaceSetting'
 import { WorkspaceTitle } from './WorkspaceTitle'
 import { Error } from '../shared/Error'
 import { useGetWorkspaceDetailQuery } from '../../generated/hooks'
+import { WorkspaceBoard } from './WorkspaceBoard'
 
 interface WorkspaceItemProps {
   id: string
@@ -34,6 +35,9 @@ export const WorkspaceItem: React.FC<WorkspaceItemProps> = ({ id }) => {
           <WorkspaceSetting id={id} ownerId={ownerId} />
         </Flex>
       </Flex>
+      <Box>
+        <WorkspaceBoard id={id} />
+      </Box>
     </Box>
   )
 }
