@@ -23,7 +23,7 @@ export const BoardItem: React.FC<BoardItemProps> = ({ id, title }) => {
         color: '#0BC5EA',
       }}
       // border={`1px solid ${color}`}
-      onClick={() => navigate(`/board/${id}`)}
+      onClick={() => navigate(`/b/${id}`)}
       boxShadow={`${color} 0px 1px 3px 0px, ${color} 0px 0px 0px 1px;`}
     >
       {title}

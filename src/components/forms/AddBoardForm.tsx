@@ -7,7 +7,7 @@ import { negativeToast, positiveToast } from '../../helpers/toaster'
 import { AddBoardValidation } from '../../helpers/validation'
 import { PrimaryBtn } from '../shared/PrimaryBtn'
 import { StyledInput } from '../shared/StyledInput'
-import { usePostBoardMutation } from '../../generated/hooks'
+import { GetBoardsDocument, usePostBoardMutation } from '../../generated/hooks'
 
 interface Props {
   onClose: () => void
@@ -33,6 +33,14 @@ export const AddBoardForm: React.FC<Props> = ({ onClose, workspaceId }) => {
                 ...values,
               },
             },
+            refetchQueries: [
+              {
+                query: GetBoardsDocument,
+                variables: {
+                  id: workspaceId,
+                },
+              },
+            ],
           })
           onClose()
           positiveToast({
