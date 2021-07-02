@@ -1,10 +1,5 @@
 query getWorkspaces($userId: String) {
-  user_workspace(
-    where: {
-      userId: { _eq: $userId }
-      workspace: { status: { _neq: "removed" } }
-    }
-  ) {
+  user_workspace(where: { userId: { _eq: $userId } }) {
     workspace {
       id
     }

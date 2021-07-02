@@ -29,3 +29,13 @@ mutation updateWorkspace($id: String, $object: workspaces_set_input!) {
     }
   }
 }
+
+mutation deleteWorkspace($id: String) {
+  delete_workspaces(where: { id: { _eq: $id } }) {
+    affected_rows
+    returning {
+      id
+      title
+    }
+  }
+}

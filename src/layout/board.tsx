@@ -10,7 +10,7 @@ export const BoardLayout: React.FC<{ isUserLoggedin: boolean }> = ({
   if (isUserLoggedin) {
     return (
       <SimpleGrid columns={1} templateRows="50px 1fr">
-        <Flex w="100%" alignItems="center">
+        <Flex w="100%" alignItems="center" borderBottom="0.5px solid #E2E8F0">
           <BoardNavigation />
         </Flex>
 

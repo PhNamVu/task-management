@@ -12,6 +12,7 @@ export const StyledTextArea = ({ ...props }: TextareaProps) => {
       isInValid={meta.error && meta.touched}
       errorBorderColor="crimson"
       focusBorderColor="cyan.400"
+      minHeight="10rem"
     />
   )
 }

@@ -115,12 +115,7 @@ export type GetBoardsQueryResult = Apollo.QueryResult<
 >
 export const GetWorkspacesDocument = gql`
   query getWorkspaces($userId: String) {
-    user_workspace(
-      where: {
-        userId: { _eq: $userId }
-        workspace: { status: { _neq: "removed" } }
-      }
-    ) {
+    user_workspace(where: { userId: { _eq: $userId } }) {
       workspace {
         id
       }
@@ -620,4 +615,57 @@ export type UpdateWorkspaceMutationResult = Apollo.MutationResult<Types.UpdateWo
 export type UpdateWorkspaceMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateWorkspaceMutation,
   Types.UpdateWorkspaceMutationVariables
+>
+export const DeleteWorkspaceDocument = gql`
+  mutation deleteWorkspace($id: String) {
+    delete_workspaces(where: { id: { _eq: $id } }) {
+      affected_rows
+      returning {
+        id
+        title
+      }
+    }
+  }
+`
+export type DeleteWorkspaceMutationFn = Apollo.MutationFunction<
+  Types.DeleteWorkspaceMutation,
+  Types.DeleteWorkspaceMutationVariables
+>
+
+/**
+ * __useDeleteWorkspaceMutation__
+ *
+ * To run a mutation, you first call `useDeleteWorkspaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteWorkspaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteWorkspaceMutation, { data, loading, error }] = useDeleteWorkspaceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteWorkspaceMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteWorkspaceMutation,
+    Types.DeleteWorkspaceMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteWorkspaceMutation,
+    Types.DeleteWorkspaceMutationVariables
+  >(DeleteWorkspaceDocument, options)
+}
+export type DeleteWorkspaceMutationHookResult = ReturnType<
+  typeof useDeleteWorkspaceMutation
+>
+export type DeleteWorkspaceMutationResult = Apollo.MutationResult<Types.DeleteWorkspaceMutation>
+export type DeleteWorkspaceMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteWorkspaceMutation,
+  Types.DeleteWorkspaceMutationVariables
 >

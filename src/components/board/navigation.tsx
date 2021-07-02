@@ -29,7 +29,11 @@ export const BoardNavigation = () => {
       alignItems="center"
       mx={3}
     >
-      <Flex alignItems="center" onClick={() => navigate('/w')}>
+      <Flex
+        alignItems="center"
+        onClick={() => navigate('/w')}
+        _hover={{ cursor: 'pointer' }}
+      >
         <Image h="2.5em" w="2.5em" src="/assets/logo.svg" mr="0.5rem" />
         <Heading as="h3" size="md">
           Birdy

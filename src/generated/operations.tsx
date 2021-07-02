@@ -173,3 +173,20 @@ export type UpdateWorkspaceMutation = { __typename?: 'mutation_root' } & {
       }
   >
 }
+
+export type DeleteWorkspaceMutationVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type DeleteWorkspaceMutation = { __typename?: 'mutation_root' } & {
+  delete_workspaces?: Types.Maybe<
+    { __typename?: 'workspaces_mutation_response' } & Pick<
+      Types.Workspaces_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'workspaces' } & Pick<Types.Workspaces, 'id' | 'title'>
+        >
+      }
+  >
+}

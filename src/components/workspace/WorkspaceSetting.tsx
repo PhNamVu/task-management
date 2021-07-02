@@ -9,6 +9,7 @@ import {
 import React from 'react'
 import {
   GetWorkspacesDocument,
+  useDeleteWorkspaceMutation,
   useUpdateWorkspaceMutation,
 } from '../../generated/hooks'
 
@@ -32,17 +33,13 @@ export const WorkspaceSetting: React.FC<WorkspaceSettingProps> = ({
     ]
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
-  const [deleteWorkspace] = useUpdateWorkspaceMutation()
+  const [deleteWorkspace] = useDeleteWorkspaceMutation()
 
   const handleDelete = async () => {
     try {
-      await deleteWorkspace({
+      const res = await deleteWorkspace({
         variables: {
           id,
-          object: {
-            status: 'removed',
-            deletedAt: new Date().toISOString(),
-          },
         },
         refetchQueries: [
           {
@@ -54,7 +51,7 @@ export const WorkspaceSetting: React.FC<WorkspaceSettingProps> = ({
         ],
       })
       positiveToast({
-        title: 'Removed',
+        title: `Remove '${res.data?.delete_workspaces?.returning[0].title}' successfully `,
       })
     } catch (error) {
       negativeToast({
