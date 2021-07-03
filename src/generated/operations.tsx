@@ -144,7 +144,10 @@ export type GetWorkspaceDetailQueryVariables = Types.Exact<{
 
 export type GetWorkspaceDetailQuery = { __typename?: 'query_root' } & {
   detail: Array<
-    { __typename?: 'workspaces' } & Pick<Types.Workspaces, 'title' | 'ownerId'>
+    { __typename?: 'workspaces' } & Pick<
+      Types.Workspaces,
+      'title' | 'ownerId' | 'description'
+    >
   >
   members: Array<
     { __typename?: 'user_workspace' } & {

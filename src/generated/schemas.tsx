@@ -679,6 +679,8 @@ export type Timestamptz_Comparison_Exp = {
 export type User_Workspace = {
   __typename?: 'user_workspace'
   createdAt?: Maybe<Scalars['timestamptz']>
+  /** joined, request */
+  status?: Maybe<Scalars['String']>
   /** An object relationship */
   user: Users
   userId: Scalars['String']
@@ -728,6 +730,7 @@ export type User_Workspace_Bool_Exp = {
   _not?: Maybe<User_Workspace_Bool_Exp>
   _or?: Maybe<Array<User_Workspace_Bool_Exp>>
   createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  status?: Maybe<String_Comparison_Exp>
   user?: Maybe<Users_Bool_Exp>
   userId?: Maybe<String_Comparison_Exp>
   workspace?: Maybe<Workspaces_Bool_Exp>
@@ -743,6 +746,8 @@ export enum User_Workspace_Constraint {
 /** input type for inserting data into table "user_workspace" */
 export type User_Workspace_Insert_Input = {
   createdAt?: Maybe<Scalars['timestamptz']>
+  /** joined, request */
+  status?: Maybe<Scalars['String']>
   user?: Maybe<Users_Obj_Rel_Insert_Input>
   userId?: Maybe<Scalars['String']>
   workspace?: Maybe<Workspaces_Obj_Rel_Insert_Input>
@@ -753,6 +758,8 @@ export type User_Workspace_Insert_Input = {
 export type User_Workspace_Max_Fields = {
   __typename?: 'user_workspace_max_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
+  /** joined, request */
+  status?: Maybe<Scalars['String']>
   userId?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
@@ -760,6 +767,8 @@ export type User_Workspace_Max_Fields = {
 /** order by max() on columns of table "user_workspace" */
 export type User_Workspace_Max_Order_By = {
   createdAt?: Maybe<Order_By>
+  /** joined, request */
+  status?: Maybe<Order_By>
   userId?: Maybe<Order_By>
   workspaceId?: Maybe<Order_By>
 }
@@ -768,6 +777,8 @@ export type User_Workspace_Max_Order_By = {
 export type User_Workspace_Min_Fields = {
   __typename?: 'user_workspace_min_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
+  /** joined, request */
+  status?: Maybe<Scalars['String']>
   userId?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
@@ -775,6 +786,8 @@ export type User_Workspace_Min_Fields = {
 /** order by min() on columns of table "user_workspace" */
 export type User_Workspace_Min_Order_By = {
   createdAt?: Maybe<Order_By>
+  /** joined, request */
+  status?: Maybe<Order_By>
   userId?: Maybe<Order_By>
   workspaceId?: Maybe<Order_By>
 }
@@ -798,6 +811,7 @@ export type User_Workspace_On_Conflict = {
 /** Ordering options when selecting data from "user_workspace". */
 export type User_Workspace_Order_By = {
   createdAt?: Maybe<Order_By>
+  status?: Maybe<Order_By>
   user?: Maybe<Users_Order_By>
   userId?: Maybe<Order_By>
   workspace?: Maybe<Workspaces_Order_By>
@@ -815,6 +829,8 @@ export enum User_Workspace_Select_Column {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
+  Status = 'status',
+  /** column name */
   UserId = 'userId',
   /** column name */
   WorkspaceId = 'workspaceId',
@@ -823,6 +839,8 @@ export enum User_Workspace_Select_Column {
 /** input type for updating data in table "user_workspace" */
 export type User_Workspace_Set_Input = {
   createdAt?: Maybe<Scalars['timestamptz']>
+  /** joined, request */
+  status?: Maybe<Scalars['String']>
   userId?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
@@ -831,6 +849,8 @@ export type User_Workspace_Set_Input = {
 export enum User_Workspace_Update_Column {
   /** column name */
   CreatedAt = 'createdAt',
+  /** column name */
+  Status = 'status',
   /** column name */
   UserId = 'userId',
   /** column name */

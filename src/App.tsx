@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { ApolloProvider } from '@apollo/client'
+import { Spinner } from '@chakra-ui/react'
 
 import { createClient } from './apollo/create-client'
 import { useAuth } from './hooks/use-auth'
@@ -19,11 +20,21 @@ import { ForgotPasswordPage } from './pages/auth/ForgotPassword'
 import { NotFoundPage } from './pages/NotFoundPage'
 import WorkspacePage from './pages/workspace'
 import BoardDetailPage from './pages/board/[Id]'
+import WorkspaceDetail from './pages/workspace/[Id]'
 
 export const App = () => {
   const { state }: any = useAuth()
   const [client, role, isUserLoggedin] = createClient(state)
-  console.log(role, isUserLoggedin)
+  if (!state.user)
+    return (
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    )
   return (
     <Suspense fallback={<FallbackLoading />}>
       <ApolloProvider client={client}>
@@ -42,6 +53,7 @@ export const App = () => {
             element={<WorkspaceLayout isUserLoggedin={isUserLoggedin} />}
           >
             <Route path="/" element={<WorkspacePage />} />
+            <Route path="/:id" element={<WorkspaceDetail />} />
           </Route>
           <Route
             path="/b"

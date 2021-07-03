@@ -502,6 +502,7 @@ export const GetWorkspaceDetailDocument = gql`
     detail: workspaces(where: { id: { _eq: $id } }) {
       title
       ownerId
+      description
     }
     members: user_workspace(where: { workspaceId: { _eq: $id } }) {
       user {

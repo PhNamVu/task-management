@@ -12,16 +12,16 @@ export const AddBoardButton: React.FC<AddBoardButtonProps> = ({ id }) => {
   return (
     <>
       <Flex
-        bg="gray.400"
+        bg="green.200"
         height="80px"
         borderRadius="4px"
         justifyContent="center"
         alignItems="center"
-        _hover={{ backgroundColor: 'gray.500' }}
+        _hover={{ backgroundColor: 'green.300', cursor: 'pointer' }}
         onClick={onOpen}
       >
         {' '}
-        Create new board{' '}
+        New{' '}
       </Flex>
       <Modaler isOpen={isOpen} onClose={onClose} header="Create board">
         <AddBoardForm onClose={onClose} workspaceId={id} />

@@ -117,22 +117,20 @@ const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
 export const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({
   id,
   members,
-}) => {
-  return (
-    <Box px={5}>
-      <Menu closeOnSelect={false}>
-        <MenuButton as={Button}>
-          <Flex>
-            <HiOutlineUsers />
-            <Box ml={2}>Member ({members.length})</Box>
-          </Flex>
-        </MenuButton>
-        <MenuList minWidth="240px">
-          {members?.map((item: Member) => {
-            return <MemberItem member={item} id={id} key={item.user.id} />
-          })}
-        </MenuList>
-      </Menu>
-    </Box>
-  )
-}
+}) => (
+  <Box px={5}>
+    <Menu closeOnSelect={false}>
+      <MenuButton as={Button}>
+        <Flex>
+          <HiOutlineUsers />
+          <Box ml={2}>Member ({members.length})</Box>
+        </Flex>
+      </MenuButton>
+      <MenuList minWidth="240px">
+        {members?.map((item: Member) => {
+          return <MemberItem member={item} id={id} key={item.user.id} />
+        })}
+      </MenuList>
+    </Menu>
+  </Box>
+)
