@@ -452,6 +452,10 @@ export type Query_Root = {
   boards_aggregate: Boards_Aggregate
   /** fetch data from the table: "boards" using primary key columns */
   boards_by_pk?: Maybe<Boards>
+  /** execute function "search_users" which returns "users" */
+  search_users: Array<Users>
+  /** execute function "search_users" and query aggregates on result of table type "users" */
+  search_users_aggregate: Users_Aggregate
   /** fetch data from the table: "user_workspace" */
   user_workspace: Array<User_Workspace>
   /** fetch aggregated fields from the table: "user_workspace" */
@@ -490,6 +494,24 @@ export type Query_RootBoards_AggregateArgs = {
 
 export type Query_RootBoards_By_PkArgs = {
   id: Scalars['String']
+}
+
+export type Query_RootSearch_UsersArgs = {
+  args: Search_Users_Args
+  distinct_on?: Maybe<Array<Users_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Users_Order_By>>
+  where?: Maybe<Users_Bool_Exp>
+}
+
+export type Query_RootSearch_Users_AggregateArgs = {
+  args: Search_Users_Args
+  distinct_on?: Maybe<Array<Users_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Users_Order_By>>
+  where?: Maybe<Users_Bool_Exp>
 }
 
 export type Query_RootUser_WorkspaceArgs = {
@@ -553,6 +575,10 @@ export type Query_RootWorkspaces_By_PkArgs = {
   id: Scalars['String']
 }
 
+export type Search_Users_Args = {
+  search?: Maybe<Scalars['String']>
+}
+
 export type Subscription_Root = {
   __typename?: 'subscription_root'
   /** An array relationship */
@@ -561,6 +587,10 @@ export type Subscription_Root = {
   boards_aggregate: Boards_Aggregate
   /** fetch data from the table: "boards" using primary key columns */
   boards_by_pk?: Maybe<Boards>
+  /** execute function "search_users" which returns "users" */
+  search_users: Array<Users>
+  /** execute function "search_users" and query aggregates on result of table type "users" */
+  search_users_aggregate: Users_Aggregate
   /** fetch data from the table: "user_workspace" */
   user_workspace: Array<User_Workspace>
   /** fetch aggregated fields from the table: "user_workspace" */
@@ -599,6 +629,24 @@ export type Subscription_RootBoards_AggregateArgs = {
 
 export type Subscription_RootBoards_By_PkArgs = {
   id: Scalars['String']
+}
+
+export type Subscription_RootSearch_UsersArgs = {
+  args: Search_Users_Args
+  distinct_on?: Maybe<Array<Users_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Users_Order_By>>
+  where?: Maybe<Users_Bool_Exp>
+}
+
+export type Subscription_RootSearch_Users_AggregateArgs = {
+  args: Search_Users_Args
+  distinct_on?: Maybe<Array<Users_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Users_Order_By>>
+  where?: Maybe<Users_Bool_Exp>
 }
 
 export type Subscription_RootUser_WorkspaceArgs = {

@@ -14,6 +14,7 @@ import {
 import React from 'react'
 import { HiOutlineUsers } from 'react-icons/hi'
 import {
+  GetWorkspaceDetailDocument,
   GetWorkspacesDocument,
   useDeleteMemberMutation,
 } from '../../generated/hooks'
@@ -58,9 +59,9 @@ const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
         },
         refetchQueries: [
           {
-            query: GetWorkspacesDocument,
+            query: GetWorkspaceDetailDocument,
             variables: {
-              userId: myId,
+              id: workspaceId,
             },
           },
         ],
