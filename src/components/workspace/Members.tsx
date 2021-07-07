@@ -15,7 +15,6 @@ import React from 'react'
 import { HiOutlineUsers } from 'react-icons/hi'
 import {
   GetWorkspaceDetailDocument,
-  GetWorkspacesDocument,
   useDeleteMemberMutation,
 } from '../../generated/hooks'
 import { negativeToast, positiveToast } from '../../helpers/toaster'

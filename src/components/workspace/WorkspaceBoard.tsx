@@ -22,7 +22,7 @@ export const WorkspaceBoard: React.FC<WorkspaceBoardProps> = ({ id }) => {
   const boards = data && data.boards
 
   return (
-    <SimpleGrid columns={[1, 2, 3, 4]} spacingX="3rem" spacingY="2rem" mt={5}>
+    <SimpleGrid columns={[1, 2, 3, 5]} spacingX="3rem" spacingY="2rem" mt={5}>
       {boards?.map((board) => {
         return <BoardItem key={board.id} title={board.title} id={board.id} />
       })}

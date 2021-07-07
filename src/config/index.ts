@@ -10,7 +10,7 @@ const local = {
         measurementId: "G-93CF7LW8WS"
     },
     httpGrapqlUri: 'https://task-management.hasura.app/v1/graphql',
-    wsGrapqlUri: 'ws://task-management.hasura.app/v1/graphql',
+    wsGrapqlUri: 'wss://task-management.hasura.app/v1/graphql',
     }
 
 const environment = local
