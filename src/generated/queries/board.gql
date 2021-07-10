@@ -13,3 +13,11 @@ query getBoards($id: String) {
     id
   }
 }
+
+query getBoardDetail($id: String) {
+  boards(where: { id: { _eq: $id } }) {
+    title
+    id
+    status
+  }
+}

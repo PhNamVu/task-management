@@ -23,6 +23,16 @@ export type GetBoardsQuery = { __typename?: 'query_root' } & {
   boards: Array<{ __typename?: 'boards' } & Pick<Types.Boards, 'title' | 'id'>>
 }
 
+export type GetBoardDetailQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type GetBoardDetailQuery = { __typename?: 'query_root' } & {
+  boards: Array<
+    { __typename?: 'boards' } & Pick<Types.Boards, 'title' | 'id' | 'status'>
+  >
+}
+
 export type GetWorkspacesQueryVariables = Types.Exact<{
   userId?: Types.Maybe<Types.Scalars['String']>
 }>

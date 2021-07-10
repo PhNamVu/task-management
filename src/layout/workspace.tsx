@@ -10,6 +10,7 @@ export const WorkspaceLayout: React.FC<{ isUserLoggedin: boolean }> = ({
   isUserLoggedin,
 }) => {
   const bg = useColorModeValue('#F7F6F3', 'gray.700')
+
   if (isUserLoggedin) {
     return (
       <SimpleGrid columns={2} templateColumns="200px 1fr" h="100vh">
@@ -32,5 +33,6 @@ export const WorkspaceLayout: React.FC<{ isUserLoggedin: boolean }> = ({
       </SimpleGrid>
     )
   }
+
   return <Navigate to="/auth/login" />
 }

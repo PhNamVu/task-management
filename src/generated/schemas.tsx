@@ -68,6 +68,7 @@ export type Boards = {
   __typename?: 'boards'
   createdAt: Scalars['timestamptz']
   id: Scalars['String']
+  status?: Maybe<Scalars['String']>
   title: Scalars['String']
   /** An object relationship */
   workspace: Workspaces
@@ -116,6 +117,7 @@ export type Boards_Bool_Exp = {
   _or?: Maybe<Array<Boards_Bool_Exp>>
   createdAt?: Maybe<Timestamptz_Comparison_Exp>
   id?: Maybe<String_Comparison_Exp>
+  status?: Maybe<String_Comparison_Exp>
   title?: Maybe<String_Comparison_Exp>
   workspace?: Maybe<Workspaces_Bool_Exp>
   workspaceId?: Maybe<String_Comparison_Exp>
@@ -131,6 +133,7 @@ export enum Boards_Constraint {
 export type Boards_Insert_Input = {
   createdAt?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  status?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   workspace?: Maybe<Workspaces_Obj_Rel_Insert_Input>
   workspaceId?: Maybe<Scalars['String']>
@@ -141,6 +144,7 @@ export type Boards_Max_Fields = {
   __typename?: 'boards_max_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  status?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
@@ -149,6 +153,7 @@ export type Boards_Max_Fields = {
 export type Boards_Max_Order_By = {
   createdAt?: Maybe<Order_By>
   id?: Maybe<Order_By>
+  status?: Maybe<Order_By>
   title?: Maybe<Order_By>
   workspaceId?: Maybe<Order_By>
 }
@@ -158,6 +163,7 @@ export type Boards_Min_Fields = {
   __typename?: 'boards_min_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  status?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
@@ -166,6 +172,7 @@ export type Boards_Min_Fields = {
 export type Boards_Min_Order_By = {
   createdAt?: Maybe<Order_By>
   id?: Maybe<Order_By>
+  status?: Maybe<Order_By>
   title?: Maybe<Order_By>
   workspaceId?: Maybe<Order_By>
 }
@@ -190,6 +197,7 @@ export type Boards_On_Conflict = {
 export type Boards_Order_By = {
   createdAt?: Maybe<Order_By>
   id?: Maybe<Order_By>
+  status?: Maybe<Order_By>
   title?: Maybe<Order_By>
   workspace?: Maybe<Workspaces_Order_By>
   workspaceId?: Maybe<Order_By>
@@ -207,6 +215,8 @@ export enum Boards_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Status = 'status',
+  /** column name */
   Title = 'title',
   /** column name */
   WorkspaceId = 'workspaceId',
@@ -216,6 +226,7 @@ export enum Boards_Select_Column {
 export type Boards_Set_Input = {
   createdAt?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  status?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   workspaceId?: Maybe<Scalars['String']>
 }
@@ -226,6 +237,8 @@ export enum Boards_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  Status = 'status',
   /** column name */
   Title = 'title',
   /** column name */

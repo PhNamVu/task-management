@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { ApolloProvider } from '@apollo/client'
-import { Spinner } from '@chakra-ui/react'
 
 import { createClient } from './apollo/create-client'
 import { useAuth } from './hooks/use-auth'
@@ -19,22 +18,15 @@ import { SignUpPage } from './pages/auth/SignUpPage'
 import { ForgotPasswordPage } from './pages/auth/ForgotPassword'
 import { NotFoundPage } from './pages/NotFoundPage'
 import WorkspacePage from './pages/workspace'
-import BoardDetailPage from './pages/board/[Id]'
+import BoardDetailPage from './pages/board/Id'
 import WorkspaceDetail from './pages/workspace/[Id]'
+import { BoardViewPage } from './pages/board/Id/board'
+import { GanttViewPage } from './pages/board/Id/gantt'
 
 export const App = () => {
   const { state }: any = useAuth()
   const [client, role, isUserLoggedin] = createClient(state)
-  if (!state.user)
-    return (
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
-    )
+
   return (
     <Suspense fallback={<FallbackLoading />}>
       <ApolloProvider client={client}>
@@ -59,7 +51,10 @@ export const App = () => {
             path="/b"
             element={<BoardLayout isUserLoggedin={isUserLoggedin} />}
           >
-            <Route path=":id" element={<BoardDetailPage />} />
+            <Route path=":id" element={<BoardDetailPage />}>
+              <Route path="/" element={<BoardViewPage />} />
+              <Route path="/gantt" element={<GanttViewPage />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

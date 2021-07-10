@@ -113,6 +113,66 @@ export type GetBoardsQueryResult = Apollo.QueryResult<
   Types.GetBoardsQuery,
   Types.GetBoardsQueryVariables
 >
+export const GetBoardDetailDocument = gql`
+  query getBoardDetail($id: String) {
+    boards(where: { id: { _eq: $id } }) {
+      title
+      id
+      status
+    }
+  }
+`
+
+/**
+ * __useGetBoardDetailQuery__
+ *
+ * To run a query within a React component, call `useGetBoardDetailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBoardDetailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBoardDetailQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetBoardDetailQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetBoardDetailQuery,
+    Types.GetBoardDetailQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.GetBoardDetailQuery,
+    Types.GetBoardDetailQueryVariables
+  >(GetBoardDetailDocument, options)
+}
+export function useGetBoardDetailLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetBoardDetailQuery,
+    Types.GetBoardDetailQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetBoardDetailQuery,
+    Types.GetBoardDetailQueryVariables
+  >(GetBoardDetailDocument, options)
+}
+export type GetBoardDetailQueryHookResult = ReturnType<
+  typeof useGetBoardDetailQuery
+>
+export type GetBoardDetailLazyQueryHookResult = ReturnType<
+  typeof useGetBoardDetailLazyQuery
+>
+export type GetBoardDetailQueryResult = Apollo.QueryResult<
+  Types.GetBoardDetailQuery,
+  Types.GetBoardDetailQueryVariables
+>
 export const GetWorkspacesDocument = gql`
   query getWorkspaces($userId: String) {
     user_workspace(where: { userId: { _eq: $userId } }) {

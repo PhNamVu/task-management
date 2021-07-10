@@ -1,12 +1,17 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { SimpleGrid, Flex } from '@chakra-ui/react'
+
 import { BoardNavigation } from '../components/board/navigation'
+import { useAuth } from '../hooks/use-auth'
+import { StyledSpinner } from '../components/shared/StyledSpinner'
 
 export const BoardLayout: React.FC<{ isUserLoggedin: boolean }> = ({
   isUserLoggedin,
 }) => {
+  const { state }: any = useAuth()
+
+  if (!state.user) return <StyledSpinner />
   if (isUserLoggedin) {
     return (
       <SimpleGrid columns={1} templateRows="50px 1fr">
@@ -14,12 +19,9 @@ export const BoardLayout: React.FC<{ isUserLoggedin: boolean }> = ({
           <BoardNavigation />
         </Flex>
 
-        <motion.div
-          animate={{ scale: [0, 1] }}
-          transition={{ duration: 0.5, ease: 'linear', delay: 0.5 }}
-        >
+        <div>
           <Outlet />
-        </motion.div>
+        </div>
       </SimpleGrid>
     )
   }
