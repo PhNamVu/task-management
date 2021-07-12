@@ -15,6 +15,7 @@ interface ModalerProps extends ModalProps {
 
 export const Modaler: React.FC<ModalerProps> = ({
   header = '',
+  size = 'xl',
   ...props
 }: ModalerProps) => {
   const { onClose, isOpen, children } = props
@@ -24,7 +25,7 @@ export const Modaler: React.FC<ModalerProps> = ({
       onClose={onClose}
       isOpen={isOpen}
       motionPreset="slideInBottom"
-      size="xl"
+      size={size}
     >
       <ModalOverlay />
       <ModalContent>
