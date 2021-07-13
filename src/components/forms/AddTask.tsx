@@ -9,7 +9,7 @@ import { Form, Formik } from 'formik'
 import randomstring from 'randomstring'
 import 'react-datepicker/dist/react-datepicker.css'
 import DatePicker from 'react-datepicker'
-
+import { useParams } from 'react-router-dom'
 // import { AiOutlineUserAdd } from 'react-icons/ai'
 
 import './date-picker.css'
@@ -18,8 +18,7 @@ import { AddTaskValidation } from '../../helpers/validation'
 import { PrimaryBtn } from '../shared/PrimaryBtn'
 import { StyledInput } from '../shared/StyledInput'
 import { StyledTextArea } from '../shared/StyledTextArea'
-import { usePostTaskMutation } from '../../generated/hooks'
-import { useParams } from 'react-router-dom'
+import { GetTasksDocument, usePostTaskMutation } from '../../generated/hooks'
 
 interface Props {
   onClose: () => void
@@ -51,6 +50,14 @@ export const AddTaskForm: React.FC<Props> = ({ onClose, code }) => {
                 ...values,
               },
             },
+            refetchQueries: [
+              {
+                query: GetTasksDocument,
+                variables: {
+                  boardId,
+                },
+              },
+            ],
           })
           onClose()
           positiveToast({
