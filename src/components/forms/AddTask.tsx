@@ -4,7 +4,6 @@ import {
   FormErrorMessage,
   Flex,
 } from '@chakra-ui/react'
-import 'react-day-picker/style.css'
 import React from 'react'
 import { Form, Formik } from 'formik'
 import randomstring from 'randomstring'
