@@ -173,6 +173,148 @@ export type GetBoardDetailQueryResult = Apollo.QueryResult<
   Types.GetBoardDetailQuery,
   Types.GetBoardDetailQueryVariables
 >
+export const PostTaskDocument = gql`
+  mutation postTask($object: tasks_insert_input!) {
+    insert_tasks(objects: [$object]) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type PostTaskMutationFn = Apollo.MutationFunction<
+  Types.PostTaskMutation,
+  Types.PostTaskMutationVariables
+>
+
+/**
+ * __usePostTaskMutation__
+ *
+ * To run a mutation, you first call `usePostTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postTaskMutation, { data, loading, error }] = usePostTaskMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function usePostTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.PostTaskMutation,
+    Types.PostTaskMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.PostTaskMutation,
+    Types.PostTaskMutationVariables
+  >(PostTaskDocument, options)
+}
+export type PostTaskMutationHookResult = ReturnType<typeof usePostTaskMutation>
+export type PostTaskMutationResult = Apollo.MutationResult<Types.PostTaskMutation>
+export type PostTaskMutationOptions = Apollo.BaseMutationOptions<
+  Types.PostTaskMutation,
+  Types.PostTaskMutationVariables
+>
+export const GetTasksDocument = gql`
+  query getTasks($boardId: String) {
+    todo: tasks(
+      where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 1 } } }
+    ) {
+      assignee {
+        user {
+          displayName
+          photoUrl
+        }
+      }
+      title
+      dueDate
+      id
+    }
+    inProgress: tasks(
+      where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 2 } } }
+    ) {
+      assignee {
+        user {
+          displayName
+          photoUrl
+        }
+      }
+      title
+      dueDate
+      id
+    }
+    done: tasks(
+      where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 3 } } }
+    ) {
+      assignee {
+        user {
+          displayName
+          photoUrl
+        }
+      }
+      title
+      dueDate
+      id
+    }
+  }
+`
+
+/**
+ * __useGetTasksQuery__
+ *
+ * To run a query within a React component, call `useGetTasksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTasksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTasksQuery({
+ *   variables: {
+ *      boardId: // value for 'boardId'
+ *   },
+ * });
+ */
+export function useGetTasksQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetTasksQuery,
+    Types.GetTasksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<Types.GetTasksQuery, Types.GetTasksQueryVariables>(
+    GetTasksDocument,
+    options
+  )
+}
+export function useGetTasksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetTasksQuery,
+    Types.GetTasksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<Types.GetTasksQuery, Types.GetTasksQueryVariables>(
+    GetTasksDocument,
+    options
+  )
+}
+export type GetTasksQueryHookResult = ReturnType<typeof useGetTasksQuery>
+export type GetTasksLazyQueryHookResult = ReturnType<
+  typeof useGetTasksLazyQuery
+>
+export type GetTasksQueryResult = Apollo.QueryResult<
+  Types.GetTasksQuery,
+  Types.GetTasksQueryVariables
+>
 export const GetWorkspacesDocument = gql`
   query getWorkspaces($userId: String) {
     user_workspace(where: { userId: { _eq: $userId } }) {

@@ -26,7 +26,7 @@ export const NewTaskButton: React.FC<Props> = ({ code }) => {
         header="Create new task"
         size="2xl"
       >
-        <AddTaskForm onClose={onClose} />
+        <AddTaskForm onClose={onClose} code={code} />
       </Modaler>
     </>
   )

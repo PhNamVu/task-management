@@ -10,18 +10,26 @@ import randomstring from 'randomstring'
 import 'react-datepicker/dist/react-datepicker.css'
 import DatePicker from 'react-datepicker'
 
+// import { AiOutlineUserAdd } from 'react-icons/ai'
+
 import './date-picker.css'
 import { negativeToast, positiveToast } from '../../helpers/toaster'
-import { AddWorkspaceValidation } from '../../helpers/validation'
+import { AddTaskValidation } from '../../helpers/validation'
 import { PrimaryBtn } from '../shared/PrimaryBtn'
 import { StyledInput } from '../shared/StyledInput'
 import { StyledTextArea } from '../shared/StyledTextArea'
+import { usePostTaskMutation } from '../../generated/hooks'
+import { useParams } from 'react-router-dom'
 
 interface Props {
   onClose: () => void
+  code: number
 }
 
-export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
+export const AddTaskForm: React.FC<Props> = ({ onClose, code }) => {
+  const [postTask] = usePostTaskMutation()
+  const { id: boardId } = useParams()
+
   return (
     <Formik
       initialValues={{
@@ -30,18 +38,21 @@ export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
         description: '',
         startDate: new Date(),
         dueDate: new Date(),
+        boardId,
+        code,
       }}
-      validationSchema={AddWorkspaceValidation}
+      validationSchema={AddTaskValidation}
       onSubmit={async (values, actions) => {
         try {
           actions.setSubmitting(true)
-          await setTimeout(() => {
-            console.log('submit', values, new Date())
-            actions.setSubmitting(false)
-          }, 1000)
-          // console.log('values ne', values)
-          // onClose()
-
+          await postTask({
+            variables: {
+              object: {
+                ...values,
+              },
+            },
+          })
+          onClose()
           positiveToast({
             title: 'Create successfully',
           })
@@ -57,6 +68,19 @@ export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
     >
       {(formik: any) => (
         <Form>
+          {/* <Flex mb={3} alignItems="center">
+            <Text fontSize="md" fontWeight="500">
+              Assignee:
+            </Text>
+            <IconButton
+              variant="ghost"
+              border="2px dotted #4FD1C5"
+              ml={2}
+              isRound
+              aria-label="assignee"
+              icon={<AiOutlineUserAdd />}
+            />
+          </Flex> */}
           <FormControl
             mb="0.5em"
             isRequired
@@ -92,7 +116,6 @@ export const AddTaskForm: React.FC<Props> = ({ onClose }) => {
 
           <FormControl
             mb="0.5em"
-            isRequired
             isInvalid={formik.errors.description && formik.touched.description}
           >
             <FormLabel htmlFor="description">Description</FormLabel>

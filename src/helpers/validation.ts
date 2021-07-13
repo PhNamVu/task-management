@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 
 
+
 export const LoginSchemaValidation = Yup.object({
   email: Yup.string()
     .email('Invalid email')
@@ -40,4 +41,9 @@ export const AddWorkspaceValidation = Yup.object({
 
 export const AddBoardValidation = Yup.object({
   title: Yup.string().required('Title is required.'),
+})
+
+export const AddTaskValidation = Yup.object({
+  title: Yup.string().required('Title is required.'),
+  description: Yup.string()
 })

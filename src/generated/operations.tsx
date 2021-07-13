@@ -33,6 +33,62 @@ export type GetBoardDetailQuery = { __typename?: 'query_root' } & {
   >
 }
 
+export type PostTaskMutationVariables = Types.Exact<{
+  object: Types.Tasks_Insert_Input
+}>
+
+export type PostTaskMutation = { __typename?: 'mutation_root' } & {
+  insert_tasks?: Types.Maybe<
+    { __typename?: 'tasks_mutation_response' } & Pick<
+      Types.Tasks_Mutation_Response,
+      'affected_rows'
+    > & { returning: Array<{ __typename?: 'tasks' } & Pick<Types.Tasks, 'id'>> }
+  >
+}
+
+export type GetTasksQueryVariables = Types.Exact<{
+  boardId?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type GetTasksQuery = { __typename?: 'query_root' } & {
+  todo: Array<
+    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'dueDate' | 'id'> & {
+        assignee: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'displayName' | 'photoUrl'
+            >
+          }
+        >
+      }
+  >
+  inProgress: Array<
+    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'dueDate' | 'id'> & {
+        assignee: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'displayName' | 'photoUrl'
+            >
+          }
+        >
+      }
+  >
+  done: Array<
+    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'dueDate' | 'id'> & {
+        assignee: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'displayName' | 'photoUrl'
+            >
+          }
+        >
+      }
+  >
+}
+
 export type GetWorkspacesQueryVariables = Types.Exact<{
   userId?: Types.Maybe<Types.Scalars['String']>
 }>

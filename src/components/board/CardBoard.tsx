@@ -7,10 +7,10 @@ import { TaskItem } from '../task/TaskItem'
 interface Props {
   title: string
   code: number
-  //   children: React.ReactNode
+  data?: any
 }
 
-export const CardBoard: React.FC<Props> = ({ code, title }) => {
+export const CardBoard: React.FC<Props> = ({ code, title, data }) => {
   const bg = useColorModeValue('gray.100', 'gray.700')
   return (
     <Box bg={bg} p={6} borderRadius={5}>
@@ -21,7 +21,10 @@ export const CardBoard: React.FC<Props> = ({ code, title }) => {
 
         <NewTaskButton code={code} />
       </Flex>
-      <TaskItem />
+
+      {data?.map((item: any) => {
+        return <TaskItem key={item.id} item={item} />
+      })}
     </Box>
   )
 }

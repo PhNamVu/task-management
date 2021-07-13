@@ -1,0 +1,50 @@
+mutation postTask($object: tasks_insert_input!) {
+  insert_tasks(objects: [$object]) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+query getTasks($boardId: String) {
+  todo: tasks(
+    where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 1 } } }
+  ) {
+    assignee {
+      user {
+        displayName
+        photoUrl
+      }
+    }
+    title
+    dueDate
+    id
+  }
+  inProgress: tasks(
+    where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 2 } } }
+  ) {
+    assignee {
+      user {
+        displayName
+        photoUrl
+      }
+    }
+    title
+    dueDate
+    id
+  }
+  done: tasks(
+    where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 3 } } }
+  ) {
+    assignee {
+      user {
+        displayName
+        photoUrl
+      }
+    }
+    title
+    dueDate
+    id
+  }
+}
