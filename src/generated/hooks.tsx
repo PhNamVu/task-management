@@ -315,6 +315,118 @@ export type GetTasksQueryResult = Apollo.QueryResult<
   Types.GetTasksQuery,
   Types.GetTasksQueryVariables
 >
+export const TaskDetailDocument = gql`
+  query taskDetail($id: String!) {
+    tasks(where: { id: { _eq: $id } }) {
+      id
+      title
+      description
+      code
+    }
+  }
+`
+
+/**
+ * __useTaskDetailQuery__
+ *
+ * To run a query within a React component, call `useTaskDetailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTaskDetailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTaskDetailQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTaskDetailQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.TaskDetailQuery,
+    Types.TaskDetailQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<Types.TaskDetailQuery, Types.TaskDetailQueryVariables>(
+    TaskDetailDocument,
+    options
+  )
+}
+export function useTaskDetailLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.TaskDetailQuery,
+    Types.TaskDetailQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.TaskDetailQuery,
+    Types.TaskDetailQueryVariables
+  >(TaskDetailDocument, options)
+}
+export type TaskDetailQueryHookResult = ReturnType<typeof useTaskDetailQuery>
+export type TaskDetailLazyQueryHookResult = ReturnType<
+  typeof useTaskDetailLazyQuery
+>
+export type TaskDetailQueryResult = Apollo.QueryResult<
+  Types.TaskDetailQuery,
+  Types.TaskDetailQueryVariables
+>
+export const UpdateTaskDocument = gql`
+  mutation updateTask($id: String, $object: tasks_set_input!) {
+    update_tasks(where: { id: { _eq: $id } }, _set: $object) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type UpdateTaskMutationFn = Apollo.MutationFunction<
+  Types.UpdateTaskMutation,
+  Types.UpdateTaskMutationVariables
+>
+
+/**
+ * __useUpdateTaskMutation__
+ *
+ * To run a mutation, you first call `useUpdateTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTaskMutation, { data, loading, error }] = useUpdateTaskMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useUpdateTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.UpdateTaskMutation,
+    Types.UpdateTaskMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.UpdateTaskMutation,
+    Types.UpdateTaskMutationVariables
+  >(UpdateTaskDocument, options)
+}
+export type UpdateTaskMutationHookResult = ReturnType<
+  typeof useUpdateTaskMutation
+>
+export type UpdateTaskMutationResult = Apollo.MutationResult<Types.UpdateTaskMutation>
+export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<
+  Types.UpdateTaskMutation,
+  Types.UpdateTaskMutationVariables
+>
 export const GetWorkspacesDocument = gql`
   query getWorkspaces($userId: String) {
     user_workspace(where: { userId: { _eq: $userId } }) {

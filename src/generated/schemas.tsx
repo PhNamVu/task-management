@@ -988,6 +988,8 @@ export type Tasks = {
   startDate?: Maybe<Scalars['timestamptz']>
   title: Scalars['String']
   updatedAt?: Maybe<Scalars['timestamptz']>
+  /** An object relationship */
+  user?: Maybe<Users>
 }
 
 /** columns and relationships of "tasks" */
@@ -1087,6 +1089,7 @@ export type Tasks_Bool_Exp = {
   startDate?: Maybe<Timestamptz_Comparison_Exp>
   title?: Maybe<String_Comparison_Exp>
   updatedAt?: Maybe<Timestamptz_Comparison_Exp>
+  user?: Maybe<Users_Bool_Exp>
 }
 
 /** unique or primary key constraints on table "tasks" */
@@ -1114,6 +1117,7 @@ export type Tasks_Insert_Input = {
   startDate?: Maybe<Scalars['timestamptz']>
   title?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
+  user?: Maybe<Users_Obj_Rel_Insert_Input>
 }
 
 /** aggregate max on columns */
@@ -1211,6 +1215,7 @@ export type Tasks_Order_By = {
   startDate?: Maybe<Order_By>
   title?: Maybe<Order_By>
   updatedAt?: Maybe<Order_By>
+  user?: Maybe<Users_Order_By>
 }
 
 /** primary key columns input for table: tasks */
@@ -1718,6 +1723,10 @@ export type Users = {
   status?: Maybe<Scalars['String']>
   /** An array relationship */
   tasks: Array<User_Task>
+  /** An array relationship */
+  tasksByCreatedBy: Array<Tasks>
+  /** An aggregate relationship */
+  tasksByCreatedBy_aggregate: Tasks_Aggregate
   /** An aggregate relationship */
   tasks_aggregate: User_Task_Aggregate
   /** An array relationship */
@@ -1737,6 +1746,24 @@ export type UsersTasksArgs = {
   offset?: Maybe<Scalars['Int']>
   order_by?: Maybe<Array<User_Task_Order_By>>
   where?: Maybe<User_Task_Bool_Exp>
+}
+
+/** columns and relationships of "users" */
+export type UsersTasksByCreatedByArgs = {
+  distinct_on?: Maybe<Array<Tasks_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Tasks_Order_By>>
+  where?: Maybe<Tasks_Bool_Exp>
+}
+
+/** columns and relationships of "users" */
+export type UsersTasksByCreatedBy_AggregateArgs = {
+  distinct_on?: Maybe<Array<Tasks_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Tasks_Order_By>>
+  where?: Maybe<Tasks_Bool_Exp>
 }
 
 /** columns and relationships of "users" */
@@ -1821,6 +1848,7 @@ export type Users_Bool_Exp = {
   role?: Maybe<String_Comparison_Exp>
   status?: Maybe<String_Comparison_Exp>
   tasks?: Maybe<User_Task_Bool_Exp>
+  tasksByCreatedBy?: Maybe<Tasks_Bool_Exp>
   user_workspaces?: Maybe<User_Workspace_Bool_Exp>
   workspaces?: Maybe<Workspaces_Bool_Exp>
 }
@@ -1846,6 +1874,7 @@ export type Users_Insert_Input = {
   role?: Maybe<Scalars['String']>
   status?: Maybe<Scalars['String']>
   tasks?: Maybe<User_Task_Arr_Rel_Insert_Input>
+  tasksByCreatedBy?: Maybe<Tasks_Arr_Rel_Insert_Input>
   user_workspaces?: Maybe<User_Workspace_Arr_Rel_Insert_Input>
   workspaces?: Maybe<Workspaces_Arr_Rel_Insert_Input>
 }
@@ -1915,6 +1944,7 @@ export type Users_Order_By = {
   photoUrl?: Maybe<Order_By>
   role?: Maybe<Order_By>
   status?: Maybe<Order_By>
+  tasksByCreatedBy_aggregate?: Maybe<Tasks_Aggregate_Order_By>
   tasks_aggregate?: Maybe<User_Task_Aggregate_Order_By>
   user_workspaces_aggregate?: Maybe<User_Workspace_Aggregate_Order_By>
   workspaces_aggregate?: Maybe<Workspaces_Aggregate_Order_By>

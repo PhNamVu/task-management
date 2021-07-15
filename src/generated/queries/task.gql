@@ -48,3 +48,21 @@ query getTasks($boardId: String) {
     id
   }
 }
+
+query taskDetail($id: String!) {
+  tasks(where: { id: { _eq: $id } }) {
+    id
+    title
+    description
+    code
+  }
+}
+
+mutation updateTask($id: String, $object: tasks_set_input!) {
+  update_tasks(where: { id: { _eq: $id } }, _set: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}

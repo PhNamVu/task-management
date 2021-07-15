@@ -89,6 +89,33 @@ export type GetTasksQuery = { __typename?: 'query_root' } & {
   >
 }
 
+export type TaskDetailQueryVariables = Types.Exact<{
+  id: Types.Scalars['String']
+}>
+
+export type TaskDetailQuery = { __typename?: 'query_root' } & {
+  tasks: Array<
+    { __typename?: 'tasks' } & Pick<
+      Types.Tasks,
+      'id' | 'title' | 'description' | 'code'
+    >
+  >
+}
+
+export type UpdateTaskMutationVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  object: Types.Tasks_Set_Input
+}>
+
+export type UpdateTaskMutation = { __typename?: 'mutation_root' } & {
+  update_tasks?: Types.Maybe<
+    { __typename?: 'tasks_mutation_response' } & Pick<
+      Types.Tasks_Mutation_Response,
+      'affected_rows'
+    > & { returning: Array<{ __typename?: 'tasks' } & Pick<Types.Tasks, 'id'>> }
+  >
+}
+
 export type GetWorkspacesQueryVariables = Types.Exact<{
   userId?: Types.Maybe<Types.Scalars['String']>
 }>
