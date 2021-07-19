@@ -98,7 +98,16 @@ export type TaskDetailQuery = { __typename?: 'query_root' } & {
     { __typename?: 'tasks' } & Pick<
       Types.Tasks,
       'id' | 'title' | 'description' | 'code'
-    >
+    > & {
+        assignee: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'id' | 'email' | 'displayName' | 'photoUrl'
+            >
+          }
+        >
+      }
   >
 }
 
@@ -113,6 +122,51 @@ export type UpdateTaskMutation = { __typename?: 'mutation_root' } & {
       Types.Tasks_Mutation_Response,
       'affected_rows'
     > & { returning: Array<{ __typename?: 'tasks' } & Pick<Types.Tasks, 'id'>> }
+  >
+}
+
+export type AssignTaskMutationVariables = Types.Exact<{
+  object: Types.User_Task_Insert_Input
+}>
+
+export type AssignTaskMutation = { __typename?: 'mutation_root' } & {
+  insert_user_task?: Types.Maybe<
+    { __typename?: 'user_task_mutation_response' } & Pick<
+      Types.User_Task_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'id' | 'displayName'
+            >
+          }
+        >
+      }
+  >
+}
+
+export type RemoveAssigneeMutationVariables = Types.Exact<{
+  userId: Types.Scalars['String']
+  taskId: Types.Scalars['String']
+}>
+
+export type RemoveAssigneeMutation = { __typename?: 'mutation_root' } & {
+  delete_user_task?: Types.Maybe<
+    { __typename?: 'user_task_mutation_response' } & Pick<
+      Types.User_Task_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'id' | 'displayName'
+            >
+          }
+        >
+      }
   >
 }
 
@@ -171,6 +225,21 @@ export type DeleteMemberMutation = { __typename?: 'mutation_root' } & {
           >
         >
       }
+  >
+}
+
+export type MembersQueryVariables = Types.Exact<{
+  where?: Types.Maybe<Types.User_Workspace_Bool_Exp>
+}>
+
+export type MembersQuery = { __typename?: 'query_root' } & {
+  user_workspace: Array<
+    { __typename?: 'user_workspace' } & {
+      user: { __typename?: 'users' } & Pick<
+        Types.Users,
+        'id' | 'displayName' | 'photoUrl'
+      >
+    }
   >
 }
 

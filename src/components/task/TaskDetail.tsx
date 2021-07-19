@@ -1,4 +1,6 @@
 import {
+  Avatar,
+  AvatarGroup,
   Flex,
   Menu,
   MenuItemOption,
@@ -8,6 +10,7 @@ import {
 import { parseInt } from 'lodash'
 import React from 'react'
 import { useParams } from 'react-router-dom'
+
 import {
   useTaskDetailQuery,
   useUpdateTaskMutation,
@@ -15,6 +18,7 @@ import {
 import { NotFoundError } from '../../helpers/notFoundError'
 import { ProgressLoading } from '../shared/Loading'
 import { MenuTaskButton } from './MenuTaskButton'
+import { NewAssigneeButton } from './NewAssigneeButton'
 
 export const TaskDetail = () => {
   const { taskId: id } = useParams()
@@ -31,13 +35,14 @@ export const TaskDetail = () => {
   if (error || data?.tasks.length === 0) {
     throw new NotFoundError('Not found task')
   }
+  const assignee = data && data.tasks[0].assignee
 
   return (
     <Flex>
       <Flex>
         <Menu>
           <MenuTaskButton code={code} />
-          <MenuList minWidth="240px">
+          <MenuList minWidth="100px">
             <MenuOptionGroup
               defaultValue={code}
               type="radio"
@@ -59,6 +64,18 @@ export const TaskDetail = () => {
             </MenuOptionGroup>
           </MenuList>
         </Menu>
+        <AvatarGroup size="sm" max={3} ml={5}>
+          {assignee?.map((item: any) => {
+            return (
+              <Avatar
+                id={item.user.id}
+                name={item.user.displayName}
+                src={item.user.photoUrl}
+              />
+            )
+          })}
+        </AvatarGroup>
+        <NewAssigneeButton assignees={assignee?.map((item) => item.user.id)} />
       </Flex>
     </Flex>
   )

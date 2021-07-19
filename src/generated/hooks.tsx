@@ -322,6 +322,14 @@ export const TaskDetailDocument = gql`
       title
       description
       code
+      assignee {
+        user {
+          id
+          email
+          displayName
+          photoUrl
+        }
+      }
     }
   }
 `
@@ -426,6 +434,119 @@ export type UpdateTaskMutationResult = Apollo.MutationResult<Types.UpdateTaskMut
 export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateTaskMutation,
   Types.UpdateTaskMutationVariables
+>
+export const AssignTaskDocument = gql`
+  mutation assignTask($object: user_task_insert_input!) {
+    insert_user_task(objects: [$object]) {
+      affected_rows
+      returning {
+        user {
+          id
+          displayName
+        }
+      }
+    }
+  }
+`
+export type AssignTaskMutationFn = Apollo.MutationFunction<
+  Types.AssignTaskMutation,
+  Types.AssignTaskMutationVariables
+>
+
+/**
+ * __useAssignTaskMutation__
+ *
+ * To run a mutation, you first call `useAssignTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAssignTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [assignTaskMutation, { data, loading, error }] = useAssignTaskMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useAssignTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.AssignTaskMutation,
+    Types.AssignTaskMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.AssignTaskMutation,
+    Types.AssignTaskMutationVariables
+  >(AssignTaskDocument, options)
+}
+export type AssignTaskMutationHookResult = ReturnType<
+  typeof useAssignTaskMutation
+>
+export type AssignTaskMutationResult = Apollo.MutationResult<Types.AssignTaskMutation>
+export type AssignTaskMutationOptions = Apollo.BaseMutationOptions<
+  Types.AssignTaskMutation,
+  Types.AssignTaskMutationVariables
+>
+export const RemoveAssigneeDocument = gql`
+  mutation removeAssignee($userId: String!, $taskId: String!) {
+    delete_user_task(
+      where: { _and: { userId: { _eq: $userId }, taskId: { _eq: $taskId } } }
+    ) {
+      affected_rows
+      returning {
+        user {
+          id
+          displayName
+        }
+      }
+    }
+  }
+`
+export type RemoveAssigneeMutationFn = Apollo.MutationFunction<
+  Types.RemoveAssigneeMutation,
+  Types.RemoveAssigneeMutationVariables
+>
+
+/**
+ * __useRemoveAssigneeMutation__
+ *
+ * To run a mutation, you first call `useRemoveAssigneeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveAssigneeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeAssigneeMutation, { data, loading, error }] = useRemoveAssigneeMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      taskId: // value for 'taskId'
+ *   },
+ * });
+ */
+export function useRemoveAssigneeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.RemoveAssigneeMutation,
+    Types.RemoveAssigneeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.RemoveAssigneeMutation,
+    Types.RemoveAssigneeMutationVariables
+  >(RemoveAssigneeDocument, options)
+}
+export type RemoveAssigneeMutationHookResult = ReturnType<
+  typeof useRemoveAssigneeMutation
+>
+export type RemoveAssigneeMutationResult = Apollo.MutationResult<Types.RemoveAssigneeMutation>
+export type RemoveAssigneeMutationOptions = Apollo.BaseMutationOptions<
+  Types.RemoveAssigneeMutation,
+  Types.RemoveAssigneeMutationVariables
 >
 export const GetWorkspacesDocument = gql`
   query getWorkspaces($userId: String) {
@@ -598,6 +719,64 @@ export type DeleteMemberMutationResult = Apollo.MutationResult<Types.DeleteMembe
 export type DeleteMemberMutationOptions = Apollo.BaseMutationOptions<
   Types.DeleteMemberMutation,
   Types.DeleteMemberMutationVariables
+>
+export const MembersDocument = gql`
+  query members($where: user_workspace_bool_exp) {
+    user_workspace(where: $where) {
+      user {
+        id
+        displayName
+        photoUrl
+      }
+    }
+  }
+`
+
+/**
+ * __useMembersQuery__
+ *
+ * To run a query within a React component, call `useMembersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMembersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMembersQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useMembersQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.MembersQuery,
+    Types.MembersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<Types.MembersQuery, Types.MembersQueryVariables>(
+    MembersDocument,
+    options
+  )
+}
+export function useMembersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.MembersQuery,
+    Types.MembersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<Types.MembersQuery, Types.MembersQueryVariables>(
+    MembersDocument,
+    options
+  )
+}
+export type MembersQueryHookResult = ReturnType<typeof useMembersQuery>
+export type MembersLazyQueryHookResult = ReturnType<typeof useMembersLazyQuery>
+export type MembersQueryResult = Apollo.QueryResult<
+  Types.MembersQuery,
+  Types.MembersQueryVariables
 >
 export const UpdateUserAvatarDocument = gql`
   mutation updateUserAvatar($photoUrl: String) {

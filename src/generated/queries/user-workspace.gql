@@ -30,3 +30,13 @@ mutation deleteMember($userId: String!, $workspaceId: String!) {
     }
   }
 }
+
+query members($where: user_workspace_bool_exp) {
+  user_workspace(where: $where) {
+    user {
+      id
+      displayName
+      photoUrl
+    }
+  }
+}

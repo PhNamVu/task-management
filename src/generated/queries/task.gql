@@ -55,6 +55,14 @@ query taskDetail($id: String!) {
     title
     description
     code
+    assignee {
+      user {
+        id
+        email
+        displayName
+        photoUrl
+      }
+    }
   }
 }
 

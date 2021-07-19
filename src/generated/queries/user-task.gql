@@ -1,0 +1,25 @@
+mutation assignTask($object: user_task_insert_input!) {
+  insert_user_task(objects: [$object]) {
+    affected_rows
+    returning {
+      user {
+        id
+        displayName
+      }
+    }
+  }
+}
+
+mutation removeAssignee($userId: String!, $taskId: String!) {
+  delete_user_task(
+    where: { _and: { userId: { _eq: $userId }, taskId: { _eq: $taskId } } }
+  ) {
+    affected_rows
+    returning {
+      user {
+        id
+        displayName
+      }
+    }
+  }
+}

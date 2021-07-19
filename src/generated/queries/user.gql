@@ -1,8 +1,5 @@
 mutation updateUserAvatar($photoUrl: String) {
-  update_users(
-    where: {}
-    _set: { photoUrl: $photoUrl }
-  ) {
+  update_users(where: {}, _set: { photoUrl: $photoUrl }) {
     affected_rows
   }
 }
