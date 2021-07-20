@@ -24,6 +24,7 @@ export const Modaler: React.FC<ModalerProps> = ({
       isCentered
       onClose={onClose}
       isOpen={isOpen}
+      scrollBehavior="inside"
       motionPreset="slideInBottom"
       size={size}
     >

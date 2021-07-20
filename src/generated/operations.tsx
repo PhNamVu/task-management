@@ -105,6 +105,19 @@ export type UpdateTaskMutation = { __typename?: 'mutation_root' } & {
   >
 }
 
+export type TaskCommentQueryVariables = Types.Exact<{
+  id: Types.Scalars['String']
+}>
+
+export type TaskCommentQuery = { __typename?: 'query_root' } & {
+  tasks: Array<
+    { __typename?: 'tasks' } & Pick<
+      Types.Tasks,
+      'createdAt' | 'startDate' | 'dueDate'
+    >
+  >
+}
+
 export type AssignTaskMutationVariables = Types.Exact<{
   object: Types.User_Task_Insert_Input
 }>

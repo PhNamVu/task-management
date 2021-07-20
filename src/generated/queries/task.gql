@@ -47,3 +47,11 @@ mutation updateTask($id: String, $object: tasks_set_input!) {
     }
   }
 }
+
+query taskComment($id: String!) {
+  tasks(where: { id: { _eq: $id } }) {
+    createdAt
+    startDate
+    dueDate
+  }
+}

@@ -10,6 +10,7 @@ import {
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  Box,
 } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import { parseInt } from 'lodash'
@@ -44,8 +45,14 @@ export const TaskDetail = () => {
   }
 
   return (
-    <Flex flexDirection="column">
-      <Flex>
+    <Flex
+      flexDirection="column"
+      borderRight="1px solid #B5AEAE"
+      // h="100%"
+      // w="100%"
+      // pr={5}
+    >
+      <Flex borderBottom="1px solid #B5AEAE" pb={5}>
         <Menu>
           <MenuTaskButton code={code} />
           <MenuList minWidth="100px">
@@ -87,6 +94,7 @@ export const TaskDetail = () => {
       <Editable
         defaultValue={task?.title}
         my={5}
+        mr={5}
         fontSize="2xl"
         placeholder="Input title"
         onSubmit={(e: string) => {
@@ -104,36 +112,38 @@ export const TaskDetail = () => {
         <EditableInput />
       </Editable>
 
-      <Formik
-        initialValues={{
-          description: task?.description ? task.description : '',
-        }}
-        onSubmit={() => {
-          console.log('submit')
-        }}
-      >
-        {() => (
-          <Form>
-            <FormControl mb="0.5em">
-              <StyledTextArea
-                placeholder="Enter your description"
-                name="description"
-                onBlur={(e: any) => {
-                  updateTask({
-                    variables: {
-                      id,
-                      object: {
-                        description: e.target.value,
+      <Box mr={5}>
+        <Formik
+          initialValues={{
+            description: task?.description ? task.description : '',
+          }}
+          onSubmit={() => {
+            console.log('submit')
+          }}
+        >
+          {() => (
+            <Form>
+              <FormControl mb="0.5em">
+                <StyledTextArea
+                  placeholder="Enter your description"
+                  name="description"
+                  onBlur={(e: any) => {
+                    updateTask({
+                      variables: {
+                        id,
+                        object: {
+                          description: e.target.value,
+                        },
                       },
-                    },
-                  })
-                }}
-                height="20rem"
-              />
-            </FormControl>
-          </Form>
-        )}
-      </Formik>
+                    })
+                  }}
+                  height="20rem"
+                />
+              </FormControl>
+            </Form>
+          )}
+        </Formik>
+      </Box>
     </Flex>
   )
 }

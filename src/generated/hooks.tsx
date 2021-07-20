@@ -409,6 +409,64 @@ export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateTaskMutation,
   Types.UpdateTaskMutationVariables
 >
+export const TaskCommentDocument = gql`
+  query taskComment($id: String!) {
+    tasks(where: { id: { _eq: $id } }) {
+      createdAt
+      startDate
+      dueDate
+    }
+  }
+`
+
+/**
+ * __useTaskCommentQuery__
+ *
+ * To run a query within a React component, call `useTaskCommentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTaskCommentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTaskCommentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTaskCommentQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.TaskCommentQuery,
+    Types.TaskCommentQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.TaskCommentQuery,
+    Types.TaskCommentQueryVariables
+  >(TaskCommentDocument, options)
+}
+export function useTaskCommentLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.TaskCommentQuery,
+    Types.TaskCommentQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.TaskCommentQuery,
+    Types.TaskCommentQueryVariables
+  >(TaskCommentDocument, options)
+}
+export type TaskCommentQueryHookResult = ReturnType<typeof useTaskCommentQuery>
+export type TaskCommentLazyQueryHookResult = ReturnType<
+  typeof useTaskCommentLazyQuery
+>
+export type TaskCommentQueryResult = Apollo.QueryResult<
+  Types.TaskCommentQuery,
+  Types.TaskCommentQueryVariables
+>
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {
     insert_user_task(objects: [$object]) {
