@@ -224,10 +224,8 @@ export type PostTaskMutationOptions = Apollo.BaseMutationOptions<
   Types.PostTaskMutationVariables
 >
 export const GetTasksDocument = gql`
-  query getTasks($boardId: String) {
-    todo: tasks(
-      where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 1 } } }
-    ) {
+  query getTasks($boardId: String, $where: tasks_bool_exp) {
+    tasks(where: $where) {
       assignee {
         user {
           displayName
@@ -237,32 +235,7 @@ export const GetTasksDocument = gql`
       title
       dueDate
       id
-    }
-    inProgress: tasks(
-      where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 2 } } }
-    ) {
-      assignee {
-        user {
-          displayName
-          photoUrl
-        }
-      }
-      title
-      dueDate
-      id
-    }
-    done: tasks(
-      where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 3 } } }
-    ) {
-      assignee {
-        user {
-          displayName
-          photoUrl
-        }
-      }
-      title
-      dueDate
-      id
+      code
     }
   }
 `
@@ -280,6 +253,7 @@ export const GetTasksDocument = gql`
  * const { data, loading, error } = useGetTasksQuery({
  *   variables: {
  *      boardId: // value for 'boardId'
+ *      where: // value for 'where'
  *   },
  * });
  */

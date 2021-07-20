@@ -7,10 +7,8 @@ mutation postTask($object: tasks_insert_input!) {
   }
 }
 
-query getTasks($boardId: String) {
-  todo: tasks(
-    where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 1 } } }
-  ) {
+query getTasks($boardId: String, $where: tasks_bool_exp) {
+  tasks(where: $where) {
     assignee {
       user {
         displayName
@@ -20,32 +18,7 @@ query getTasks($boardId: String) {
     title
     dueDate
     id
-  }
-  inProgress: tasks(
-    where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 2 } } }
-  ) {
-    assignee {
-      user {
-        displayName
-        photoUrl
-      }
-    }
-    title
-    dueDate
-    id
-  }
-  done: tasks(
-    where: { _and: { boardId: { _eq: $boardId }, code: { _eq: 3 } } }
-  ) {
-    assignee {
-      user {
-        displayName
-        photoUrl
-      }
-    }
-    title
-    dueDate
-    id
+    code
   }
 }
 

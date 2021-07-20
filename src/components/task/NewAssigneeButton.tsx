@@ -145,7 +145,7 @@ export const NewAssigneeButton = ({ assignees }: any) => {
           {members?.map((item: any) => {
             return (
               <MenuItemOption
-                id={item.user.id}
+                key={item.user.id}
                 value={item.user.id}
                 isDisabled={loadingRemove || loadingAssign}
               >

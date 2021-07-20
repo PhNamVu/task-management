@@ -48,35 +48,15 @@ export type PostTaskMutation = { __typename?: 'mutation_root' } & {
 
 export type GetTasksQueryVariables = Types.Exact<{
   boardId?: Types.Maybe<Types.Scalars['String']>
+  where?: Types.Maybe<Types.Tasks_Bool_Exp>
 }>
 
 export type GetTasksQuery = { __typename?: 'query_root' } & {
-  todo: Array<
-    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'dueDate' | 'id'> & {
-        assignee: Array<
-          { __typename?: 'user_task' } & {
-            user: { __typename?: 'users' } & Pick<
-              Types.Users,
-              'displayName' | 'photoUrl'
-            >
-          }
-        >
-      }
-  >
-  inProgress: Array<
-    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'dueDate' | 'id'> & {
-        assignee: Array<
-          { __typename?: 'user_task' } & {
-            user: { __typename?: 'users' } & Pick<
-              Types.Users,
-              'displayName' | 'photoUrl'
-            >
-          }
-        >
-      }
-  >
-  done: Array<
-    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'dueDate' | 'id'> & {
+  tasks: Array<
+    { __typename?: 'tasks' } & Pick<
+      Types.Tasks,
+      'title' | 'dueDate' | 'id' | 'code'
+    > & {
         assignee: Array<
           { __typename?: 'user_task' } & {
             user: { __typename?: 'users' } & Pick<
