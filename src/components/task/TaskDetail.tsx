@@ -1,12 +1,17 @@
 import {
   Avatar,
   AvatarGroup,
+  Editable,
+  EditableInput,
+  EditablePreview,
   Flex,
+  FormControl,
   Menu,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
 } from '@chakra-ui/react'
+import { Form, Formik } from 'formik'
 import { parseInt } from 'lodash'
 import React from 'react'
 import { useParams } from 'react-router-dom'
@@ -17,6 +22,7 @@ import {
 } from '../../generated/hooks'
 import { NotFoundError } from '../../helpers/notFoundError'
 import { ProgressLoading } from '../shared/Loading'
+import { StyledTextArea } from '../shared/StyledTextArea'
 import { MenuTaskButton } from './MenuTaskButton'
 import { NewAssigneeButton } from './NewAssigneeButton'
 
@@ -30,15 +36,15 @@ export const TaskDetail = () => {
 
   const task = data?.tasks[0]
   const code = task?.code.toString()
+  const assignee = data && data.tasks[0].assignee
 
   if (loading) return <ProgressLoading />
   if (error || data?.tasks.length === 0) {
     throw new NotFoundError('Not found task')
   }
-  const assignee = data && data.tasks[0].assignee
 
   return (
-    <Flex>
+    <Flex flexDirection="column">
       <Flex>
         <Menu>
           <MenuTaskButton code={code} />
@@ -77,6 +83,57 @@ export const TaskDetail = () => {
         </AvatarGroup>
         <NewAssigneeButton assignees={assignee?.map((item) => item.user.id)} />
       </Flex>
+
+      <Editable
+        defaultValue={task?.title}
+        my={5}
+        fontSize="2xl"
+        placeholder="Input title"
+        onSubmit={(e: string) => {
+          updateTask({
+            variables: {
+              id,
+              object: {
+                title: e,
+              },
+            },
+          })
+        }}
+      >
+        <EditablePreview />
+        <EditableInput />
+      </Editable>
+
+      <Formik
+        initialValues={{
+          description: task?.description ? task.description : '',
+        }}
+        onSubmit={() => {
+          console.log('submit')
+        }}
+      >
+        {() => (
+          <Form>
+            <FormControl mb="0.5em">
+              <StyledTextArea
+                placeholder="Enter your description"
+                name="description"
+                onBlur={(e: any) => {
+                  updateTask({
+                    variables: {
+                      id,
+                      object: {
+                        description: e.target.value,
+                      },
+                    },
+                  })
+                }}
+                height="20rem"
+              />
+            </FormControl>
+          </Form>
+        )}
+      </Formik>
     </Flex>
   )
 }

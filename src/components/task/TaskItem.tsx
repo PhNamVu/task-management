@@ -21,7 +21,7 @@ export const TaskItem: React.FC<Props> = ({ item }) => {
         bg={bg}
         _hover={{ cursor: 'pointer', boxShadow: 'revert' }}
         animate={{ scale: [0, 1] }}
-        transition={{ duration: 0.3, ease: 'linear' }}
+        transition={{ duration: 0.25, ease: 'linear' }}
       >
         <Text>{shortString(item?.title, 40)}</Text>
       </MotionBox>
