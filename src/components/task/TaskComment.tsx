@@ -6,6 +6,8 @@ import { useTaskCommentQuery } from '../../generated/hooks'
 import { NotFoundError } from '../../helpers/notFoundError'
 import { ProgressLoading } from '../shared/Loading'
 import { DateDisplay } from './DateDisplay'
+import { DueDate } from './DueDate'
+import { StartDate } from './StartDate'
 
 export const TaskComment = () => {
   const { taskId: id } = useParams()
@@ -33,8 +35,17 @@ export const TaskComment = () => {
           title="Create at"
           date={new Date(task?.createdAt)}
         />
-        <DateDisplay title="Start date" date={new Date(task?.startDate)} />
-        <DateDisplay title="Due date" date={new Date(task?.dueDate)} />
+        <StartDate
+          title="Start date"
+          date={new Date(task?.startDate)}
+          max={new Date(task?.dueDate)}
+        />
+
+        <DueDate
+          title="Due date"
+          date={new Date(task?.dueDate)}
+          min={new Date(task?.startDate)}
+        />
       </Flex>
       <p>hasuhu</p>
     </Flex>
