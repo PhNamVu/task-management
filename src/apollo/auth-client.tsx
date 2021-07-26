@@ -8,7 +8,6 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import environment from '../config'
 
 const createAuthApolloClient = (user: any) => {
-  console.log('env ne', environment)
   const authLink = setContext(async (_, { headers }) => {
     const token: string = await user.getIdToken()
     return {

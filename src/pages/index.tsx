@@ -11,7 +11,7 @@ export const LandingPage: React.FC<{ isUserLoggedin: boolean }> = ({
   }
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <ContentLanding />
     </>
   )
