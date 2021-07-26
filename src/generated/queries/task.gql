@@ -1,0 +1,57 @@
+mutation postTask($object: tasks_insert_input!) {
+  insert_tasks(objects: [$object]) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+query getTasks($boardId: String, $where: tasks_bool_exp) {
+  tasks(where: $where) {
+    assignee {
+      user {
+        displayName
+        photoUrl
+      }
+    }
+    title
+    dueDate
+    id
+    code
+  }
+}
+
+query taskDetail($id: String!) {
+  tasks(where: { id: { _eq: $id } }) {
+    id
+    title
+    description
+    code
+    assignee {
+      user {
+        id
+        email
+        displayName
+        photoUrl
+      }
+    }
+  }
+}
+
+mutation updateTask($id: String, $object: tasks_set_input!) {
+  update_tasks(where: { id: { _eq: $id } }, _set: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+query taskComment($id: String!) {
+  tasks(where: { id: { _eq: $id } }) {
+    createdAt
+    startDate
+    dueDate
+  }
+}

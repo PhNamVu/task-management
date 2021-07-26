@@ -1,0 +1,42 @@
+mutation postWorkspace($object: workspaces_insert_input!) {
+  insert_workspaces(objects: [$object]) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+query getWorkspaceDetail($id: String) {
+  detail: workspaces(where: { id: { _eq: $id } }) {
+    title
+    ownerId
+    description
+  }
+  members: user_workspace(where: { workspaceId: { _eq: $id } }) {
+    user {
+      id
+      displayName
+      photoUrl
+    }
+  }
+}
+
+mutation updateWorkspace($id: String, $object: workspaces_set_input!) {
+  update_workspaces(where: { id: { _eq: $id } }, _set: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+mutation deleteWorkspace($id: String) {
+  delete_workspaces(where: { id: { _eq: $id } }) {
+    affected_rows
+    returning {
+      id
+      title
+    }
+  }
+}

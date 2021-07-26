@@ -1,0 +1,24 @@
+mutation updateUserAvatar($photoUrl: String) {
+  update_users(where: {}, _set: { photoUrl: $photoUrl }) {
+    affected_rows
+  }
+}
+
+query users($id: String) {
+  users(where: { id: { _eq: $id } }) {
+    id
+    firstName
+    lastName
+    photoUrl
+    email
+  }
+}
+
+mutation updateProfile($id: String, $object: users_set_input!) {
+  update_users(where: { id: { _eq: $id } }, _set: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}

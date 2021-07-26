@@ -1,0 +1,42 @@
+query getWorkspaces($userId: String) {
+  user_workspace(where: { userId: { _eq: $userId } }) {
+    workspace {
+      id
+    }
+  }
+}
+
+mutation postUserWorkspace($object: user_workspace_insert_input!) {
+  insert_user_workspace(objects: [$object]) {
+    affected_rows
+    returning {
+      userId
+      workspace {
+        id
+      }
+    }
+  }
+}
+
+mutation deleteMember($userId: String!, $workspaceId: String!) {
+  delete_user_workspace(
+    where: {
+      _and: { userId: { _eq: $userId }, workspaceId: { _eq: $workspaceId } }
+    }
+  ) {
+    affected_rows
+    returning {
+      userId
+    }
+  }
+}
+
+query members($where: user_workspace_bool_exp) {
+  user_workspace(where: $where) {
+    user {
+      id
+      displayName
+      photoUrl
+    }
+  }
+}
