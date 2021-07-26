@@ -23,6 +23,16 @@ export const AddMember = () => {
     handleFilter(e)
   }
 
+  const CustomStyle = {
+    option: (base: any) => ({
+      ...base,
+      color: 'black',
+      ':hover': {
+        backgroundColor: '#76E4F7',
+      },
+    }),
+  }
+
   const { data, loading } = useQuery(
     gql`
       query search_user($search: String) {
@@ -42,11 +52,13 @@ export const AddMember = () => {
   const [postUserWorkspace] = usePostUserWorkspaceMutation()
 
   const options =
-    data?.search_users.map((item: any) => ({
-      id: item.id,
-      value: item.id,
-      label: `${item.email}, ${item.displayName}`,
-    })) || []
+    (search &&
+      data?.search_users.map((item: any) => ({
+        id: item.id,
+        value: item.id,
+        label: `${item.email}, ${item.displayName}`,
+      }))) ||
+    []
 
   return (
     <Formik
@@ -102,6 +114,7 @@ export const AddMember = () => {
                 }}
                 value={formik.values.user}
                 options={options}
+                styles={CustomStyle}
               />
             </FormControl>
             <IconButton
