@@ -1,0 +1,8 @@
+mutation addTaskComment($object: task_comment_insert_input!) {
+  insert_task_comment(objects: [$object]) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}

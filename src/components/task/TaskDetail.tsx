@@ -47,12 +47,12 @@ export const TaskDetail = () => {
   return (
     <Flex
       flexDirection="column"
-      borderRight="1px solid #B5AEAE"
+      borderRight="1px solid rgb(226, 226, 226)"
       // h="100%"
       // w="100%"
       // pr={5}
     >
-      <Flex borderBottom="1px solid #B5AEAE" pb={5}>
+      <Flex borderBottom="1px solid rgb(226, 226, 226)" pb={5}>
         <Menu>
           <MenuTaskButton code={code} />
           <MenuList minWidth="100px">

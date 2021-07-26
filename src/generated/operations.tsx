@@ -33,6 +33,23 @@ export type GetBoardDetailQuery = { __typename?: 'query_root' } & {
   >
 }
 
+export type AddTaskCommentMutationVariables = Types.Exact<{
+  object: Types.Task_Comment_Insert_Input
+}>
+
+export type AddTaskCommentMutation = { __typename?: 'mutation_root' } & {
+  insert_task_comment?: Types.Maybe<
+    { __typename?: 'task_comment_mutation_response' } & Pick<
+      Types.Task_Comment_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'task_comment' } & Pick<Types.Task_Comment, 'id'>
+        >
+      }
+  >
+}
+
 export type PostTaskMutationVariables = Types.Exact<{
   object: Types.Tasks_Insert_Input
 }>

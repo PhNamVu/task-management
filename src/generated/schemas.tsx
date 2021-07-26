@@ -13,7 +13,9 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
+  jsonb: any
   timestamptz: any
+  uuid: any
 }
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -290,6 +292,29 @@ export enum Boards_Update_Column {
   WorkspaceId = 'workspaceId',
 }
 
+/** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+export type Jsonb_Comparison_Exp = {
+  /** is the column contained in the given json value */
+  _contained_in?: Maybe<Scalars['jsonb']>
+  /** does the column contain the given json value at the top level */
+  _contains?: Maybe<Scalars['jsonb']>
+  _eq?: Maybe<Scalars['jsonb']>
+  _gt?: Maybe<Scalars['jsonb']>
+  _gte?: Maybe<Scalars['jsonb']>
+  /** does the string exist as a top-level key in the column */
+  _has_key?: Maybe<Scalars['String']>
+  /** do all of these strings exist as top-level keys in the column */
+  _has_keys_all?: Maybe<Array<Scalars['String']>>
+  /** do any of these strings exist as top-level keys in the column */
+  _has_keys_any?: Maybe<Array<Scalars['String']>>
+  _in?: Maybe<Array<Scalars['jsonb']>>
+  _is_null?: Maybe<Scalars['Boolean']>
+  _lt?: Maybe<Scalars['jsonb']>
+  _lte?: Maybe<Scalars['jsonb']>
+  _neq?: Maybe<Scalars['jsonb']>
+  _nin?: Maybe<Array<Scalars['jsonb']>>
+}
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root'
@@ -297,6 +322,10 @@ export type Mutation_Root = {
   delete_boards?: Maybe<Boards_Mutation_Response>
   /** delete single row from the table: "boards" */
   delete_boards_by_pk?: Maybe<Boards>
+  /** delete data from the table: "task_comment" */
+  delete_task_comment?: Maybe<Task_Comment_Mutation_Response>
+  /** delete single row from the table: "task_comment" */
+  delete_task_comment_by_pk?: Maybe<Task_Comment>
   /** delete data from the table: "tasks" */
   delete_tasks?: Maybe<Tasks_Mutation_Response>
   /** delete single row from the table: "tasks" */
@@ -321,6 +350,10 @@ export type Mutation_Root = {
   insert_boards?: Maybe<Boards_Mutation_Response>
   /** insert a single row into the table: "boards" */
   insert_boards_one?: Maybe<Boards>
+  /** insert data into the table: "task_comment" */
+  insert_task_comment?: Maybe<Task_Comment_Mutation_Response>
+  /** insert a single row into the table: "task_comment" */
+  insert_task_comment_one?: Maybe<Task_Comment>
   /** insert data into the table: "tasks" */
   insert_tasks?: Maybe<Tasks_Mutation_Response>
   /** insert a single row into the table: "tasks" */
@@ -345,6 +378,10 @@ export type Mutation_Root = {
   update_boards?: Maybe<Boards_Mutation_Response>
   /** update single row of the table: "boards" */
   update_boards_by_pk?: Maybe<Boards>
+  /** update data of the table: "task_comment" */
+  update_task_comment?: Maybe<Task_Comment_Mutation_Response>
+  /** update single row of the table: "task_comment" */
+  update_task_comment_by_pk?: Maybe<Task_Comment>
   /** update data of the table: "tasks" */
   update_tasks?: Maybe<Tasks_Mutation_Response>
   /** update single row of the table: "tasks" */
@@ -376,6 +413,16 @@ export type Mutation_RootDelete_BoardsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Boards_By_PkArgs = {
   id: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Task_CommentArgs = {
+  where: Task_Comment_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Task_Comment_By_PkArgs = {
+  id: Scalars['uuid']
 }
 
 /** mutation root */
@@ -440,6 +487,18 @@ export type Mutation_RootInsert_BoardsArgs = {
 export type Mutation_RootInsert_Boards_OneArgs = {
   object: Boards_Insert_Input
   on_conflict?: Maybe<Boards_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Task_CommentArgs = {
+  objects: Array<Task_Comment_Insert_Input>
+  on_conflict?: Maybe<Task_Comment_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Task_Comment_OneArgs = {
+  object: Task_Comment_Insert_Input
+  on_conflict?: Maybe<Task_Comment_On_Conflict>
 }
 
 /** mutation root */
@@ -512,6 +571,28 @@ export type Mutation_RootUpdate_BoardsArgs = {
 export type Mutation_RootUpdate_Boards_By_PkArgs = {
   _set?: Maybe<Boards_Set_Input>
   pk_columns: Boards_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Task_CommentArgs = {
+  _append?: Maybe<Task_Comment_Append_Input>
+  _delete_at_path?: Maybe<Task_Comment_Delete_At_Path_Input>
+  _delete_elem?: Maybe<Task_Comment_Delete_Elem_Input>
+  _delete_key?: Maybe<Task_Comment_Delete_Key_Input>
+  _prepend?: Maybe<Task_Comment_Prepend_Input>
+  _set?: Maybe<Task_Comment_Set_Input>
+  where: Task_Comment_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Task_Comment_By_PkArgs = {
+  _append?: Maybe<Task_Comment_Append_Input>
+  _delete_at_path?: Maybe<Task_Comment_Delete_At_Path_Input>
+  _delete_elem?: Maybe<Task_Comment_Delete_Elem_Input>
+  _delete_key?: Maybe<Task_Comment_Delete_Key_Input>
+  _prepend?: Maybe<Task_Comment_Prepend_Input>
+  _set?: Maybe<Task_Comment_Set_Input>
+  pk_columns: Task_Comment_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -609,6 +690,12 @@ export type Query_Root = {
   search_users: Array<Users>
   /** execute function "search_users" and query aggregates on result of table type "users" */
   search_users_aggregate: Users_Aggregate
+  /** fetch data from the table: "task_comment" */
+  task_comment: Array<Task_Comment>
+  /** fetch aggregated fields from the table: "task_comment" */
+  task_comment_aggregate: Task_Comment_Aggregate
+  /** fetch data from the table: "task_comment" using primary key columns */
+  task_comment_by_pk?: Maybe<Task_Comment>
   /** An array relationship */
   tasks: Array<Tasks>
   /** An aggregate relationship */
@@ -677,6 +764,26 @@ export type Query_RootSearch_Users_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>
   order_by?: Maybe<Array<Users_Order_By>>
   where?: Maybe<Users_Bool_Exp>
+}
+
+export type Query_RootTask_CommentArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+export type Query_RootTask_Comment_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+export type Query_RootTask_Comment_By_PkArgs = {
+  id: Scalars['uuid']
 }
 
 export type Query_RootTasksArgs = {
@@ -797,6 +904,12 @@ export type Subscription_Root = {
   search_users: Array<Users>
   /** execute function "search_users" and query aggregates on result of table type "users" */
   search_users_aggregate: Users_Aggregate
+  /** fetch data from the table: "task_comment" */
+  task_comment: Array<Task_Comment>
+  /** fetch aggregated fields from the table: "task_comment" */
+  task_comment_aggregate: Task_Comment_Aggregate
+  /** fetch data from the table: "task_comment" using primary key columns */
+  task_comment_by_pk?: Maybe<Task_Comment>
   /** An array relationship */
   tasks: Array<Tasks>
   /** An aggregate relationship */
@@ -865,6 +978,26 @@ export type Subscription_RootSearch_Users_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>
   order_by?: Maybe<Array<Users_Order_By>>
   where?: Maybe<Users_Bool_Exp>
+}
+
+export type Subscription_RootTask_CommentArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+export type Subscription_RootTask_Comment_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+export type Subscription_RootTask_Comment_By_PkArgs = {
+  id: Scalars['uuid']
 }
 
 export type Subscription_RootTasksArgs = {
@@ -967,6 +1100,211 @@ export type Subscription_RootWorkspaces_AggregateArgs = {
 
 export type Subscription_RootWorkspaces_By_PkArgs = {
   id: Scalars['String']
+}
+
+/** columns and relationships of "task_comment" */
+export type Task_Comment = {
+  __typename?: 'task_comment'
+  attachments?: Maybe<Scalars['jsonb']>
+  createdAt: Scalars['timestamptz']
+  id: Scalars['uuid']
+  ownerId: Scalars['String']
+  /** An object relationship */
+  task: Tasks
+  taskId: Scalars['String']
+  text?: Maybe<Scalars['String']>
+  updatedAt: Scalars['timestamptz']
+  /** An object relationship */
+  user: Users
+}
+
+/** columns and relationships of "task_comment" */
+export type Task_CommentAttachmentsArgs = {
+  path?: Maybe<Scalars['String']>
+}
+
+/** aggregated selection of "task_comment" */
+export type Task_Comment_Aggregate = {
+  __typename?: 'task_comment_aggregate'
+  aggregate?: Maybe<Task_Comment_Aggregate_Fields>
+  nodes: Array<Task_Comment>
+}
+
+/** aggregate fields of "task_comment" */
+export type Task_Comment_Aggregate_Fields = {
+  __typename?: 'task_comment_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<Task_Comment_Max_Fields>
+  min?: Maybe<Task_Comment_Min_Fields>
+}
+
+/** aggregate fields of "task_comment" */
+export type Task_Comment_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Task_Comment_Select_Column>>
+  distinct?: Maybe<Scalars['Boolean']>
+}
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Task_Comment_Append_Input = {
+  attachments?: Maybe<Scalars['jsonb']>
+}
+
+/** Boolean expression to filter rows from the table "task_comment". All fields are combined with a logical 'AND'. */
+export type Task_Comment_Bool_Exp = {
+  _and?: Maybe<Array<Task_Comment_Bool_Exp>>
+  _not?: Maybe<Task_Comment_Bool_Exp>
+  _or?: Maybe<Array<Task_Comment_Bool_Exp>>
+  attachments?: Maybe<Jsonb_Comparison_Exp>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  id?: Maybe<Uuid_Comparison_Exp>
+  ownerId?: Maybe<String_Comparison_Exp>
+  task?: Maybe<Tasks_Bool_Exp>
+  taskId?: Maybe<String_Comparison_Exp>
+  text?: Maybe<String_Comparison_Exp>
+  updatedAt?: Maybe<Timestamptz_Comparison_Exp>
+  user?: Maybe<Users_Bool_Exp>
+}
+
+/** unique or primary key constraints on table "task_comment" */
+export enum Task_Comment_Constraint {
+  /** unique or primary key constraint */
+  TaskCommentPkey = 'task_comment_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Task_Comment_Delete_At_Path_Input = {
+  attachments?: Maybe<Array<Scalars['String']>>
+}
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Task_Comment_Delete_Elem_Input = {
+  attachments?: Maybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Task_Comment_Delete_Key_Input = {
+  attachments?: Maybe<Scalars['String']>
+}
+
+/** input type for inserting data into table "task_comment" */
+export type Task_Comment_Insert_Input = {
+  attachments?: Maybe<Scalars['jsonb']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['uuid']>
+  ownerId?: Maybe<Scalars['String']>
+  task?: Maybe<Tasks_Obj_Rel_Insert_Input>
+  taskId?: Maybe<Scalars['String']>
+  text?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+  user?: Maybe<Users_Obj_Rel_Insert_Input>
+}
+
+/** aggregate max on columns */
+export type Task_Comment_Max_Fields = {
+  __typename?: 'task_comment_max_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['uuid']>
+  ownerId?: Maybe<Scalars['String']>
+  taskId?: Maybe<Scalars['String']>
+  text?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate min on columns */
+export type Task_Comment_Min_Fields = {
+  __typename?: 'task_comment_min_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['uuid']>
+  ownerId?: Maybe<Scalars['String']>
+  taskId?: Maybe<Scalars['String']>
+  text?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** response of any mutation on the table "task_comment" */
+export type Task_Comment_Mutation_Response = {
+  __typename?: 'task_comment_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Task_Comment>
+}
+
+/** on conflict condition type for table "task_comment" */
+export type Task_Comment_On_Conflict = {
+  constraint: Task_Comment_Constraint
+  update_columns?: Array<Task_Comment_Update_Column>
+  where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "task_comment". */
+export type Task_Comment_Order_By = {
+  attachments?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  ownerId?: Maybe<Order_By>
+  task?: Maybe<Tasks_Order_By>
+  taskId?: Maybe<Order_By>
+  text?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+  user?: Maybe<Users_Order_By>
+}
+
+/** primary key columns input for table: task_comment */
+export type Task_Comment_Pk_Columns_Input = {
+  id: Scalars['uuid']
+}
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Task_Comment_Prepend_Input = {
+  attachments?: Maybe<Scalars['jsonb']>
+}
+
+/** select columns of table "task_comment" */
+export enum Task_Comment_Select_Column {
+  /** column name */
+  Attachments = 'attachments',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OwnerId = 'ownerId',
+  /** column name */
+  TaskId = 'taskId',
+  /** column name */
+  Text = 'text',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "task_comment" */
+export type Task_Comment_Set_Input = {
+  attachments?: Maybe<Scalars['jsonb']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['uuid']>
+  ownerId?: Maybe<Scalars['String']>
+  taskId?: Maybe<Scalars['String']>
+  text?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** update columns of table "task_comment" */
+export enum Task_Comment_Update_Column {
+  /** column name */
+  Attachments = 'attachments',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OwnerId = 'ownerId',
+  /** column name */
+  TaskId = 'taskId',
+  /** column name */
+  Text = 'text',
+  /** column name */
+  UpdatedAt = 'updatedAt',
 }
 
 /** columns and relationships of "tasks" */
@@ -1839,6 +2177,7 @@ export type Users_Bool_Exp = {
   _or?: Maybe<Array<Users_Bool_Exp>>
   created_at?: Maybe<Timestamptz_Comparison_Exp>
   dialCode?: Maybe<String_Comparison_Exp>
+  displayName?: Maybe<String_Comparison_Exp>
   email?: Maybe<String_Comparison_Exp>
   firstName?: Maybe<String_Comparison_Exp>
   id?: Maybe<String_Comparison_Exp>
@@ -2015,6 +2354,19 @@ export enum Users_Update_Column {
   Role = 'role',
   /** column name */
   Status = 'status',
+}
+
+/** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
+export type Uuid_Comparison_Exp = {
+  _eq?: Maybe<Scalars['uuid']>
+  _gt?: Maybe<Scalars['uuid']>
+  _gte?: Maybe<Scalars['uuid']>
+  _in?: Maybe<Array<Scalars['uuid']>>
+  _is_null?: Maybe<Scalars['Boolean']>
+  _lt?: Maybe<Scalars['uuid']>
+  _lte?: Maybe<Scalars['uuid']>
+  _neq?: Maybe<Scalars['uuid']>
+  _nin?: Maybe<Array<Scalars['uuid']>>
 }
 
 /** columns and relationships of "workspaces" */

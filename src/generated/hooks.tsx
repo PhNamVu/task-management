@@ -173,6 +173,58 @@ export type GetBoardDetailQueryResult = Apollo.QueryResult<
   Types.GetBoardDetailQuery,
   Types.GetBoardDetailQueryVariables
 >
+export const AddTaskCommentDocument = gql`
+  mutation addTaskComment($object: task_comment_insert_input!) {
+    insert_task_comment(objects: [$object]) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type AddTaskCommentMutationFn = Apollo.MutationFunction<
+  Types.AddTaskCommentMutation,
+  Types.AddTaskCommentMutationVariables
+>
+
+/**
+ * __useAddTaskCommentMutation__
+ *
+ * To run a mutation, you first call `useAddTaskCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTaskCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTaskCommentMutation, { data, loading, error }] = useAddTaskCommentMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useAddTaskCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.AddTaskCommentMutation,
+    Types.AddTaskCommentMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.AddTaskCommentMutation,
+    Types.AddTaskCommentMutationVariables
+  >(AddTaskCommentDocument, options)
+}
+export type AddTaskCommentMutationHookResult = ReturnType<
+  typeof useAddTaskCommentMutation
+>
+export type AddTaskCommentMutationResult = Apollo.MutationResult<Types.AddTaskCommentMutation>
+export type AddTaskCommentMutationOptions = Apollo.BaseMutationOptions<
+  Types.AddTaskCommentMutation,
+  Types.AddTaskCommentMutationVariables
+>
 export const PostTaskDocument = gql`
   mutation postTask($object: tasks_insert_input!) {
     insert_tasks(objects: [$object]) {
