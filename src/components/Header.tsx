@@ -8,7 +8,6 @@ export const Header = () => {
   return (
     <chakra.header
       w="100%"
-      webkitPositon="sticky"
       position="sticky"
       top="0px"
       left="0px"
@@ -23,7 +22,6 @@ export const Header = () => {
       >
         <Flex
           alignItems="center"
-          webkitBoxPack="justify"
           justifyContent="space-between"
           w="100%"
           h="100%"
@@ -38,12 +36,7 @@ export const Header = () => {
               </Flex>
             </NavLink>
           </Box>
-          <Flex
-            w="100%"
-            webkitBoxPack="end"
-            alignItems="center"
-            justifyContent="flex-end"
-          >
+          <Flex w="100%" alignItems="center" justifyContent="flex-end">
             <ColorModeSwitcher variant="steal" />
             <NavLink to="/auth/login">
               <PrimaryBtn
