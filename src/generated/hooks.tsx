@@ -173,6 +173,59 @@ export type GetBoardDetailQueryResult = Apollo.QueryResult<
   Types.GetBoardDetailQuery,
   Types.GetBoardDetailQueryVariables
 >
+export const UpdateBoardDocument = gql`
+  mutation updateBoard($id: String, $object: boards_set_input!) {
+    update_boards(where: { id: { _eq: $id } }, _set: $object) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type UpdateBoardMutationFn = Apollo.MutationFunction<
+  Types.UpdateBoardMutation,
+  Types.UpdateBoardMutationVariables
+>
+
+/**
+ * __useUpdateBoardMutation__
+ *
+ * To run a mutation, you first call `useUpdateBoardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBoardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBoardMutation, { data, loading, error }] = useUpdateBoardMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useUpdateBoardMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.UpdateBoardMutation,
+    Types.UpdateBoardMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.UpdateBoardMutation,
+    Types.UpdateBoardMutationVariables
+  >(UpdateBoardDocument, options)
+}
+export type UpdateBoardMutationHookResult = ReturnType<
+  typeof useUpdateBoardMutation
+>
+export type UpdateBoardMutationResult = Apollo.MutationResult<Types.UpdateBoardMutation>
+export type UpdateBoardMutationOptions = Apollo.BaseMutationOptions<
+  Types.UpdateBoardMutation,
+  Types.UpdateBoardMutationVariables
+>
 export const AddTaskCommentDocument = gql`
   mutation addTaskComment($object: task_comment_insert_input!) {
     insert_task_comment(objects: [$object]) {

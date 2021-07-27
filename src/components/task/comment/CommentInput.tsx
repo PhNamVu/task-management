@@ -176,7 +176,7 @@ export const CommentInput: React.FC<Props> = ({
     </ul>
   ))
   return (
-    <Flex bottom="0" pl={5} position="sticky" zIndex="9999" bg="white">
+    <Flex bottom="0" pl={5} position="sticky" bg="white">
       <Box h="100%" w="100%">
         <Flex h="100%">
           <Textarea

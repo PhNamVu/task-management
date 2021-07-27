@@ -33,6 +33,22 @@ export type GetBoardDetailQuery = { __typename?: 'query_root' } & {
   >
 }
 
+export type UpdateBoardMutationVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  object: Types.Boards_Set_Input
+}>
+
+export type UpdateBoardMutation = { __typename?: 'mutation_root' } & {
+  update_boards?: Types.Maybe<
+    { __typename?: 'boards_mutation_response' } & Pick<
+      Types.Boards_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<{ __typename?: 'boards' } & Pick<Types.Boards, 'id'>>
+      }
+  >
+}
+
 export type AddTaskCommentMutationVariables = Types.Exact<{
   object: Types.Task_Comment_Insert_Input
 }>

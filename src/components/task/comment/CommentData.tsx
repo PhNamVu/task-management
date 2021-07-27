@@ -21,14 +21,7 @@ export const CommentData: React.FC<{
 }) => {
   const count = data.comments_aggregate?.aggregate.count
   const length = data.comments?.length
-  console.log(
-    'data',
-    count > loadMore && length < count && length !== 0,
-    length,
-    count,
-    loadMore,
-    data
-  )
+
   return (
     <Box h="100%" my={5} ml={5}>
       <Text color="grey" fontSize="sm">

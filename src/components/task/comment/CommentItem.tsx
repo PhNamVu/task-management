@@ -9,7 +9,6 @@ export const CommentItem = ({ comment }: any) => {
   const {
     state: { user },
   }: any = useAuth()
-  console.log(comment.user.photoURL)
   return (
     <Flex mb={8}>
       <Box mr={2}>

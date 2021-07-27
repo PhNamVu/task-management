@@ -56,7 +56,7 @@ export const AvatarSetting = () => {
                 await user.updateProfile({
                   photoURL: result[0]?.assetUrl,
                 })
-                const ress = await updateUserAvatar({
+                await updateUserAvatar({
                   variables: {
                     id: user.uid,
                     object: {
@@ -64,7 +64,6 @@ export const AvatarSetting = () => {
                     },
                   },
                 })
-                console.log('res', ress)
                 setUpload(false)
               })
               .catch((error) => {

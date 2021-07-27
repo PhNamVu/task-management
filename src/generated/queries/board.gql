@@ -21,3 +21,12 @@ query getBoardDetail($id: String) {
     status
   }
 }
+
+mutation updateBoard($id: String, $object: boards_set_input!) {
+  update_boards(where: { id: { _eq: $id } }, _set: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}

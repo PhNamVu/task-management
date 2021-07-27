@@ -10,9 +10,12 @@ import {
   Avatar,
   CloseButton,
   Flex,
+  Icon,
+  IconButton,
 } from '@chakra-ui/react'
 import React from 'react'
 import { HiOutlineUsers } from 'react-icons/hi'
+import { IoExitOutline } from 'react-icons/io5'
 import {
   GetWorkspaceDetailDocument,
   useDeleteMemberMutation,
@@ -33,13 +36,15 @@ interface Member {
 interface WorkspaceMemberProps {
   id: string
   members: any
+  ownerId: string
 }
 interface MemberItemProps {
   member: Member
-  id: string // workspace id
+  id: string // workspace id3
+  ownerId: string
 }
 
-const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
+const MemberItem: React.FC<MemberItemProps> = ({ member, id, ownerId }) => {
   const { state }: any = useAuth()
   const myId: any =
     state.customClaims.claims['https://hasura.io/jwt/claims'][
@@ -47,7 +52,8 @@ const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
     ]
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = React.useRef()
-
+  const isOwner = myId === ownerId
+  const isMember = member.user.id === myId
   const [deleteMember] = useDeleteMemberMutation()
   const handleDelete = async (userId: string, workspaceId: string) => {
     try {
@@ -85,7 +91,7 @@ const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
   return (
     <>
       <MenuItem minH="48px">
-        <Flex w="100%" justifyContent="space-between">
+        <Flex w="100%" justifyContent="space-between" alignItems="center">
           <Flex>
             <Avatar
               name={member.user.displayName}
@@ -97,18 +103,35 @@ const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
               {member.user.displayName}
             </Text>
           </Flex>
-          {member.user.id !== myId && (
+          {isOwner && !isMember && (
             <CloseButton size="md" color="red.500" onClick={onOpen} />
+          )}
+          {!isOwner && isMember && (
+            <IconButton
+              icon={<IoExitOutline />}
+              color="red.500"
+              aria-label="Exit"
+              variant="ghost"
+              onClick={onOpen}
+            />
           )}
         </Flex>
       </MenuItem>
       <AlertModal
-        title="Are you sure want to remove this member"
+        title={
+          isOwner && !isMember
+            ? 'Are you sure want to remove this member'
+            : 'Are you sure want to leave this workspace'
+        }
         isOpen={isOpen}
         onClose={onClose}
         submit={() => handleDelete(member.user.id, id)}
         cancelRef={cancelRef}
-        message="This user will not able to access the workspace in the future"
+        message={
+          isOwner && !isMember
+            ? 'This user will not able to access the workspace in the future'
+            : 'You will not be able to access the workspace in the future'
+        }
       />
     </>
   )
@@ -117,6 +140,7 @@ const MemberItem: React.FC<MemberItemProps> = ({ member, id }) => {
 export const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({
   id,
   members,
+  ownerId,
 }) => (
   <Box px={5}>
     <Menu closeOnSelect={false}>
@@ -128,7 +152,14 @@ export const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({
       </MenuButton>
       <MenuList minWidth="240px">
         {members?.map((item: Member) => {
-          return <MemberItem member={item} id={id} key={item.user.id} />
+          return (
+            <MemberItem
+              member={item}
+              id={id}
+              key={item.user.id}
+              ownerId={ownerId}
+            />
+          )
         })}
       </MenuList>
     </Menu>

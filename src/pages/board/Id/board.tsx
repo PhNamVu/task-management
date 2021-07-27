@@ -73,7 +73,6 @@ export const BoardViewPage = () => {
     },
     fetchPolicy: 'network-only',
   })
-
   if (error) return <Error />
   if (loading) return <ProgressLoading />
 
