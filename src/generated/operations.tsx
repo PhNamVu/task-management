@@ -124,6 +124,8 @@ export type UpdateTaskMutation = { __typename?: 'mutation_root' } & {
 
 export type TaskCommentQueryVariables = Types.Exact<{
   id: Types.Scalars['String']
+  limit: Types.Scalars['Int']
+  offset: Types.Scalars['Int']
 }>
 
 export type TaskCommentQuery = { __typename?: 'query_root' } & {
@@ -131,7 +133,30 @@ export type TaskCommentQuery = { __typename?: 'query_root' } & {
     { __typename?: 'tasks' } & Pick<
       Types.Tasks,
       'createdAt' | 'startDate' | 'dueDate'
-    >
+    > & {
+        owner?: Types.Maybe<
+          { __typename?: 'users' } & Pick<Types.Users, 'displayName'>
+        >
+        comments: Array<
+          { __typename?: 'task_comment' } & Pick<
+            Types.Task_Comment,
+            'id' | 'text' | 'attachments' | 'createdAt'
+          > & {
+              user: { __typename?: 'users' } & Pick<
+                Types.Users,
+                'displayName' | 'photoUrl' | 'id'
+              >
+            }
+        >
+        comments_aggregate: { __typename?: 'task_comment_aggregate' } & {
+          aggregate?: Types.Maybe<
+            { __typename?: 'task_comment_aggregate_fields' } & Pick<
+              Types.Task_Comment_Aggregate_Fields,
+              'count'
+            >
+          >
+        }
+      }
   >
 }
 
@@ -250,19 +275,6 @@ export type MembersQuery = { __typename?: 'query_root' } & {
         'id' | 'displayName' | 'photoUrl'
       >
     }
-  >
-}
-
-export type UpdateUserAvatarMutationVariables = Types.Exact<{
-  photoUrl?: Types.Maybe<Types.Scalars['String']>
-}>
-
-export type UpdateUserAvatarMutation = { __typename?: 'mutation_root' } & {
-  update_users?: Types.Maybe<
-    { __typename?: 'users_mutation_response' } & Pick<
-      Types.Users_Mutation_Response,
-      'affected_rows'
-    >
   >
 }
 

@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -8,6 +8,7 @@ import {
 } from '../../generated/hooks'
 import { NotFoundError } from '../../helpers/notFoundError'
 import { ProgressLoading } from '../shared/Loading'
+import { CommentData } from './comment/CommentData'
 import { CommentInput } from './comment/CommentInput'
 import { DateDisplay } from './DateDisplay'
 import { DueDate } from './DueDate'
@@ -15,8 +16,14 @@ import { StartDate } from './StartDate'
 
 export const TaskComment = () => {
   const { taskId: id } = useParams()
+  const [limit, setLimit] = useState(5)
+
   const { data, loading, error } = useTaskCommentQuery({
-    variables: { id },
+    variables: {
+      id,
+      offset: 0,
+      limit,
+    },
     fetchPolicy: 'network-only',
   })
 
@@ -70,6 +77,9 @@ export const TaskComment = () => {
           min={new Date(task?.startDate)}
         />
       </Flex>
+
+      <CommentData data={task} loadMore={5} />
+
       <CommentInput
         maxSizeFile={20}
         acceptedFileExtensions=".pdf,.docx,.doc,.jpg,.bmp,.gif,.jpeg,.xls,.xlsx,.txt,.png,.pptx,.ppt,.mov,.avi,.mp4,.mpg,.mpeg,.wmv,.flv,.f4v"
@@ -79,3 +89,4 @@ export const TaskComment = () => {
     </Flex>
   )
 }
+// .comment_aggregate?.aggregate.count

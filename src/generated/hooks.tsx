@@ -462,11 +462,30 @@ export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateTaskMutationVariables
 >
 export const TaskCommentDocument = gql`
-  query taskComment($id: String!) {
+  query taskComment($id: String!, $limit: Int!, $offset: Int!) {
     tasks(where: { id: { _eq: $id } }) {
       createdAt
       startDate
       dueDate
+      owner {
+        displayName
+      }
+      comments(limit: $limit, order_by: { createdAt: desc }, offset: $offset) {
+        id
+        text
+        attachments
+        user {
+          displayName
+          photoUrl
+          id
+        }
+        createdAt
+      }
+      comments_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `
@@ -484,6 +503,8 @@ export const TaskCommentDocument = gql`
  * const { data, loading, error } = useTaskCommentQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
  *   },
  * });
  */
@@ -861,55 +882,6 @@ export type MembersLazyQueryHookResult = ReturnType<typeof useMembersLazyQuery>
 export type MembersQueryResult = Apollo.QueryResult<
   Types.MembersQuery,
   Types.MembersQueryVariables
->
-export const UpdateUserAvatarDocument = gql`
-  mutation updateUserAvatar($photoUrl: String) {
-    update_users(where: {}, _set: { photoUrl: $photoUrl }) {
-      affected_rows
-    }
-  }
-`
-export type UpdateUserAvatarMutationFn = Apollo.MutationFunction<
-  Types.UpdateUserAvatarMutation,
-  Types.UpdateUserAvatarMutationVariables
->
-
-/**
- * __useUpdateUserAvatarMutation__
- *
- * To run a mutation, you first call `useUpdateUserAvatarMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserAvatarMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserAvatarMutation, { data, loading, error }] = useUpdateUserAvatarMutation({
- *   variables: {
- *      photoUrl: // value for 'photoUrl'
- *   },
- * });
- */
-export function useUpdateUserAvatarMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    Types.UpdateUserAvatarMutation,
-    Types.UpdateUserAvatarMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<
-    Types.UpdateUserAvatarMutation,
-    Types.UpdateUserAvatarMutationVariables
-  >(UpdateUserAvatarDocument, options)
-}
-export type UpdateUserAvatarMutationHookResult = ReturnType<
-  typeof useUpdateUserAvatarMutation
->
-export type UpdateUserAvatarMutationResult = Apollo.MutationResult<Types.UpdateUserAvatarMutation>
-export type UpdateUserAvatarMutationOptions = Apollo.BaseMutationOptions<
-  Types.UpdateUserAvatarMutation,
-  Types.UpdateUserAvatarMutationVariables
 >
 export const UsersDocument = gql`
   query users($id: String) {

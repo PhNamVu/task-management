@@ -15,7 +15,6 @@ export type Scalars = {
   Float: number
   jsonb: any
   timestamptz: any
-  uuid: any
 }
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -422,7 +421,7 @@ export type Mutation_RootDelete_Task_CommentArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Task_Comment_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** mutation root */
@@ -783,7 +782,7 @@ export type Query_RootTask_Comment_AggregateArgs = {
 }
 
 export type Query_RootTask_Comment_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 export type Query_RootTasksArgs = {
@@ -997,7 +996,7 @@ export type Subscription_RootTask_Comment_AggregateArgs = {
 }
 
 export type Subscription_RootTask_Comment_By_PkArgs = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 export type Subscription_RootTasksArgs = {
@@ -1107,7 +1106,7 @@ export type Task_Comment = {
   __typename?: 'task_comment'
   attachments?: Maybe<Scalars['jsonb']>
   createdAt: Scalars['timestamptz']
-  id: Scalars['uuid']
+  id: Scalars['String']
   ownerId: Scalars['String']
   /** An object relationship */
   task: Tasks
@@ -1144,9 +1143,23 @@ export type Task_Comment_Aggregate_FieldsCountArgs = {
   distinct?: Maybe<Scalars['Boolean']>
 }
 
+/** order by aggregate values of table "task_comment" */
+export type Task_Comment_Aggregate_Order_By = {
+  count?: Maybe<Order_By>
+  max?: Maybe<Task_Comment_Max_Order_By>
+  min?: Maybe<Task_Comment_Min_Order_By>
+}
+
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Task_Comment_Append_Input = {
   attachments?: Maybe<Scalars['jsonb']>
+}
+
+/** input type for inserting array relation for remote table "task_comment" */
+export type Task_Comment_Arr_Rel_Insert_Input = {
+  data: Array<Task_Comment_Insert_Input>
+  /** on conflict condition */
+  on_conflict?: Maybe<Task_Comment_On_Conflict>
 }
 
 /** Boolean expression to filter rows from the table "task_comment". All fields are combined with a logical 'AND'. */
@@ -1156,7 +1169,7 @@ export type Task_Comment_Bool_Exp = {
   _or?: Maybe<Array<Task_Comment_Bool_Exp>>
   attachments?: Maybe<Jsonb_Comparison_Exp>
   createdAt?: Maybe<Timestamptz_Comparison_Exp>
-  id?: Maybe<Uuid_Comparison_Exp>
+  id?: Maybe<String_Comparison_Exp>
   ownerId?: Maybe<String_Comparison_Exp>
   task?: Maybe<Tasks_Bool_Exp>
   taskId?: Maybe<String_Comparison_Exp>
@@ -1190,7 +1203,7 @@ export type Task_Comment_Delete_Key_Input = {
 export type Task_Comment_Insert_Input = {
   attachments?: Maybe<Scalars['jsonb']>
   createdAt?: Maybe<Scalars['timestamptz']>
-  id?: Maybe<Scalars['uuid']>
+  id?: Maybe<Scalars['String']>
   ownerId?: Maybe<Scalars['String']>
   task?: Maybe<Tasks_Obj_Rel_Insert_Input>
   taskId?: Maybe<Scalars['String']>
@@ -1203,22 +1216,42 @@ export type Task_Comment_Insert_Input = {
 export type Task_Comment_Max_Fields = {
   __typename?: 'task_comment_max_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
-  id?: Maybe<Scalars['uuid']>
+  id?: Maybe<Scalars['String']>
   ownerId?: Maybe<Scalars['String']>
   taskId?: Maybe<Scalars['String']>
   text?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
+/** order by max() on columns of table "task_comment" */
+export type Task_Comment_Max_Order_By = {
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  ownerId?: Maybe<Order_By>
+  taskId?: Maybe<Order_By>
+  text?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+}
+
 /** aggregate min on columns */
 export type Task_Comment_Min_Fields = {
   __typename?: 'task_comment_min_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
-  id?: Maybe<Scalars['uuid']>
+  id?: Maybe<Scalars['String']>
   ownerId?: Maybe<Scalars['String']>
   taskId?: Maybe<Scalars['String']>
   text?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** order by min() on columns of table "task_comment" */
+export type Task_Comment_Min_Order_By = {
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  ownerId?: Maybe<Order_By>
+  taskId?: Maybe<Order_By>
+  text?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
 }
 
 /** response of any mutation on the table "task_comment" */
@@ -1252,7 +1285,7 @@ export type Task_Comment_Order_By = {
 
 /** primary key columns input for table: task_comment */
 export type Task_Comment_Pk_Columns_Input = {
-  id: Scalars['uuid']
+  id: Scalars['String']
 }
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
@@ -1282,7 +1315,7 @@ export enum Task_Comment_Select_Column {
 export type Task_Comment_Set_Input = {
   attachments?: Maybe<Scalars['jsonb']>
   createdAt?: Maybe<Scalars['timestamptz']>
-  id?: Maybe<Scalars['uuid']>
+  id?: Maybe<Scalars['String']>
   ownerId?: Maybe<Scalars['String']>
   taskId?: Maybe<Scalars['String']>
   text?: Maybe<Scalars['String']>
@@ -1318,16 +1351,20 @@ export type Tasks = {
   board: Boards
   boardId: Scalars['String']
   code: Scalars['Int']
+  /** An array relationship */
+  comments: Array<Task_Comment>
+  /** An aggregate relationship */
+  comments_aggregate: Task_Comment_Aggregate
   createdAt?: Maybe<Scalars['timestamptz']>
   createdBy?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   dueDate?: Maybe<Scalars['timestamptz']>
   id: Scalars['String']
+  /** An object relationship */
+  owner?: Maybe<Users>
   startDate?: Maybe<Scalars['timestamptz']>
   title: Scalars['String']
   updatedAt?: Maybe<Scalars['timestamptz']>
-  /** An object relationship */
-  user?: Maybe<Users>
 }
 
 /** columns and relationships of "tasks" */
@@ -1346,6 +1383,24 @@ export type TasksAssignee_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>
   order_by?: Maybe<Array<User_Task_Order_By>>
   where?: Maybe<User_Task_Bool_Exp>
+}
+
+/** columns and relationships of "tasks" */
+export type TasksCommentsArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+/** columns and relationships of "tasks" */
+export type TasksComments_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
 }
 
 /** aggregated selection of "tasks" */
@@ -1419,15 +1474,16 @@ export type Tasks_Bool_Exp = {
   board?: Maybe<Boards_Bool_Exp>
   boardId?: Maybe<String_Comparison_Exp>
   code?: Maybe<Int_Comparison_Exp>
+  comments?: Maybe<Task_Comment_Bool_Exp>
   createdAt?: Maybe<Timestamptz_Comparison_Exp>
   createdBy?: Maybe<String_Comparison_Exp>
   description?: Maybe<String_Comparison_Exp>
   dueDate?: Maybe<Timestamptz_Comparison_Exp>
   id?: Maybe<String_Comparison_Exp>
+  owner?: Maybe<Users_Bool_Exp>
   startDate?: Maybe<Timestamptz_Comparison_Exp>
   title?: Maybe<String_Comparison_Exp>
   updatedAt?: Maybe<Timestamptz_Comparison_Exp>
-  user?: Maybe<Users_Bool_Exp>
 }
 
 /** unique or primary key constraints on table "tasks" */
@@ -1447,15 +1503,16 @@ export type Tasks_Insert_Input = {
   board?: Maybe<Boards_Obj_Rel_Insert_Input>
   boardId?: Maybe<Scalars['String']>
   code?: Maybe<Scalars['Int']>
+  comments?: Maybe<Task_Comment_Arr_Rel_Insert_Input>
   createdAt?: Maybe<Scalars['timestamptz']>
   createdBy?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   dueDate?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  owner?: Maybe<Users_Obj_Rel_Insert_Input>
   startDate?: Maybe<Scalars['timestamptz']>
   title?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
-  user?: Maybe<Users_Obj_Rel_Insert_Input>
 }
 
 /** aggregate max on columns */
@@ -1545,15 +1602,16 @@ export type Tasks_Order_By = {
   board?: Maybe<Boards_Order_By>
   boardId?: Maybe<Order_By>
   code?: Maybe<Order_By>
+  comments_aggregate?: Maybe<Task_Comment_Aggregate_Order_By>
   createdAt?: Maybe<Order_By>
   createdBy?: Maybe<Order_By>
   description?: Maybe<Order_By>
   dueDate?: Maybe<Order_By>
   id?: Maybe<Order_By>
+  owner?: Maybe<Users_Order_By>
   startDate?: Maybe<Order_By>
   title?: Maybe<Order_By>
   updatedAt?: Maybe<Order_By>
-  user?: Maybe<Users_Order_By>
 }
 
 /** primary key columns input for table: tasks */
@@ -2060,6 +2118,10 @@ export type Users = {
   role: Scalars['String']
   status?: Maybe<Scalars['String']>
   /** An array relationship */
+  task_comments: Array<Task_Comment>
+  /** An aggregate relationship */
+  task_comments_aggregate: Task_Comment_Aggregate
+  /** An array relationship */
   tasks: Array<User_Task>
   /** An array relationship */
   tasksByCreatedBy: Array<Tasks>
@@ -2075,6 +2137,24 @@ export type Users = {
   workspaces: Array<Workspaces>
   /** An aggregate relationship */
   workspaces_aggregate: Workspaces_Aggregate
+}
+
+/** columns and relationships of "users" */
+export type UsersTask_CommentsArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+/** columns and relationships of "users" */
+export type UsersTask_Comments_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Comment_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Comment_Order_By>>
+  where?: Maybe<Task_Comment_Bool_Exp>
 }
 
 /** columns and relationships of "users" */
@@ -2186,6 +2266,7 @@ export type Users_Bool_Exp = {
   photoUrl?: Maybe<String_Comparison_Exp>
   role?: Maybe<String_Comparison_Exp>
   status?: Maybe<String_Comparison_Exp>
+  task_comments?: Maybe<Task_Comment_Bool_Exp>
   tasks?: Maybe<User_Task_Bool_Exp>
   tasksByCreatedBy?: Maybe<Tasks_Bool_Exp>
   user_workspaces?: Maybe<User_Workspace_Bool_Exp>
@@ -2212,6 +2293,7 @@ export type Users_Insert_Input = {
   photoUrl?: Maybe<Scalars['String']>
   role?: Maybe<Scalars['String']>
   status?: Maybe<Scalars['String']>
+  task_comments?: Maybe<Task_Comment_Arr_Rel_Insert_Input>
   tasks?: Maybe<User_Task_Arr_Rel_Insert_Input>
   tasksByCreatedBy?: Maybe<Tasks_Arr_Rel_Insert_Input>
   user_workspaces?: Maybe<User_Workspace_Arr_Rel_Insert_Input>
@@ -2283,6 +2365,7 @@ export type Users_Order_By = {
   photoUrl?: Maybe<Order_By>
   role?: Maybe<Order_By>
   status?: Maybe<Order_By>
+  task_comments_aggregate?: Maybe<Task_Comment_Aggregate_Order_By>
   tasksByCreatedBy_aggregate?: Maybe<Tasks_Aggregate_Order_By>
   tasks_aggregate?: Maybe<User_Task_Aggregate_Order_By>
   user_workspaces_aggregate?: Maybe<User_Workspace_Aggregate_Order_By>
@@ -2354,19 +2437,6 @@ export enum Users_Update_Column {
   Role = 'role',
   /** column name */
   Status = 'status',
-}
-
-/** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
-export type Uuid_Comparison_Exp = {
-  _eq?: Maybe<Scalars['uuid']>
-  _gt?: Maybe<Scalars['uuid']>
-  _gte?: Maybe<Scalars['uuid']>
-  _in?: Maybe<Array<Scalars['uuid']>>
-  _is_null?: Maybe<Scalars['Boolean']>
-  _lt?: Maybe<Scalars['uuid']>
-  _lte?: Maybe<Scalars['uuid']>
-  _neq?: Maybe<Scalars['uuid']>
-  _nin?: Maybe<Array<Scalars['uuid']>>
 }
 
 /** columns and relationships of "workspaces" */

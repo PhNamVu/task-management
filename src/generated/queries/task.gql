@@ -48,10 +48,29 @@ mutation updateTask($id: String, $object: tasks_set_input!) {
   }
 }
 
-query taskComment($id: String!) {
+query taskComment($id: String!, $limit: Int!, $offset: Int!) {
   tasks(where: { id: { _eq: $id } }) {
     createdAt
     startDate
     dueDate
+    owner {
+      displayName
+    }
+    comments(limit: $limit, order_by: { createdAt: desc }, offset: $offset) {
+      id
+      text
+      attachments
+      user {
+        displayName
+        photoUrl
+        id
+      }
+      createdAt
+    }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
   }
 }

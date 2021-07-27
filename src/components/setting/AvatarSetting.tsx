@@ -1,7 +1,7 @@
 /* eslint consistent-return: ["off", { "treatUndefinedAsUnspecified": true }] */
 import { Avatar, chakra, Flex, Spinner } from '@chakra-ui/react'
 import React from 'react'
-import { useUpdateUserAvatarMutation } from '../../generated/hooks'
+import { useUpdateProfileMutation } from '../../generated/hooks'
 
 import { storage, useAuth } from '../../hooks/use-auth'
 
@@ -9,7 +9,7 @@ export const AvatarSetting = () => {
   const {
     state: { user },
   }: any = useAuth()
-  const [updateUserAvatar] = useUpdateUserAvatarMutation()
+  const [updateUserAvatar] = useUpdateProfileMutation()
 
   const [upload, setUpload] = React.useState(false)
   const [errors, setErrors] = React.useState('')
@@ -56,12 +56,15 @@ export const AvatarSetting = () => {
                 await user.updateProfile({
                   photoURL: result[0]?.assetUrl,
                 })
-                await updateUserAvatar({
+                const ress = await updateUserAvatar({
                   variables: {
-                    photoUrl: result[0]?.assetUrl,
+                    id: user.uid,
+                    object: {
+                      photoUrl: result[0]?.assetUrl,
+                    },
                   },
                 })
-
+                console.log('res', ress)
                 setUpload(false)
               })
               .catch((error) => {
