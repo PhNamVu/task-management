@@ -20,6 +20,7 @@ const BoardDetailPage = () => {
     variables: {
       id,
     },
+    fetchPolicy: 'cache-and-network',
   })
   const [updateBoard] = useUpdateBoardMutation()
 

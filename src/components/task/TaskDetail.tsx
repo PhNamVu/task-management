@@ -102,8 +102,8 @@ export const TaskDetail = () => {
           mr={5}
           fontSize="2xl"
           placeholder="Input title"
-          onSubmit={(e: string) => {
-            updateTask({
+          onSubmit={async (e: string) => {
+            await updateTask({
               variables: {
                 id,
                 object: {
@@ -111,6 +111,7 @@ export const TaskDetail = () => {
                 },
               },
             })
+            refetch()
           }}
         />
 

@@ -10,7 +10,6 @@ import {
   Avatar,
   CloseButton,
   Flex,
-  Icon,
   IconButton,
 } from '@chakra-ui/react'
 import React from 'react'

@@ -71,7 +71,7 @@ export const BoardViewPage = () => {
             ],
       },
     },
-    fetchPolicy: 'network-only',
+    // fetchPolicy: 'cache-and-network',
   })
   if (error) return <Error />
   if (loading) return <ProgressLoading />
