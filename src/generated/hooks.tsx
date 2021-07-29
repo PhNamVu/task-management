@@ -593,6 +593,58 @@ export type TaskCommentQueryResult = Apollo.QueryResult<
   Types.TaskCommentQuery,
   Types.TaskCommentQueryVariables
 >
+export const DeleteTaskDocument = gql`
+  mutation deleteTask($id: String!) {
+    delete_tasks(where: { id: { _eq: $id } }) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type DeleteTaskMutationFn = Apollo.MutationFunction<
+  Types.DeleteTaskMutation,
+  Types.DeleteTaskMutationVariables
+>
+
+/**
+ * __useDeleteTaskMutation__
+ *
+ * To run a mutation, you first call `useDeleteTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTaskMutation, { data, loading, error }] = useDeleteTaskMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteTaskMutation,
+    Types.DeleteTaskMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteTaskMutation,
+    Types.DeleteTaskMutationVariables
+  >(DeleteTaskDocument, options)
+}
+export type DeleteTaskMutationHookResult = ReturnType<
+  typeof useDeleteTaskMutation
+>
+export type DeleteTaskMutationResult = Apollo.MutationResult<Types.DeleteTaskMutation>
+export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteTaskMutation,
+  Types.DeleteTaskMutationVariables
+>
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {
     insert_user_task(objects: [$object]) {

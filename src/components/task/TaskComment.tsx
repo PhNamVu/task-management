@@ -67,7 +67,6 @@ export const TaskComment = () => {
   }
 
   const task = data?.tasks[0]
-  console.log('task', task)
 
   if (loading) return <ProgressLoading />
   if (error || data?.tasks.length === 0) {
@@ -115,7 +114,6 @@ export const TaskComment = () => {
           }).then((fetchMoreResult: any) => {
             // Update variables.limit for the original query to include
             // the newly added feed items.
-            console.log('fetchMore', fetchMoreResult)
             setLimit(
               currentLength + fetchMoreResult.data.tasks[0].comments.length
             )

@@ -74,3 +74,12 @@ query taskComment($id: String!, $limit: Int!, $offset: Int!) {
     }
   }
 }
+
+mutation deleteTask($id: String!) {
+  delete_tasks(where: { id: { _eq: $id } }) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}

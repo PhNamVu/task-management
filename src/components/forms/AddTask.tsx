@@ -74,19 +74,6 @@ export const AddTaskForm: React.FC<Props> = ({ onClose, code }) => {
     >
       {(formik: any) => (
         <Form>
-          {/* <Flex mb={3} alignItems="center">
-            <Text fontSize="md" fontWeight="500">
-              Assignee:
-            </Text>
-            <IconButton
-              variant="ghost"
-              border="2px dotted #4FD1C5"
-              ml={2}
-              isRound
-              aria-label="assignee"
-              icon={<AiOutlineUserAdd />}
-            />
-          </Flex> */}
           <FormControl
             mb="0.5em"
             isRequired

@@ -176,6 +176,19 @@ export type TaskCommentQuery = { __typename?: 'query_root' } & {
   >
 }
 
+export type DeleteTaskMutationVariables = Types.Exact<{
+  id: Types.Scalars['String']
+}>
+
+export type DeleteTaskMutation = { __typename?: 'mutation_root' } & {
+  delete_tasks?: Types.Maybe<
+    { __typename?: 'tasks_mutation_response' } & Pick<
+      Types.Tasks_Mutation_Response,
+      'affected_rows'
+    > & { returning: Array<{ __typename?: 'tasks' } & Pick<Types.Tasks, 'id'>> }
+  >
+}
+
 export type AssignTaskMutationVariables = Types.Exact<{
   object: Types.User_Task_Insert_Input
 }>
