@@ -1,8 +1,8 @@
 import {
   AvatarGroup,
   Flex,
-  IconButton,
   Text,
+  Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react'
 import React from 'react'
@@ -14,6 +14,7 @@ import { MotionBox } from '../motion/MotionBox'
 import { StyledAvatar } from '../shared/StyledAvatar'
 import { ToolTipIconButton } from '../shared/ToolTipIconButton'
 import { GetTasksDocument, useDeleteTaskMutation } from '../../generated/hooks'
+import { DueDateLeft } from './DueDateLeft'
 
 interface Props {
   item?: any
@@ -70,7 +71,10 @@ export const TaskItem: React.FC<Props> = ({ item }) => {
       )}
       <NavLink to={`${location.pathname}/${item.id}`}>
         <Text>{shortString(item?.title, 40)}</Text>
-        <Flex justifyContent="flex-end" mt={2}>
+        <Flex justifyContent="space-between" mt={2} alignContent="center">
+          <Flex alignContent="center">
+            <DueDateLeft code={item.code} date={item.dueDate} />
+          </Flex>
           <AvatarGroup size="sm" max={3}>
             {item.assignee?.map((assignee: any) => (
               <StyledAvatar
