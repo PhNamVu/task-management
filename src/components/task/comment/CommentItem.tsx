@@ -1,5 +1,16 @@
 import React from 'react'
-import { Box, Flex, Text, Avatar, useColorModeValue } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Text,
+  Avatar,
+  useColorModeValue,
+  Icon,
+  Link,
+} from '@chakra-ui/react'
+import { IoAttachOutline } from 'react-icons/io5'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+
 import { useAuth } from '../../../hooks/use-auth'
 import { formatDateHour } from '../../../helpers/formatDate'
 import { ReadMoreText } from '../../shared/ReadMoreText'
@@ -40,6 +51,21 @@ export const CommentItem = ({ comment }: any) => {
         </Flex>
 
         <ReadMoreText text={comment?.text} limit={30} />
+        {comment.attachments?.map((attachment: any) => (
+          <div key={attachment.id}>
+            <Flex alignItems="center" color="blue.500">
+              <Icon
+                as={IoAttachOutline}
+                w={6}
+                h={6}
+                _hover={{ cursor: 'pointer' }}
+              />
+              <Link href={attachment.assetUrl} isExternal>
+                {attachment.name} <ExternalLinkIcon mx="2px" />
+              </Link>
+            </Flex>
+          </div>
+        ))}
       </Box>
     </Flex>
   )

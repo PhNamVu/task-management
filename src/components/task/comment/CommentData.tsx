@@ -5,22 +5,28 @@ import { CommentItem } from './CommentItem'
 export const CommentData: React.FC<{
   data: any
   loadMore: number
-  // commentsCount: any
-  // onLoadMore: any
-  // height: any
-  // numberOfCommentsLoadMore: any
-  // isGoBottom: any
+  onLoadMore: any
+  isGoBottom: any
 }> = ({
   data,
   loadMore,
-  // commentsCount,
-  // onLoadMore,
-  // height,
-  // numberOfCommentsLoadMore,
-  // isGoBottom,
+  onLoadMore,
+
+  isGoBottom,
 }) => {
   const count = data.comments_aggregate?.aggregate.count
   const length = data.comments?.length
+  const msgScroll = React.useRef<any>(null)
+
+  React.useEffect(() => {
+    if (isGoBottom === true) {
+      goBottom()
+    }
+  })
+
+  const goBottom = () => {
+    msgScroll.current.scrollIntoView()
+  }
 
   return (
     <Box h="100%" my={5} ml={5}>
@@ -30,6 +36,7 @@ export const CommentData: React.FC<{
       {/* Load more */}
       {count > loadMore && length < count && length !== 0 && (
         <Flex
+          onClick={onLoadMore}
           alignItems="center"
           alignContent="center"
           color="grey"
@@ -47,6 +54,7 @@ export const CommentData: React.FC<{
           <CommentItem key={item.id} comment={item} />
         ))}
       </Flex>
+      <div ref={msgScroll} />
     </Box>
   )
 }

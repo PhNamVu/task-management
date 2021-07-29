@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
+  TaskCommentDocument,
   useAddTaskCommentMutation,
   useTaskCommentQuery,
 } from '../../generated/hooks'
@@ -17,8 +18,9 @@ import { StartDate } from './StartDate'
 export const TaskComment = () => {
   const { taskId: id } = useParams()
   const [limit, setLimit] = useState(5)
+  const [goBottom, setGoBottom] = useState(true)
 
-  const { data, loading, error } = useTaskCommentQuery({
+  const { data, loading, error, fetchMore } = useTaskCommentQuery({
     variables: {
       id,
       offset: 0,
@@ -27,7 +29,19 @@ export const TaskComment = () => {
     fetchPolicy: 'network-only',
   })
 
-  const [addTaskComment] = useAddTaskCommentMutation()
+  const [addTaskComment] = useAddTaskCommentMutation({
+    refetchQueries: [
+      {
+        query: TaskCommentDocument,
+
+        variables: {
+          id,
+          offset: 0,
+          limit,
+        },
+      },
+    ],
+  })
 
   const onSendComment = async (object: any) => {
     object.taskId = id
@@ -39,6 +53,12 @@ export const TaskComment = () => {
       })
 
       if (res.data) {
+        setGoBottom(true)
+        if (limit > 5) {
+          setLimit(limit + 1)
+        } else {
+          setLimit(5)
+        }
         console.log('a new  comment added ', res.data)
       }
     } catch (err) {
@@ -47,6 +67,7 @@ export const TaskComment = () => {
   }
 
   const task = data?.tasks[0]
+  console.log('task', task)
 
   if (loading) return <ProgressLoading />
   if (error || data?.tasks.length === 0) {
@@ -78,7 +99,29 @@ export const TaskComment = () => {
         />
       </Flex>
 
-      <CommentData data={task} loadMore={5} />
+      <CommentData
+        data={task}
+        loadMore={5}
+        isGoBottom={goBottom}
+        onLoadMore={() => {
+          setGoBottom(false)
+          const currentLength = task?.comments.length
+
+          fetchMore({
+            variables: {
+              offset: currentLength,
+              limit: 5,
+            },
+          }).then((fetchMoreResult: any) => {
+            // Update variables.limit for the original query to include
+            // the newly added feed items.
+            console.log('fetchMore', fetchMoreResult)
+            setLimit(
+              currentLength + fetchMoreResult.data.tasks[0].comments.length
+            )
+          })
+        }}
+      />
 
       <CommentInput
         maxSizeFile={20}
@@ -89,4 +132,3 @@ export const TaskComment = () => {
     </Flex>
   )
 }
-// .comment_aggregate?.aggregate.count
