@@ -1,4 +1,13 @@
-import { Box, Flex, useMediaQuery } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Outlet, useParams } from 'react-router-dom'
@@ -16,7 +25,7 @@ const BoardDetailPage = () => {
   const { id } = useParams()
   const [isLarge] = useMediaQuery('(min-width: 720px)')
 
-  const { data, loading, error } = useGetBoardDetailQuery({
+  const { data, loading, error, refetch } = useGetBoardDetailQuery({
     variables: {
       id,
     },
@@ -29,6 +38,7 @@ const BoardDetailPage = () => {
     throw new NotFoundError('Not found boards')
   }
   const board = data && data?.boards[0]
+  const status = board?.status || 'in progress'
 
   return (
     <>
@@ -60,8 +70,32 @@ const BoardDetailPage = () => {
                 })
               }}
             />
+            <Menu>
+              <StatusButton status={status} />
 
-            <StatusButton status={board?.status} />
+              <MenuList minWidth="100px">
+                <MenuOptionGroup
+                  defaultValue={status}
+                  type="radio"
+                  onChange={async (e: any) => {
+                    await updateBoard({
+                      variables: {
+                        id,
+                        object: {
+                          status: e,
+                        },
+                      },
+                    })
+                    refetch()
+                  }}
+                >
+                  <MenuItemOption value="in progress">
+                    In progress
+                  </MenuItemOption>
+                  <MenuItemOption value="archived">Archived</MenuItemOption>
+                </MenuOptionGroup>
+              </MenuList>
+            </Menu>
             <BoardTabMenu />
           </Flex>
         </Flex>

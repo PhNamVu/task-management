@@ -2,7 +2,7 @@ import { chakra, Flex, Icon } from '@chakra-ui/react'
 import React from 'react'
 import { HiHome } from 'react-icons/hi'
 import { MdSettings } from 'react-icons/md'
-import { FaTrello } from 'react-icons/fa'
+// import { FaTrello } from 'react-icons/fa'
 import useDisclosure from '@chakra-ui/core/dist/useDisclosure'
 
 import { StyledNavLink } from '../link/NavLink'
@@ -12,12 +12,7 @@ export const Menu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-      <Flex
-        h="100%"
-        direction="column"
-        alignItems="flex-start"
-        mt={5}
-      >
+      <Flex h="100%" direction="column" alignItems="flex-start" mt={5}>
         <StyledNavLink
           label="Home"
           href="/w"
@@ -36,13 +31,13 @@ export const Menu = () => {
           </chakra.div>
           Setting
         </Flex>
-        <StyledNavLink
+        {/* <StyledNavLink
           label="Boards"
           href="/w/"
           icon={<Icon as={FaTrello} w={6} h={6} />}
-        />
+        /> */}
       </Flex>
-      <SettingModal isOpen={isOpen} onClose={onClose}/>
+      <SettingModal isOpen={isOpen} onClose={onClose} />
     </>
   )
 }

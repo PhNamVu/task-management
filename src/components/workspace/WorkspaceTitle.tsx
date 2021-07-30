@@ -1,7 +1,6 @@
-import { Flex, Heading, IconButton, useClipboard } from '@chakra-ui/react'
+import { Flex, Heading } from '@chakra-ui/react'
 import React from 'react'
 import { getInitials } from '../../helpers/getInitial'
-import { IoCopyOutline } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 
 interface WorkspaceTitleProps {
@@ -14,9 +13,9 @@ export const WorkspaceTitle: React.FC<WorkspaceTitleProps> = ({
   id,
 }) => {
   const navigate = useNavigate()
-  const { onCopy } = useClipboard(
-    `${window.location.protocol}//${window.location.host}/w/${id}`
-  )
+  // const { onCopy } = useClipboard(
+  //   `${window.location.protocol}//${window.location.host}/w/${id}`
+  // )
   return (
     <Flex alignItems="center">
       <Flex
@@ -41,7 +40,7 @@ export const WorkspaceTitle: React.FC<WorkspaceTitleProps> = ({
       >
         {title}
       </Heading>
-      <IconButton
+      {/* <IconButton
         isRound
         size="md"
         fontSize="lg"
@@ -50,7 +49,7 @@ export const WorkspaceTitle: React.FC<WorkspaceTitleProps> = ({
         onClick={onCopy}
         icon={<IoCopyOutline />}
         aria-label="copy"
-      />
+      /> */}
     </Flex>
   )
 }
