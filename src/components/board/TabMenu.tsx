@@ -45,8 +45,8 @@ export const BoardTabMenu = () => {
         icon={<Icon as={FaTrello} w={4} h={4} />}
       />
       <StyledNavLink
-        label="Gantt"
-        href={`/b/${id}/gantt`}
+        label="Charts"
+        href={`/b/${id}/charts`}
         icon={<Icon as={RiBarChartHorizontalFill} w={4} h={4} />}
       />
     </Flex>

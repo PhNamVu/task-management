@@ -189,6 +189,46 @@ export type DeleteTaskMutation = { __typename?: 'mutation_root' } & {
   >
 }
 
+export type CountTotalTaskQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountTotalTaskQuery = { __typename?: 'query_root' } & {
+  todo: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  inProgress: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  done: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  overDue: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+}
+
 export type AssignTaskMutationVariables = Types.Exact<{
   object: Types.User_Task_Insert_Input
 }>

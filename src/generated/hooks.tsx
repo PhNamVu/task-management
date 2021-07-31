@@ -645,6 +645,108 @@ export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<
   Types.DeleteTaskMutation,
   Types.DeleteTaskMutationVariables
 >
+export const CountTotalTaskDocument = gql`
+  query countTotalTask($id: String, $now: timestamptz!) {
+    todo: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 1 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    inProgress: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 2 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    done: tasks_aggregate(
+      where: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    overDue: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          code: { _in: [1, 2] }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useCountTotalTaskQuery__
+ *
+ * To run a query within a React component, call `useCountTotalTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountTotalTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountTotalTaskQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountTotalTaskQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >(CountTotalTaskDocument, options)
+}
+export function useCountTotalTaskLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >(CountTotalTaskDocument, options)
+}
+export type CountTotalTaskQueryHookResult = ReturnType<
+  typeof useCountTotalTaskQuery
+>
+export type CountTotalTaskLazyQueryHookResult = ReturnType<
+  typeof useCountTotalTaskLazyQuery
+>
+export type CountTotalTaskQueryResult = Apollo.QueryResult<
+  Types.CountTotalTaskQuery,
+  Types.CountTotalTaskQueryVariables
+>
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {
     insert_user_task(objects: [$object]) {
