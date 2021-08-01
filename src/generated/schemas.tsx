@@ -1362,6 +1362,7 @@ export type Tasks = {
   id: Scalars['String']
   /** An object relationship */
   owner?: Maybe<Users>
+  priority?: Maybe<Scalars['String']>
   startDate?: Maybe<Scalars['timestamptz']>
   title: Scalars['String']
   updatedAt?: Maybe<Scalars['timestamptz']>
@@ -1481,6 +1482,7 @@ export type Tasks_Bool_Exp = {
   dueDate?: Maybe<Timestamptz_Comparison_Exp>
   id?: Maybe<String_Comparison_Exp>
   owner?: Maybe<Users_Bool_Exp>
+  priority?: Maybe<String_Comparison_Exp>
   startDate?: Maybe<Timestamptz_Comparison_Exp>
   title?: Maybe<String_Comparison_Exp>
   updatedAt?: Maybe<Timestamptz_Comparison_Exp>
@@ -1510,6 +1512,7 @@ export type Tasks_Insert_Input = {
   dueDate?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
   owner?: Maybe<Users_Obj_Rel_Insert_Input>
+  priority?: Maybe<Scalars['String']>
   startDate?: Maybe<Scalars['timestamptz']>
   title?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
@@ -1525,6 +1528,7 @@ export type Tasks_Max_Fields = {
   description?: Maybe<Scalars['String']>
   dueDate?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  priority?: Maybe<Scalars['String']>
   startDate?: Maybe<Scalars['timestamptz']>
   title?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
@@ -1539,6 +1543,7 @@ export type Tasks_Max_Order_By = {
   description?: Maybe<Order_By>
   dueDate?: Maybe<Order_By>
   id?: Maybe<Order_By>
+  priority?: Maybe<Order_By>
   startDate?: Maybe<Order_By>
   title?: Maybe<Order_By>
   updatedAt?: Maybe<Order_By>
@@ -1554,6 +1559,7 @@ export type Tasks_Min_Fields = {
   description?: Maybe<Scalars['String']>
   dueDate?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  priority?: Maybe<Scalars['String']>
   startDate?: Maybe<Scalars['timestamptz']>
   title?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
@@ -1568,6 +1574,7 @@ export type Tasks_Min_Order_By = {
   description?: Maybe<Order_By>
   dueDate?: Maybe<Order_By>
   id?: Maybe<Order_By>
+  priority?: Maybe<Order_By>
   startDate?: Maybe<Order_By>
   title?: Maybe<Order_By>
   updatedAt?: Maybe<Order_By>
@@ -1609,6 +1616,7 @@ export type Tasks_Order_By = {
   dueDate?: Maybe<Order_By>
   id?: Maybe<Order_By>
   owner?: Maybe<Users_Order_By>
+  priority?: Maybe<Order_By>
   startDate?: Maybe<Order_By>
   title?: Maybe<Order_By>
   updatedAt?: Maybe<Order_By>
@@ -1636,6 +1644,8 @@ export enum Tasks_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Priority = 'priority',
+  /** column name */
   StartDate = 'startDate',
   /** column name */
   Title = 'title',
@@ -1652,6 +1662,7 @@ export type Tasks_Set_Input = {
   description?: Maybe<Scalars['String']>
   dueDate?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
+  priority?: Maybe<Scalars['String']>
   startDate?: Maybe<Scalars['timestamptz']>
   title?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
@@ -1717,6 +1728,8 @@ export enum Tasks_Update_Column {
   DueDate = 'dueDate',
   /** column name */
   Id = 'id',
+  /** column name */
+  Priority = 'priority',
   /** column name */
   StartDate = 'startDate',
   /** column name */

@@ -25,6 +25,7 @@ import { StyledAvatar } from '../shared/StyledAvatar'
 import { StyledTextArea } from '../shared/StyledTextArea'
 import { MenuTaskButton } from './MenuTaskButton'
 import { NewAssigneeButton } from './NewAssigneeButton'
+import { UpdatePriority } from './UpdatePriority'
 
 export const TaskDetail = () => {
   const { taskId: id } = useParams()
@@ -37,12 +38,11 @@ export const TaskDetail = () => {
   const task = data?.tasks[0]
   const code = task?.code.toString()
   const assignee = data && data.tasks[0].assignee
-
+  const priority = task?.priority || 'medium'
   if (loading) return <ProgressLoading />
   if (error || data?.tasks.length === 0) {
     throw new NotFoundError('Not found task')
   }
-
   return (
     <>
       <Helmet>
@@ -55,45 +55,53 @@ export const TaskDetail = () => {
         // w="100%"
         // pr={5}
       >
-        <Flex borderBottom="1px solid rgb(226, 226, 226)" pb={5}>
-          <Menu>
-            <MenuTaskButton code={code} />
-            <MenuList minWidth="100px">
-              <MenuOptionGroup
-                defaultValue={code}
-                type="radio"
-                onChange={async (e: any) => {
-                  await updateTask({
-                    variables: {
-                      id,
-                      object: {
-                        code: parseInt(e),
+        <Flex
+          borderBottom="1px solid rgb(226, 226, 226)"
+          pb={5}
+          justifyContent="space-between"
+        >
+          <Flex>
+            <Menu>
+              <MenuTaskButton code={code} />
+              <MenuList minWidth="100px">
+                <MenuOptionGroup
+                  defaultValue={code}
+                  type="radio"
+                  onChange={async (e: any) => {
+                    await updateTask({
+                      variables: {
+                        id,
+                        object: {
+                          code: parseInt(e),
+                        },
                       },
-                    },
-                  })
-                  refetch()
-                }}
-              >
-                <MenuItemOption value="1">TODO</MenuItemOption>
-                <MenuItemOption value="2">IN PROGRESS</MenuItemOption>
-                <MenuItemOption value="3">DONE</MenuItemOption>
-              </MenuOptionGroup>
-            </MenuList>
-          </Menu>
-          <AvatarGroup size="sm" max={3} ml={5}>
-            {assignee?.map((item: any) => {
-              return (
-                <StyledAvatar
-                  id={item.user.id}
-                  name={item.user.displayName}
-                  src={item.user.photoUrl}
-                />
-              )
-            })}
-          </AvatarGroup>
-          <NewAssigneeButton
-            assignees={assignee?.map((item) => item.user.id)}
-          />
+                    })
+                    refetch()
+                  }}
+                >
+                  <MenuItemOption value="1">TODO</MenuItemOption>
+                  <MenuItemOption value="2">IN PROGRESS</MenuItemOption>
+                  <MenuItemOption value="3">DONE</MenuItemOption>
+                </MenuOptionGroup>
+              </MenuList>
+            </Menu>
+            <AvatarGroup size="sm" max={3} ml={5}>
+              {assignee?.map((item: any) => {
+                return (
+                  <StyledAvatar
+                    key={item.user.id}
+                    id={item.user.id}
+                    name={item.user.displayName}
+                    src={item.user.photoUrl}
+                  />
+                )
+              })}
+            </AvatarGroup>
+            <NewAssigneeButton
+              assignees={assignee?.map((item) => item.user.id)}
+            />
+          </Flex>
+          <UpdatePriority priority={priority} />
         </Flex>
 
         <EditableText

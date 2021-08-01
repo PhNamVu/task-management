@@ -1,9 +1,4 @@
-import {
-  AvatarGroup,
-  Flex,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { AvatarGroup, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { BiTrashAlt } from 'react-icons/bi'
@@ -14,6 +9,7 @@ import { StyledAvatar } from '../shared/StyledAvatar'
 import { ToolTipIconButton } from '../shared/ToolTipIconButton'
 import { GetTasksDocument, useDeleteTaskMutation } from '../../generated/hooks'
 import { DueDateLeft } from './DueDateLeft'
+import { TaskPriorityBadge } from './TaskPriorityBadge'
 
 interface Props {
   item?: any
@@ -38,9 +34,12 @@ export const TaskItem: React.FC<Props> = ({ item }) => {
       animate={{ scale: [0, 1] }}
       transition={{ duration: 0.25, ease: 'linear' }}
     >
-      {display && (
-        <Flex justifyContent="flex-end">
+      <Flex justifyContent="space-between" mb={3} alignContent="center">
+        <div>
           {' '}
+          <TaskPriorityBadge priority={item.priority} />
+        </div>
+        {display && (
           <ToolTipIconButton
             onClick={() =>
               deleteTask({
@@ -66,8 +65,8 @@ export const TaskItem: React.FC<Props> = ({ item }) => {
             isRound
             icon={<BiTrashAlt />}
           />
-        </Flex>
-      )}
+        )}
+      </Flex>
       <NavLink to={`${location.pathname}/${item.id}`}>
         <Text>{shortString(item?.title, 40)}</Text>
         <Flex justifyContent="space-between" mt={2} alignContent="center">

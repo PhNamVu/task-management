@@ -88,7 +88,7 @@ export type GetTasksQuery = { __typename?: 'query_root' } & {
   tasks: Array<
     { __typename?: 'tasks' } & Pick<
       Types.Tasks,
-      'title' | 'dueDate' | 'id' | 'code'
+      'title' | 'dueDate' | 'id' | 'code' | 'priority'
     > & {
         assignee: Array<
           { __typename?: 'user_task' } & {
@@ -110,7 +110,7 @@ export type TaskDetailQuery = { __typename?: 'query_root' } & {
   tasks: Array<
     { __typename?: 'tasks' } & Pick<
       Types.Tasks,
-      'id' | 'title' | 'description' | 'code'
+      'id' | 'priority' | 'title' | 'description' | 'code'
     > & {
         assignee: Array<
           { __typename?: 'user_task' } & {
@@ -220,6 +220,54 @@ export type CountTotalTaskQuery = { __typename?: 'query_root' } & {
     >
   }
   overDue: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+}
+
+export type CountStackTaskQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountStackTaskQuery = { __typename?: 'query_root' } & {
+  todo: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  todoLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  inProgress: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  inProgressLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  done: { __typename?: 'tasks_aggregate' } & {
     aggregate?: Types.Maybe<
       { __typename?: 'tasks_aggregate_fields' } & Pick<
         Types.Tasks_Aggregate_Fields,

@@ -341,6 +341,7 @@ export const GetTasksDocument = gql`
       dueDate
       id
       code
+      priority
     }
   }
 `
@@ -398,6 +399,7 @@ export const TaskDetailDocument = gql`
   query taskDetail($id: String!) {
     tasks(where: { id: { _eq: $id } }) {
       id
+      priority
       title
       description
       code
@@ -746,6 +748,121 @@ export type CountTotalTaskLazyQueryHookResult = ReturnType<
 export type CountTotalTaskQueryResult = Apollo.QueryResult<
   Types.CountTotalTaskQuery,
   Types.CountTotalTaskQueryVariables
+>
+export const CountStackTaskDocument = gql`
+  query countStackTask($id: String, $now: timestamptz!) {
+    todo: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 1 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    todoLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          code: { _eq: 1 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    inProgress: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 2 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    inProgressLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          code: { _eq: 2 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    done: tasks_aggregate(
+      where: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useCountStackTaskQuery__
+ *
+ * To run a query within a React component, call `useCountStackTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountStackTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountStackTaskQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountStackTaskQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >(CountStackTaskDocument, options)
+}
+export function useCountStackTaskLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >(CountStackTaskDocument, options)
+}
+export type CountStackTaskQueryHookResult = ReturnType<
+  typeof useCountStackTaskQuery
+>
+export type CountStackTaskLazyQueryHookResult = ReturnType<
+  typeof useCountStackTaskLazyQuery
+>
+export type CountStackTaskQueryResult = Apollo.QueryResult<
+  Types.CountStackTaskQuery,
+  Types.CountStackTaskQueryVariables
 >
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {
