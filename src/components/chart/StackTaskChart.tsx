@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import { useCountStackTaskQuery } from '../../generated/hooks'
 import { StyledSpinner } from '../shared/StyledSpinner'
 import { Error } from '../shared/Error'
+import { ChartBG, ChartBorder } from '../../constants/colors/chart'
 
 export const StackTaskChart = ({ now }: any) => {
   const { id } = useParams()
@@ -32,16 +33,16 @@ export const StackTaskChart = ({ now }: any) => {
       {
         stack: '1',
         label: 'Available',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: ChartBG.GREEN,
+        borderColor: ChartBorder.GREEN,
         borderWidth: 1,
         data: [todo, inProgress, done],
       },
       {
         stack: '1',
         label: 'Late',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: ChartBG.RED,
+        borderColor: ChartBorder.RED,
         borderWidth: 1,
         data: [todoLate, inProgressLate, 0],
       },

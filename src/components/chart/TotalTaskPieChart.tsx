@@ -5,6 +5,7 @@ import { useCountTotalTaskQuery } from '../../generated/hooks'
 import { useParams } from 'react-router-dom'
 import { StyledSpinner } from '../shared/StyledSpinner'
 import { Error } from '../shared/Error'
+import { ChartBG, ChartBorder } from '../../constants/colors/chart'
 
 export const TotalTaskPieChart = ({ now }: any) => {
   const { id } = useParams()
@@ -29,16 +30,16 @@ export const TotalTaskPieChart = ({ now }: any) => {
       {
         data: [overDue, todo, inProgress, done],
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
+          ChartBG.RED,
+          ChartBG.BLUE,
+          ChartBG.YELLOW,
+          ChartBG.GREEN,
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
+          ChartBorder.RED,
+          ChartBorder.BLUE,
+          ChartBorder.YELLOW,
+          ChartBorder.GREEN,
         ],
         borderWidth: 1,
       },

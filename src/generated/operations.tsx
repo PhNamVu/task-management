@@ -277,6 +277,110 @@ export type CountStackTaskQuery = { __typename?: 'query_root' } & {
   }
 }
 
+export type CountTaskPriorityQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountTaskPriorityQuery = { __typename?: 'query_root' } & {
+  low: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  lowLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  lowDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  important: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  importantLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  importantDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  medium: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  mediumLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  mediumDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  urgent: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  urgentLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  urgentDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+}
+
 export type AssignTaskMutationVariables = Types.Exact<{
   object: Types.User_Task_Insert_Input
 }>

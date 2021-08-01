@@ -864,6 +864,226 @@ export type CountStackTaskQueryResult = Apollo.QueryResult<
   Types.CountStackTaskQuery,
   Types.CountStackTaskQueryVariables
 >
+export const CountTaskPriorityDocument = gql`
+  query countTaskPriority($id: String, $now: timestamptz!) {
+    low: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "low" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    lowLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "low" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    lowDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "low" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    important: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "important" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    importantLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "important" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    importantDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "important" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    medium: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "medium" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    mediumLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "medium" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    mediumDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "medium" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    urgent: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "urgent" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    urgentLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "urgent" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    urgentDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "urgent" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useCountTaskPriorityQuery__
+ *
+ * To run a query within a React component, call `useCountTaskPriorityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountTaskPriorityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountTaskPriorityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountTaskPriorityQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >(CountTaskPriorityDocument, options)
+}
+export function useCountTaskPriorityLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >(CountTaskPriorityDocument, options)
+}
+export type CountTaskPriorityQueryHookResult = ReturnType<
+  typeof useCountTaskPriorityQuery
+>
+export type CountTaskPriorityLazyQueryHookResult = ReturnType<
+  typeof useCountTaskPriorityLazyQuery
+>
+export type CountTaskPriorityQueryResult = Apollo.QueryResult<
+  Types.CountTaskPriorityQuery,
+  Types.CountTaskPriorityQueryVariables
+>
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {
     insert_user_task(objects: [$object]) {

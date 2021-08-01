@@ -172,3 +172,173 @@ query countStackTask($id: String, $now: timestamptz!) {
     }
   }
 }
+
+query countTaskPriority($id: String, $now: timestamptz!) {
+  low: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "low" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  lowLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "low" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  lowDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "low" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+
+  important: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "important" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  importantLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "important" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  importantDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "important" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+
+  medium: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "medium" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  mediumLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "medium" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  mediumDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "medium" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+
+  urgent: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "urgent" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  urgentLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "urgent" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  urgentDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "urgent" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}

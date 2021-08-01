@@ -65,7 +65,7 @@ const WorkspaceDetail = () => {
           <Text fontSize="lg" mr={3}>
             Members:
           </Text>
-          <AvatarGroup size="sm" max={3}>
+          <AvatarGroup size="sm" max={10}>
             {data?.members.map((item: any) => {
               return (
                 <StyledAvatar
