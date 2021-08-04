@@ -2370,6 +2370,7 @@ export type Users_On_Conflict = {
 export type Users_Order_By = {
   created_at?: Maybe<Order_By>
   dialCode?: Maybe<Order_By>
+  displayName?: Maybe<Order_By>
   email?: Maybe<Order_By>
   firstName?: Maybe<Order_By>
   id?: Maybe<Order_By>

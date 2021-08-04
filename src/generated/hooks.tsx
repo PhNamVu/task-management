@@ -226,6 +226,126 @@ export type UpdateBoardMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateBoardMutation,
   Types.UpdateBoardMutationVariables
 >
+export const CountUserBoardTaskDocument = gql`
+  query countUserBoardTask($id: String, $now: timestamptz!) {
+    boards(where: { id: { _eq: $id } }) {
+      workspace {
+        user_workspaces {
+          user {
+            id
+            displayName
+            todo: tasks_aggregate(
+              where: {
+                task: {
+                  _and: {
+                    boardId: { _eq: $id }
+                    dueDate: { _gt: $now }
+                    code: { _eq: 1 }
+                  }
+                }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+            inProgress: tasks_aggregate(
+              where: {
+                task: {
+                  _and: {
+                    boardId: { _eq: $id }
+                    dueDate: { _gt: $now }
+                    code: { _eq: 2 }
+                  }
+                }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+            done: tasks_aggregate(
+              where: {
+                task: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+            late: tasks_aggregate(
+              where: {
+                task: {
+                  _and: {
+                    boardId: { _eq: $id }
+                    dueDate: { _lt: $now }
+                    code: { _in: [1, 2] }
+                  }
+                }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useCountUserBoardTaskQuery__
+ *
+ * To run a query within a React component, call `useCountUserBoardTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountUserBoardTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountUserBoardTaskQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountUserBoardTaskQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >(CountUserBoardTaskDocument, options)
+}
+export function useCountUserBoardTaskLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >(CountUserBoardTaskDocument, options)
+}
+export type CountUserBoardTaskQueryHookResult = ReturnType<
+  typeof useCountUserBoardTaskQuery
+>
+export type CountUserBoardTaskLazyQueryHookResult = ReturnType<
+  typeof useCountUserBoardTaskLazyQuery
+>
+export type CountUserBoardTaskQueryResult = Apollo.QueryResult<
+  Types.CountUserBoardTaskQuery,
+  Types.CountUserBoardTaskQueryVariables
+>
 export const AddTaskCommentDocument = gql`
   mutation addTaskComment($object: task_comment_insert_input!) {
     insert_task_comment(objects: [$object]) {

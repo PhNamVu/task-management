@@ -49,9 +49,25 @@ export const StackTaskChart = ({ now }: any) => {
     ],
   }
 
+  const options = {
+    maintainAspectRatio: true,
+
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        position: 'top',
+        text: `Task status`,
+      },
+    },
+  }
+
   return (
     <Flex h="100%" flexDirection="column" justifyContent="flex-end">
-      <Bar data={state} height={200} />
+      <Bar data={state} height={200} options={options} />
     </Flex>
   )
 }

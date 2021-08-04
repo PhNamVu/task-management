@@ -49,6 +49,61 @@ export type UpdateBoardMutation = { __typename?: 'mutation_root' } & {
   >
 }
 
+export type CountUserBoardTaskQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountUserBoardTaskQuery = { __typename?: 'query_root' } & {
+  boards: Array<
+    { __typename?: 'boards' } & {
+      workspace: { __typename?: 'workspaces' } & {
+        user_workspaces: Array<
+          { __typename?: 'user_workspace' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'id' | 'displayName'
+            > & {
+                todo: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+                inProgress: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+                done: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+                late: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+              }
+          }
+        >
+      }
+    }
+  >
+}
+
 export type AddTaskCommentMutationVariables = Types.Exact<{
   object: Types.Task_Comment_Insert_Input
 }>

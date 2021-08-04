@@ -45,18 +45,25 @@ export const TotalTaskPieChart = ({ now }: any) => {
       },
     ],
   }
+
+  const options = {
+    maintainAspectRatio: true,
+
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        position: 'top',
+        text: `Total task: ${total}`,
+      },
+    },
+  }
   return (
     <Box alignContent="center" px={20}>
-      <Doughnut
-        data={data}
-        options={{
-          responsive: true,
-          maintainAspectRatio: true,
-        }}
-      />
-      <Box mt={2} textAlign="center">
-        Total task: {total}{' '}
-      </Box>
+      <Doughnut data={data} options={options} />
     </Box>
   )
 }

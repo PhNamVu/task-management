@@ -34,6 +34,20 @@ export const TaskPriorityChart = ({ now }: any) => {
   const urgentLate = data?.urgentLate.aggregate?.count || 0
   const urgentDone = data?.urgentDone.aggregate?.count || 0
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        paddingBottom: 4,
+      },
+      title: {
+        display: true,
+        position: 'top',
+        text: 'Priority',
+      },
+    },
+  }
   const state = {
     labels: ['Low', 'Medium', 'Important', 'Urgent'],
     datasets: [
@@ -65,8 +79,8 @@ export const TaskPriorityChart = ({ now }: any) => {
   }
 
   return (
-    <Flex h="100%" flexDirection="column" justifyContent="flex-end">
-      <Bar data={state} height={200} />
+    <Flex flexDirection="column" justifyContent="flex-end">
+      <Bar data={state} height={200} options={options} />
     </Flex>
   )
 }
