@@ -8,7 +8,7 @@ mutation postBoard($object: boards_insert_input!) {
 }
 
 query getBoards($id: String) {
-  boards(where: { workspaceId: { _eq: $id } }) {
+  boards(where: { workspaceId: { _eq: $id } }, order_by: { createdAt: asc }) {
     title
     id
   }
@@ -94,6 +94,15 @@ query countUserBoardTask($id: String, $now: timestamptz!) {
           }
         }
       }
+    }
+  }
+}
+
+mutation deleteBoard($id: String!) {
+  delete_boards(where: { id: { _eq: $id } }) {
+    affected_rows
+    returning {
+      id
     }
   }
 }

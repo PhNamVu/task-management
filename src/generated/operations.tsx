@@ -104,6 +104,21 @@ export type CountUserBoardTaskQuery = { __typename?: 'query_root' } & {
   >
 }
 
+export type DeleteBoardMutationVariables = Types.Exact<{
+  id: Types.Scalars['String']
+}>
+
+export type DeleteBoardMutation = { __typename?: 'mutation_root' } & {
+  delete_boards?: Types.Maybe<
+    { __typename?: 'boards_mutation_response' } & Pick<
+      Types.Boards_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<{ __typename?: 'boards' } & Pick<Types.Boards, 'id'>>
+      }
+  >
+}
+
 export type AddTaskCommentMutationVariables = Types.Exact<{
   object: Types.Task_Comment_Insert_Input
 }>

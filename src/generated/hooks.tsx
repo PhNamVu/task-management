@@ -58,7 +58,7 @@ export type PostBoardMutationOptions = Apollo.BaseMutationOptions<
 >
 export const GetBoardsDocument = gql`
   query getBoards($id: String) {
-    boards(where: { workspaceId: { _eq: $id } }) {
+    boards(where: { workspaceId: { _eq: $id } }, order_by: { createdAt: asc }) {
       title
       id
     }
@@ -345,6 +345,58 @@ export type CountUserBoardTaskLazyQueryHookResult = ReturnType<
 export type CountUserBoardTaskQueryResult = Apollo.QueryResult<
   Types.CountUserBoardTaskQuery,
   Types.CountUserBoardTaskQueryVariables
+>
+export const DeleteBoardDocument = gql`
+  mutation deleteBoard($id: String!) {
+    delete_boards(where: { id: { _eq: $id } }) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type DeleteBoardMutationFn = Apollo.MutationFunction<
+  Types.DeleteBoardMutation,
+  Types.DeleteBoardMutationVariables
+>
+
+/**
+ * __useDeleteBoardMutation__
+ *
+ * To run a mutation, you first call `useDeleteBoardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBoardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBoardMutation, { data, loading, error }] = useDeleteBoardMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteBoardMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteBoardMutation,
+    Types.DeleteBoardMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteBoardMutation,
+    Types.DeleteBoardMutationVariables
+  >(DeleteBoardDocument, options)
+}
+export type DeleteBoardMutationHookResult = ReturnType<
+  typeof useDeleteBoardMutation
+>
+export type DeleteBoardMutationResult = Apollo.MutationResult<Types.DeleteBoardMutation>
+export type DeleteBoardMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteBoardMutation,
+  Types.DeleteBoardMutationVariables
 >
 export const AddTaskCommentDocument = gql`
   mutation addTaskComment($object: task_comment_insert_input!) {
