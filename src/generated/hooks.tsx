@@ -1256,6 +1256,67 @@ export type CountTaskPriorityQueryResult = Apollo.QueryResult<
   Types.CountTaskPriorityQuery,
   Types.CountTaskPriorityQueryVariables
 >
+export const GetTasksScheduleDocument = gql`
+  query getTasksSchedule($boardId: String) {
+    tasks(where: { boardId: { _eq: $boardId } }) {
+      title
+      end: dueDate
+      start: startDate
+      id
+    }
+  }
+`
+
+/**
+ * __useGetTasksScheduleQuery__
+ *
+ * To run a query within a React component, call `useGetTasksScheduleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTasksScheduleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTasksScheduleQuery({
+ *   variables: {
+ *      boardId: // value for 'boardId'
+ *   },
+ * });
+ */
+export function useGetTasksScheduleQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >(GetTasksScheduleDocument, options)
+}
+export function useGetTasksScheduleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >(GetTasksScheduleDocument, options)
+}
+export type GetTasksScheduleQueryHookResult = ReturnType<
+  typeof useGetTasksScheduleQuery
+>
+export type GetTasksScheduleLazyQueryHookResult = ReturnType<
+  typeof useGetTasksScheduleLazyQuery
+>
+export type GetTasksScheduleQueryResult = Apollo.QueryResult<
+  Types.GetTasksScheduleQuery,
+  Types.GetTasksScheduleQueryVariables
+>
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {
     insert_user_task(objects: [$object]) {

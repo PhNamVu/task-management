@@ -342,3 +342,12 @@ query countTaskPriority($id: String, $now: timestamptz!) {
     }
   }
 }
+
+query getTasksSchedule($boardId: String) {
+  tasks(where: { boardId: { _eq: $boardId } }) {
+    title
+    end: dueDate
+    start: startDate
+    id
+  }
+}

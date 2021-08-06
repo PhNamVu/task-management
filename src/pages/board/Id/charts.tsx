@@ -13,7 +13,7 @@ export const ChartViewPage = () => {
         <StackTaskChart now={new Date().toISOString()} />
         <TaskPriorityChart now={new Date().toISOString()} />
       </SimpleGrid>
-      <Box>
+      <Box mt={5}>
         <MembersTaskChart now={new Date().toISOString()} />
       </Box>
     </>

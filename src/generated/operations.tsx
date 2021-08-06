@@ -451,6 +451,19 @@ export type CountTaskPriorityQuery = { __typename?: 'query_root' } & {
   }
 }
 
+export type GetTasksScheduleQueryVariables = Types.Exact<{
+  boardId?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type GetTasksScheduleQuery = { __typename?: 'query_root' } & {
+  tasks: Array<
+    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'id'> & {
+        end: Types.Tasks['dueDate']
+        start: Types.Tasks['startDate']
+      }
+  >
+}
+
 export type AssignTaskMutationVariables = Types.Exact<{
   object: Types.User_Task_Insert_Input
 }>

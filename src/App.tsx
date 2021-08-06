@@ -23,6 +23,7 @@ import WorkspaceDetail from './pages/workspace/[Id]'
 import { BoardViewPage } from './pages/board/Id/board'
 import { ChartViewPage } from './pages/board/Id/charts'
 import { TaskDetailPage } from './pages/board/Id/task/[Id]'
+import ScheduleViewPage from './pages/board/Id/schedule'
 
 export const App = () => {
   const { state }: any = useAuth()
@@ -57,6 +58,7 @@ export const App = () => {
               <Route path="/:taskId" element={<TaskDetailPage />} />
 
               <Route path="/charts" element={<ChartViewPage />} />
+              <Route path="/schedule" element={<ScheduleViewPage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

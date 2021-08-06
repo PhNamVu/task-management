@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react'
 import { FaTrello } from 'react-icons/fa'
 import { RiBarChartHorizontalFill } from 'react-icons/ri'
 import { NavLink, useParams } from 'react-router-dom'
+import { AiTwotoneCalendar } from 'react-icons/ai'
 
 interface NavLinkProps {
   href: string
@@ -48,6 +49,11 @@ export const BoardTabMenu = () => {
         label="Charts"
         href={`/b/${id}/charts`}
         icon={<Icon as={RiBarChartHorizontalFill} w={4} h={4} />}
+      />
+      <StyledNavLink
+        label="Schedule"
+        href={`/b/${id}/schedule`}
+        icon={<Icon as={AiTwotoneCalendar} w={4} h={4} />}
       />
     </Flex>
   )
