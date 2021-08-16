@@ -7,7 +7,7 @@ import { shortString } from '../../helpers/shortString'
 import { MotionBox } from '../motion/MotionBox'
 import { StyledAvatar } from '../shared/StyledAvatar'
 import { ToolTipIconButton } from '../shared/ToolTipIconButton'
-import { GetTasksDocument, useDeleteTaskMutation } from '../../generated/hooks'
+import { GetTasksDocument, useUpdateTaskMutation } from '../../generated/hooks'
 import { DueDateLeft } from './DueDateLeft'
 import { TaskPriorityBadge } from './TaskPriorityBadge'
 
@@ -18,7 +18,7 @@ interface Props {
 export const TaskItem: React.FC<Props> = ({ item }) => {
   const { id: boardId } = useParams()
   const location: any = useLocation()
-  const [deleteTask] = useDeleteTaskMutation()
+  const [deleteTask] = useUpdateTaskMutation()
   const bg = useColorModeValue('white', 'gray.600')
   const [display, setDisplay] = React.useState(false)
   return (
@@ -45,6 +45,9 @@ export const TaskItem: React.FC<Props> = ({ item }) => {
               deleteTask({
                 variables: {
                   id: item.id,
+                  object: {
+                    code: 0,
+                  },
                 },
                 refetchQueries: [
                   {

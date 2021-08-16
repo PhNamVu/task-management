@@ -52,6 +52,11 @@ export const BoardViewPage = () => {
                       _ilike: `%${searchTerm}%`,
                     },
                   },
+                  {
+                    code: {
+                      _neq: 0,
+                    },
+                  },
                 ],
               },
             ]
@@ -64,6 +69,11 @@ export const BoardViewPage = () => {
                   {
                     title: {
                       _ilike: `%${searchTerm}%`,
+                    },
+                  },
+                  {
+                    code: {
+                      _neq: 0,
                     },
                   },
                 ],
