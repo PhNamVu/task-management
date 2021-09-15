@@ -23,6 +23,7 @@ import { EditableText } from '../shared/EditableText'
 import { ProgressLoading } from '../shared/Loading'
 import { StyledAvatar } from '../shared/StyledAvatar'
 import { StyledTextArea } from '../shared/StyledTextArea'
+import { DependButton } from './dependency/DependButton'
 import { MenuTaskButton } from './MenuTaskButton'
 import { NewAssigneeButton } from './NewAssigneeButton'
 import { UpdatePriority } from './UpdatePriority'
@@ -46,7 +47,7 @@ export const TaskDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{`${task?.title} || Birdy`}</title>
+        <title>{`${task?.title} | Birdy`}</title>
       </Helmet>
       <Flex
         flexDirection="column"
@@ -103,7 +104,10 @@ export const TaskDetail = () => {
           </Flex>
           <UpdatePriority priority={priority} />
         </Flex>
-
+        <Flex mt={5}>
+          {' '}
+          <DependButton />
+        </Flex>
         <EditableText
           defaultValue={task?.title}
           my={5}
