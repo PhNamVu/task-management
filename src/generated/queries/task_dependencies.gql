@@ -1,0 +1,21 @@
+mutation postTaskDependency($object: task_dependencies_insert_input!) {
+  insert_task_dependencies(objects: [$object]) {
+    affected_rows
+    returning {
+      status
+    }
+  }
+}
+
+mutation deleteDependency($taskId: String!, $taskDependId: String!) {
+  delete_task_dependencies(
+    where: {
+      _and: { taskId: { _eq: $taskId }, taskDependId: { _eq: $taskDependId } }
+    }
+  ) {
+    affected_rows
+    returning {
+      status
+    }
+  }
+}

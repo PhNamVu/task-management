@@ -190,6 +190,28 @@ export type TaskDetailQuery = { __typename?: 'query_root' } & {
             >
           }
         >
+        createDepend: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          > & {
+              dependTask: { __typename?: 'tasks' } & Pick<
+                Types.Tasks,
+                'id' | 'title' | 'code'
+              >
+            }
+        >
+        dependOn: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          > & {
+              task: { __typename?: 'tasks' } & Pick<
+                Types.Tasks,
+                'id' | 'title' | 'code'
+              >
+            }
+        >
       }
   >
 }
@@ -460,6 +482,78 @@ export type GetTasksScheduleQuery = { __typename?: 'query_root' } & {
     { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'id'> & {
         end: Types.Tasks['dueDate']
         start: Types.Tasks['startDate']
+      }
+  >
+}
+
+export type GetDependenciesQueryVariables = Types.Exact<{
+  where?: Types.Maybe<Types.Tasks_Bool_Exp>
+}>
+
+export type GetDependenciesQuery = { __typename?: 'query_root' } & {
+  tasks: Array<
+    { __typename?: 'tasks' } & Pick<Types.Tasks, 'id' | 'title' | 'code'> & {
+        createDepend: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'taskDependId'
+          >
+        >
+        dependOn: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'taskId'
+          >
+        >
+        assignee: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'displayName' | 'photoUrl'
+            >
+          }
+        >
+      }
+  >
+}
+
+export type PostTaskDependencyMutationVariables = Types.Exact<{
+  object: Types.Task_Dependencies_Insert_Input
+}>
+
+export type PostTaskDependencyMutation = { __typename?: 'mutation_root' } & {
+  insert_task_dependencies?: Types.Maybe<
+    { __typename?: 'task_dependencies_mutation_response' } & Pick<
+      Types.Task_Dependencies_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          >
+        >
+      }
+  >
+}
+
+export type DeleteDependencyMutationVariables = Types.Exact<{
+  taskId: Types.Scalars['String']
+  taskDependId: Types.Scalars['String']
+}>
+
+export type DeleteDependencyMutation = { __typename?: 'mutation_root' } & {
+  delete_task_dependencies?: Types.Maybe<
+    { __typename?: 'task_dependencies_mutation_response' } & Pick<
+      Types.Task_Dependencies_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          >
+        >
       }
   >
 }

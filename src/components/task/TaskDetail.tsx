@@ -26,6 +26,7 @@ import { StyledTextArea } from '../shared/StyledTextArea'
 import { DependButton } from './dependency/DependButton'
 import { MenuTaskButton } from './MenuTaskButton'
 import { NewAssigneeButton } from './NewAssigneeButton'
+import { CreateDependendTask, DepenOnTask } from './TaskDependency'
 import { UpdatePriority } from './UpdatePriority'
 
 export const TaskDetail = () => {
@@ -44,18 +45,14 @@ export const TaskDetail = () => {
   if (error || data?.tasks.length === 0) {
     throw new NotFoundError('Not found task')
   }
+  const createDepend = task?.createDepend
+  const depenOn = task?.dependOn
   return (
     <>
       <Helmet>
         <title>{`${task?.title} | Birdy`}</title>
       </Helmet>
-      <Flex
-        flexDirection="column"
-        borderRight="1px solid rgb(226, 226, 226)"
-        // h="100%"
-        // w="100%"
-        // pr={5}
-      >
+      <Flex flexDirection="column" borderRight="1px solid rgb(226, 226, 226)">
         <Flex
           borderBottom="1px solid rgb(226, 226, 226)"
           pb={5}
@@ -105,8 +102,30 @@ export const TaskDetail = () => {
           <UpdatePriority priority={priority} />
         </Flex>
         <Flex mt={5}>
-          {' '}
-          <DependButton />
+          <DependButton fetchDetail={refetch} />
+        </Flex>
+        <Flex mt={5} flexDirection="column" alignItems="flex-start">
+          {createDepend?.map((item: any) => {
+            return (
+              <CreateDependendTask
+                key={item.dependTask.id}
+                status={item.status}
+                task={item.dependTask}
+                refetch={refetch}
+              />
+            )
+          })}
+
+          {depenOn?.map((item: any) => {
+            return (
+              <DepenOnTask
+                key={item.task.id}
+                status={item.status}
+                task={item.task}
+                refetch={refetch}
+              />
+            )
+          })}
         </Flex>
         <EditableText
           defaultValue={task?.title}

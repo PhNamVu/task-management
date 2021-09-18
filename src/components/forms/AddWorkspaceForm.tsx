@@ -85,7 +85,6 @@ export const AddWorkspaceForm: React.FC<Props> = ({ onClose }) => {
         } catch (error) {
           negativeToast({
             title: 'Error. Please try again!',
-            description: error.message,
           })
           actions.setSubmitting(false)
         }

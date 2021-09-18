@@ -3,7 +3,11 @@ import React from 'react'
 import { MdDoNotDisturbOn } from 'react-icons/md'
 import { GoPlusSmall } from 'react-icons/go'
 
-export const AddBlocking = () => {
+interface Props {
+  setStatus: any
+}
+
+export const AddBlocking: React.FC<Props> = ({ setStatus }) => {
   return (
     <Box
       mt={5}
@@ -16,13 +20,18 @@ export const AddBlocking = () => {
       <Flex color="red.400">
         <Icon as={MdDoNotDisturbOn} mr={2} />
         <Heading as="h5" size="xs" textTransform="uppercase">
-          waiting on
+          blocking
         </Heading>
       </Flex>
       <Text fontSize="sm" mt={1} color="gray" fontStyle="italic">
         Tasks that must be done before this task
       </Text>
-      <Flex alignItems="center" color="cyan.400" mt={1}>
+      <Flex
+        alignItems="center"
+        color="cyan.400"
+        mt={1}
+        onClick={() => setStatus('blocking')}
+      >
         <Icon as={GoPlusSmall} />
         <Text fontSize="sm" cursor="pointer">
           Tasks that can&apos;t start until this is completed

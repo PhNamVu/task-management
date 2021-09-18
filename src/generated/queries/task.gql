@@ -38,6 +38,25 @@ query taskDetail($id: String!) {
         photoUrl
       }
     }
+    createDepend {
+      status
+      dependTask {
+        id
+        title
+        code
+      }
+    }
+    dependOn {
+      status
+      task {
+        id
+        title
+        code
+      }
+    }
+  }
+  task_dependencies(where: { task_id: { _eq: $id } }) {
+
   }
 }
 
@@ -351,3 +370,24 @@ query getTasksSchedule($boardId: String) {
     id
   }
 }
+
+query getDependencies($where: tasks_bool_exp) {
+  tasks(where: $where, limit: 10) {
+    id
+    title
+    code
+    createDepend {
+      taskDependId
+    }
+    dependOn {
+      taskId
+    }
+    assignee {
+      user {
+        displayName
+        photoUrl
+      }
+    }
+  }
+}
+

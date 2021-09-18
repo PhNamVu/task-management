@@ -583,6 +583,22 @@ export const TaskDetailDocument = gql`
           photoUrl
         }
       }
+      createDepend {
+        status
+        dependTask {
+          id
+          title
+          code
+        }
+      }
+      dependOn {
+        status
+        task {
+          id
+          title
+          code
+        }
+      }
     }
   }
 `
@@ -1316,6 +1332,187 @@ export type GetTasksScheduleLazyQueryHookResult = ReturnType<
 export type GetTasksScheduleQueryResult = Apollo.QueryResult<
   Types.GetTasksScheduleQuery,
   Types.GetTasksScheduleQueryVariables
+>
+export const GetDependenciesDocument = gql`
+  query getDependencies($where: tasks_bool_exp) {
+    tasks(where: $where, limit: 10) {
+      id
+      title
+      code
+      createDepend {
+        taskDependId
+      }
+      dependOn {
+        taskId
+      }
+      assignee {
+        user {
+          displayName
+          photoUrl
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useGetDependenciesQuery__
+ *
+ * To run a query within a React component, call `useGetDependenciesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDependenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDependenciesQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGetDependenciesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >(GetDependenciesDocument, options)
+}
+export function useGetDependenciesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >(GetDependenciesDocument, options)
+}
+export type GetDependenciesQueryHookResult = ReturnType<
+  typeof useGetDependenciesQuery
+>
+export type GetDependenciesLazyQueryHookResult = ReturnType<
+  typeof useGetDependenciesLazyQuery
+>
+export type GetDependenciesQueryResult = Apollo.QueryResult<
+  Types.GetDependenciesQuery,
+  Types.GetDependenciesQueryVariables
+>
+export const PostTaskDependencyDocument = gql`
+  mutation postTaskDependency($object: task_dependencies_insert_input!) {
+    insert_task_dependencies(objects: [$object]) {
+      affected_rows
+      returning {
+        status
+      }
+    }
+  }
+`
+export type PostTaskDependencyMutationFn = Apollo.MutationFunction<
+  Types.PostTaskDependencyMutation,
+  Types.PostTaskDependencyMutationVariables
+>
+
+/**
+ * __usePostTaskDependencyMutation__
+ *
+ * To run a mutation, you first call `usePostTaskDependencyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostTaskDependencyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postTaskDependencyMutation, { data, loading, error }] = usePostTaskDependencyMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function usePostTaskDependencyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.PostTaskDependencyMutation,
+    Types.PostTaskDependencyMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.PostTaskDependencyMutation,
+    Types.PostTaskDependencyMutationVariables
+  >(PostTaskDependencyDocument, options)
+}
+export type PostTaskDependencyMutationHookResult = ReturnType<
+  typeof usePostTaskDependencyMutation
+>
+export type PostTaskDependencyMutationResult = Apollo.MutationResult<Types.PostTaskDependencyMutation>
+export type PostTaskDependencyMutationOptions = Apollo.BaseMutationOptions<
+  Types.PostTaskDependencyMutation,
+  Types.PostTaskDependencyMutationVariables
+>
+export const DeleteDependencyDocument = gql`
+  mutation deleteDependency($taskId: String!, $taskDependId: String!) {
+    delete_task_dependencies(
+      where: {
+        _and: { taskId: { _eq: $taskId }, taskDependId: { _eq: $taskDependId } }
+      }
+    ) {
+      affected_rows
+      returning {
+        status
+      }
+    }
+  }
+`
+export type DeleteDependencyMutationFn = Apollo.MutationFunction<
+  Types.DeleteDependencyMutation,
+  Types.DeleteDependencyMutationVariables
+>
+
+/**
+ * __useDeleteDependencyMutation__
+ *
+ * To run a mutation, you first call `useDeleteDependencyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDependencyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDependencyMutation, { data, loading, error }] = useDeleteDependencyMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      taskDependId: // value for 'taskDependId'
+ *   },
+ * });
+ */
+export function useDeleteDependencyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteDependencyMutation,
+    Types.DeleteDependencyMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteDependencyMutation,
+    Types.DeleteDependencyMutationVariables
+  >(DeleteDependencyDocument, options)
+}
+export type DeleteDependencyMutationHookResult = ReturnType<
+  typeof useDeleteDependencyMutation
+>
+export type DeleteDependencyMutationResult = Apollo.MutationResult<Types.DeleteDependencyMutation>
+export type DeleteDependencyMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteDependencyMutation,
+  Types.DeleteDependencyMutationVariables
 >
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {

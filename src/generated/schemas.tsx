@@ -77,6 +77,498 @@ export type UserSetupRes = {
   statusCode?: Maybe<Scalars['Int']>
 }
 
+/** columns and relationships of "activities" */
+export type Activities = {
+  __typename?: 'activities'
+  /** An array relationship */
+  activityDetails: Array<Activity_Details>
+  /** An aggregate relationship */
+  activityDetails_aggregate: Activity_Details_Aggregate
+  createdAt: Scalars['timestamptz']
+  entityId: Scalars['String']
+  entityType: Scalars['String']
+  id: Scalars['String']
+  /** fetch data from the table: "notifications" */
+  notifications: Array<Notifications>
+  /** An aggregate relationship */
+  notifications_aggregate: Notifications_Aggregate
+  updatedAt: Scalars['timestamptz']
+}
+
+/** columns and relationships of "activities" */
+export type ActivitiesActivityDetailsArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+/** columns and relationships of "activities" */
+export type ActivitiesActivityDetails_AggregateArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+/** columns and relationships of "activities" */
+export type ActivitiesNotificationsArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+/** columns and relationships of "activities" */
+export type ActivitiesNotifications_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+/** aggregated selection of "activities" */
+export type Activities_Aggregate = {
+  __typename?: 'activities_aggregate'
+  aggregate?: Maybe<Activities_Aggregate_Fields>
+  nodes: Array<Activities>
+}
+
+/** aggregate fields of "activities" */
+export type Activities_Aggregate_Fields = {
+  __typename?: 'activities_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<Activities_Max_Fields>
+  min?: Maybe<Activities_Min_Fields>
+}
+
+/** aggregate fields of "activities" */
+export type Activities_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Activities_Select_Column>>
+  distinct?: Maybe<Scalars['Boolean']>
+}
+
+/** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
+export type Activities_Bool_Exp = {
+  _and?: Maybe<Array<Activities_Bool_Exp>>
+  _not?: Maybe<Activities_Bool_Exp>
+  _or?: Maybe<Array<Activities_Bool_Exp>>
+  activityDetails?: Maybe<Activity_Details_Bool_Exp>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  entityId?: Maybe<String_Comparison_Exp>
+  entityType?: Maybe<String_Comparison_Exp>
+  id?: Maybe<String_Comparison_Exp>
+  notifications?: Maybe<Notifications_Bool_Exp>
+  updatedAt?: Maybe<Timestamptz_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "activities" */
+export enum Activities_Constraint {
+  /** unique or primary key constraint */
+  ActivitiesPkey = 'activities_pkey',
+}
+
+/** input type for inserting data into table "activities" */
+export type Activities_Insert_Input = {
+  activityDetails?: Maybe<Activity_Details_Arr_Rel_Insert_Input>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  entityId?: Maybe<Scalars['String']>
+  entityType?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  notifications?: Maybe<Notifications_Arr_Rel_Insert_Input>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate max on columns */
+export type Activities_Max_Fields = {
+  __typename?: 'activities_max_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  entityId?: Maybe<Scalars['String']>
+  entityType?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate min on columns */
+export type Activities_Min_Fields = {
+  __typename?: 'activities_min_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  entityId?: Maybe<Scalars['String']>
+  entityType?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** response of any mutation on the table "activities" */
+export type Activities_Mutation_Response = {
+  __typename?: 'activities_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Activities>
+}
+
+/** input type for inserting object relation for remote table "activities" */
+export type Activities_Obj_Rel_Insert_Input = {
+  data: Activities_Insert_Input
+  /** on conflict condition */
+  on_conflict?: Maybe<Activities_On_Conflict>
+}
+
+/** on conflict condition type for table "activities" */
+export type Activities_On_Conflict = {
+  constraint: Activities_Constraint
+  update_columns?: Array<Activities_Update_Column>
+  where?: Maybe<Activities_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "activities". */
+export type Activities_Order_By = {
+  activityDetails_aggregate?: Maybe<Activity_Details_Aggregate_Order_By>
+  createdAt?: Maybe<Order_By>
+  entityId?: Maybe<Order_By>
+  entityType?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  notifications_aggregate?: Maybe<Notifications_Aggregate_Order_By>
+  updatedAt?: Maybe<Order_By>
+}
+
+/** primary key columns input for table: activities */
+export type Activities_Pk_Columns_Input = {
+  id: Scalars['String']
+}
+
+/** select columns of table "activities" */
+export enum Activities_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  EntityId = 'entityId',
+  /** column name */
+  EntityType = 'entityType',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "activities" */
+export type Activities_Set_Input = {
+  createdAt?: Maybe<Scalars['timestamptz']>
+  entityId?: Maybe<Scalars['String']>
+  entityType?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** update columns of table "activities" */
+export enum Activities_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  EntityId = 'entityId',
+  /** column name */
+  EntityType = 'entityType',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+}
+
+/** columns and relationships of "activity_details" */
+export type Activity_Details = {
+  __typename?: 'activity_details'
+  actionName: Scalars['String']
+  actionOwnerId?: Maybe<Scalars['String']>
+  /** An object relationship */
+  activity: Activities
+  activityId: Scalars['String']
+  createdAt: Scalars['timestamptz']
+  id: Scalars['String']
+  newData?: Maybe<Scalars['jsonb']>
+  /** An array relationship */
+  notification_details: Array<Notification_Details>
+  /** An aggregate relationship */
+  notification_details_aggregate: Notification_Details_Aggregate
+  oldData?: Maybe<Scalars['jsonb']>
+  updatedAt: Scalars['timestamptz']
+  /** An object relationship */
+  user?: Maybe<Users>
+}
+
+/** columns and relationships of "activity_details" */
+export type Activity_DetailsNewDataArgs = {
+  path?: Maybe<Scalars['String']>
+}
+
+/** columns and relationships of "activity_details" */
+export type Activity_DetailsNotification_DetailsArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+/** columns and relationships of "activity_details" */
+export type Activity_DetailsNotification_Details_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+/** columns and relationships of "activity_details" */
+export type Activity_DetailsOldDataArgs = {
+  path?: Maybe<Scalars['String']>
+}
+
+/** aggregated selection of "activity_details" */
+export type Activity_Details_Aggregate = {
+  __typename?: 'activity_details_aggregate'
+  aggregate?: Maybe<Activity_Details_Aggregate_Fields>
+  nodes: Array<Activity_Details>
+}
+
+/** aggregate fields of "activity_details" */
+export type Activity_Details_Aggregate_Fields = {
+  __typename?: 'activity_details_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<Activity_Details_Max_Fields>
+  min?: Maybe<Activity_Details_Min_Fields>
+}
+
+/** aggregate fields of "activity_details" */
+export type Activity_Details_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Activity_Details_Select_Column>>
+  distinct?: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "activity_details" */
+export type Activity_Details_Aggregate_Order_By = {
+  count?: Maybe<Order_By>
+  max?: Maybe<Activity_Details_Max_Order_By>
+  min?: Maybe<Activity_Details_Min_Order_By>
+}
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Activity_Details_Append_Input = {
+  newData?: Maybe<Scalars['jsonb']>
+  oldData?: Maybe<Scalars['jsonb']>
+}
+
+/** input type for inserting array relation for remote table "activity_details" */
+export type Activity_Details_Arr_Rel_Insert_Input = {
+  data: Array<Activity_Details_Insert_Input>
+  /** on conflict condition */
+  on_conflict?: Maybe<Activity_Details_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "activity_details". All fields are combined with a logical 'AND'. */
+export type Activity_Details_Bool_Exp = {
+  _and?: Maybe<Array<Activity_Details_Bool_Exp>>
+  _not?: Maybe<Activity_Details_Bool_Exp>
+  _or?: Maybe<Array<Activity_Details_Bool_Exp>>
+  actionName?: Maybe<String_Comparison_Exp>
+  actionOwnerId?: Maybe<String_Comparison_Exp>
+  activity?: Maybe<Activities_Bool_Exp>
+  activityId?: Maybe<String_Comparison_Exp>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  id?: Maybe<String_Comparison_Exp>
+  newData?: Maybe<Jsonb_Comparison_Exp>
+  notification_details?: Maybe<Notification_Details_Bool_Exp>
+  oldData?: Maybe<Jsonb_Comparison_Exp>
+  updatedAt?: Maybe<Timestamptz_Comparison_Exp>
+  user?: Maybe<Users_Bool_Exp>
+}
+
+/** unique or primary key constraints on table "activity_details" */
+export enum Activity_Details_Constraint {
+  /** unique or primary key constraint */
+  ActivityDetailsPkey = 'activity_details_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Activity_Details_Delete_At_Path_Input = {
+  newData?: Maybe<Array<Scalars['String']>>
+  oldData?: Maybe<Array<Scalars['String']>>
+}
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Activity_Details_Delete_Elem_Input = {
+  newData?: Maybe<Scalars['Int']>
+  oldData?: Maybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Activity_Details_Delete_Key_Input = {
+  newData?: Maybe<Scalars['String']>
+  oldData?: Maybe<Scalars['String']>
+}
+
+/** input type for inserting data into table "activity_details" */
+export type Activity_Details_Insert_Input = {
+  actionName?: Maybe<Scalars['String']>
+  actionOwnerId?: Maybe<Scalars['String']>
+  activity?: Maybe<Activities_Obj_Rel_Insert_Input>
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  newData?: Maybe<Scalars['jsonb']>
+  notification_details?: Maybe<Notification_Details_Arr_Rel_Insert_Input>
+  oldData?: Maybe<Scalars['jsonb']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+  user?: Maybe<Users_Obj_Rel_Insert_Input>
+}
+
+/** aggregate max on columns */
+export type Activity_Details_Max_Fields = {
+  __typename?: 'activity_details_max_fields'
+  actionName?: Maybe<Scalars['String']>
+  actionOwnerId?: Maybe<Scalars['String']>
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** order by max() on columns of table "activity_details" */
+export type Activity_Details_Max_Order_By = {
+  actionName?: Maybe<Order_By>
+  actionOwnerId?: Maybe<Order_By>
+  activityId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Activity_Details_Min_Fields = {
+  __typename?: 'activity_details_min_fields'
+  actionName?: Maybe<Scalars['String']>
+  actionOwnerId?: Maybe<Scalars['String']>
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** order by min() on columns of table "activity_details" */
+export type Activity_Details_Min_Order_By = {
+  actionName?: Maybe<Order_By>
+  actionOwnerId?: Maybe<Order_By>
+  activityId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "activity_details" */
+export type Activity_Details_Mutation_Response = {
+  __typename?: 'activity_details_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Activity_Details>
+}
+
+/** input type for inserting object relation for remote table "activity_details" */
+export type Activity_Details_Obj_Rel_Insert_Input = {
+  data: Activity_Details_Insert_Input
+  /** on conflict condition */
+  on_conflict?: Maybe<Activity_Details_On_Conflict>
+}
+
+/** on conflict condition type for table "activity_details" */
+export type Activity_Details_On_Conflict = {
+  constraint: Activity_Details_Constraint
+  update_columns?: Array<Activity_Details_Update_Column>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "activity_details". */
+export type Activity_Details_Order_By = {
+  actionName?: Maybe<Order_By>
+  actionOwnerId?: Maybe<Order_By>
+  activity?: Maybe<Activities_Order_By>
+  activityId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  newData?: Maybe<Order_By>
+  notification_details_aggregate?: Maybe<Notification_Details_Aggregate_Order_By>
+  oldData?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+  user?: Maybe<Users_Order_By>
+}
+
+/** primary key columns input for table: activity_details */
+export type Activity_Details_Pk_Columns_Input = {
+  id: Scalars['String']
+}
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Activity_Details_Prepend_Input = {
+  newData?: Maybe<Scalars['jsonb']>
+  oldData?: Maybe<Scalars['jsonb']>
+}
+
+/** select columns of table "activity_details" */
+export enum Activity_Details_Select_Column {
+  /** column name */
+  ActionName = 'actionName',
+  /** column name */
+  ActionOwnerId = 'actionOwnerId',
+  /** column name */
+  ActivityId = 'activityId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NewData = 'newData',
+  /** column name */
+  OldData = 'oldData',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "activity_details" */
+export type Activity_Details_Set_Input = {
+  actionName?: Maybe<Scalars['String']>
+  actionOwnerId?: Maybe<Scalars['String']>
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  newData?: Maybe<Scalars['jsonb']>
+  oldData?: Maybe<Scalars['jsonb']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** update columns of table "activity_details" */
+export enum Activity_Details_Update_Column {
+  /** column name */
+  ActionName = 'actionName',
+  /** column name */
+  ActionOwnerId = 'actionOwnerId',
+  /** column name */
+  ActivityId = 'activityId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NewData = 'newData',
+  /** column name */
+  OldData = 'oldData',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+}
+
 /** columns and relationships of "boards" */
 export type Boards = {
   __typename?: 'boards'
@@ -317,14 +809,34 @@ export type Jsonb_Comparison_Exp = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root'
+  /** delete data from the table: "activities" */
+  delete_activities?: Maybe<Activities_Mutation_Response>
+  /** delete single row from the table: "activities" */
+  delete_activities_by_pk?: Maybe<Activities>
+  /** delete data from the table: "activity_details" */
+  delete_activity_details?: Maybe<Activity_Details_Mutation_Response>
+  /** delete single row from the table: "activity_details" */
+  delete_activity_details_by_pk?: Maybe<Activity_Details>
   /** delete data from the table: "boards" */
   delete_boards?: Maybe<Boards_Mutation_Response>
   /** delete single row from the table: "boards" */
   delete_boards_by_pk?: Maybe<Boards>
+  /** delete data from the table: "notification_details" */
+  delete_notification_details?: Maybe<Notification_Details_Mutation_Response>
+  /** delete single row from the table: "notification_details" */
+  delete_notification_details_by_pk?: Maybe<Notification_Details>
+  /** delete data from the table: "notifications" */
+  delete_notifications?: Maybe<Notifications_Mutation_Response>
+  /** delete single row from the table: "notifications" */
+  delete_notifications_by_pk?: Maybe<Notifications>
   /** delete data from the table: "task_comment" */
   delete_task_comment?: Maybe<Task_Comment_Mutation_Response>
   /** delete single row from the table: "task_comment" */
   delete_task_comment_by_pk?: Maybe<Task_Comment>
+  /** delete data from the table: "task_dependencies" */
+  delete_task_dependencies?: Maybe<Task_Dependencies_Mutation_Response>
+  /** delete single row from the table: "task_dependencies" */
+  delete_task_dependencies_by_pk?: Maybe<Task_Dependencies>
   /** delete data from the table: "tasks" */
   delete_tasks?: Maybe<Tasks_Mutation_Response>
   /** delete single row from the table: "tasks" */
@@ -345,14 +857,34 @@ export type Mutation_Root = {
   delete_workspaces?: Maybe<Workspaces_Mutation_Response>
   /** delete single row from the table: "workspaces" */
   delete_workspaces_by_pk?: Maybe<Workspaces>
+  /** insert data into the table: "activities" */
+  insert_activities?: Maybe<Activities_Mutation_Response>
+  /** insert a single row into the table: "activities" */
+  insert_activities_one?: Maybe<Activities>
+  /** insert data into the table: "activity_details" */
+  insert_activity_details?: Maybe<Activity_Details_Mutation_Response>
+  /** insert a single row into the table: "activity_details" */
+  insert_activity_details_one?: Maybe<Activity_Details>
   /** insert data into the table: "boards" */
   insert_boards?: Maybe<Boards_Mutation_Response>
   /** insert a single row into the table: "boards" */
   insert_boards_one?: Maybe<Boards>
+  /** insert data into the table: "notification_details" */
+  insert_notification_details?: Maybe<Notification_Details_Mutation_Response>
+  /** insert a single row into the table: "notification_details" */
+  insert_notification_details_one?: Maybe<Notification_Details>
+  /** insert data into the table: "notifications" */
+  insert_notifications?: Maybe<Notifications_Mutation_Response>
+  /** insert a single row into the table: "notifications" */
+  insert_notifications_one?: Maybe<Notifications>
   /** insert data into the table: "task_comment" */
   insert_task_comment?: Maybe<Task_Comment_Mutation_Response>
   /** insert a single row into the table: "task_comment" */
   insert_task_comment_one?: Maybe<Task_Comment>
+  /** insert data into the table: "task_dependencies" */
+  insert_task_dependencies?: Maybe<Task_Dependencies_Mutation_Response>
+  /** insert a single row into the table: "task_dependencies" */
+  insert_task_dependencies_one?: Maybe<Task_Dependencies>
   /** insert data into the table: "tasks" */
   insert_tasks?: Maybe<Tasks_Mutation_Response>
   /** insert a single row into the table: "tasks" */
@@ -373,14 +905,34 @@ export type Mutation_Root = {
   insert_workspaces?: Maybe<Workspaces_Mutation_Response>
   /** insert a single row into the table: "workspaces" */
   insert_workspaces_one?: Maybe<Workspaces>
+  /** update data of the table: "activities" */
+  update_activities?: Maybe<Activities_Mutation_Response>
+  /** update single row of the table: "activities" */
+  update_activities_by_pk?: Maybe<Activities>
+  /** update data of the table: "activity_details" */
+  update_activity_details?: Maybe<Activity_Details_Mutation_Response>
+  /** update single row of the table: "activity_details" */
+  update_activity_details_by_pk?: Maybe<Activity_Details>
   /** update data of the table: "boards" */
   update_boards?: Maybe<Boards_Mutation_Response>
   /** update single row of the table: "boards" */
   update_boards_by_pk?: Maybe<Boards>
+  /** update data of the table: "notification_details" */
+  update_notification_details?: Maybe<Notification_Details_Mutation_Response>
+  /** update single row of the table: "notification_details" */
+  update_notification_details_by_pk?: Maybe<Notification_Details>
+  /** update data of the table: "notifications" */
+  update_notifications?: Maybe<Notifications_Mutation_Response>
+  /** update single row of the table: "notifications" */
+  update_notifications_by_pk?: Maybe<Notifications>
   /** update data of the table: "task_comment" */
   update_task_comment?: Maybe<Task_Comment_Mutation_Response>
   /** update single row of the table: "task_comment" */
   update_task_comment_by_pk?: Maybe<Task_Comment>
+  /** update data of the table: "task_dependencies" */
+  update_task_dependencies?: Maybe<Task_Dependencies_Mutation_Response>
+  /** update single row of the table: "task_dependencies" */
+  update_task_dependencies_by_pk?: Maybe<Task_Dependencies>
   /** update data of the table: "tasks" */
   update_tasks?: Maybe<Tasks_Mutation_Response>
   /** update single row of the table: "tasks" */
@@ -405,12 +957,52 @@ export type Mutation_Root = {
 }
 
 /** mutation root */
+export type Mutation_RootDelete_ActivitiesArgs = {
+  where: Activities_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Activities_By_PkArgs = {
+  id: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Activity_DetailsArgs = {
+  where: Activity_Details_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Activity_Details_By_PkArgs = {
+  id: Scalars['String']
+}
+
+/** mutation root */
 export type Mutation_RootDelete_BoardsArgs = {
   where: Boards_Bool_Exp
 }
 
 /** mutation root */
 export type Mutation_RootDelete_Boards_By_PkArgs = {
+  id: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Notification_DetailsArgs = {
+  where: Notification_Details_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Notification_Details_By_PkArgs = {
+  id: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_NotificationsArgs = {
+  where: Notifications_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Notifications_By_PkArgs = {
   id: Scalars['String']
 }
 
@@ -422,6 +1014,17 @@ export type Mutation_RootDelete_Task_CommentArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Task_Comment_By_PkArgs = {
   id: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Task_DependenciesArgs = {
+  where: Task_Dependencies_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Task_Dependencies_By_PkArgs = {
+  taskDependId: Scalars['String']
+  taskId: Scalars['String']
 }
 
 /** mutation root */
@@ -477,6 +1080,30 @@ export type Mutation_RootDelete_Workspaces_By_PkArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootInsert_ActivitiesArgs = {
+  objects: Array<Activities_Insert_Input>
+  on_conflict?: Maybe<Activities_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Activities_OneArgs = {
+  object: Activities_Insert_Input
+  on_conflict?: Maybe<Activities_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Activity_DetailsArgs = {
+  objects: Array<Activity_Details_Insert_Input>
+  on_conflict?: Maybe<Activity_Details_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Activity_Details_OneArgs = {
+  object: Activity_Details_Insert_Input
+  on_conflict?: Maybe<Activity_Details_On_Conflict>
+}
+
+/** mutation root */
 export type Mutation_RootInsert_BoardsArgs = {
   objects: Array<Boards_Insert_Input>
   on_conflict?: Maybe<Boards_On_Conflict>
@@ -489,6 +1116,30 @@ export type Mutation_RootInsert_Boards_OneArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootInsert_Notification_DetailsArgs = {
+  objects: Array<Notification_Details_Insert_Input>
+  on_conflict?: Maybe<Notification_Details_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Notification_Details_OneArgs = {
+  object: Notification_Details_Insert_Input
+  on_conflict?: Maybe<Notification_Details_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_NotificationsArgs = {
+  objects: Array<Notifications_Insert_Input>
+  on_conflict?: Maybe<Notifications_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Notifications_OneArgs = {
+  object: Notifications_Insert_Input
+  on_conflict?: Maybe<Notifications_On_Conflict>
+}
+
+/** mutation root */
 export type Mutation_RootInsert_Task_CommentArgs = {
   objects: Array<Task_Comment_Insert_Input>
   on_conflict?: Maybe<Task_Comment_On_Conflict>
@@ -498,6 +1149,18 @@ export type Mutation_RootInsert_Task_CommentArgs = {
 export type Mutation_RootInsert_Task_Comment_OneArgs = {
   object: Task_Comment_Insert_Input
   on_conflict?: Maybe<Task_Comment_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Task_DependenciesArgs = {
+  objects: Array<Task_Dependencies_Insert_Input>
+  on_conflict?: Maybe<Task_Dependencies_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Task_Dependencies_OneArgs = {
+  object: Task_Dependencies_Insert_Input
+  on_conflict?: Maybe<Task_Dependencies_On_Conflict>
 }
 
 /** mutation root */
@@ -561,6 +1224,40 @@ export type Mutation_RootInsert_Workspaces_OneArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootUpdate_ActivitiesArgs = {
+  _set?: Maybe<Activities_Set_Input>
+  where: Activities_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Activities_By_PkArgs = {
+  _set?: Maybe<Activities_Set_Input>
+  pk_columns: Activities_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Activity_DetailsArgs = {
+  _append?: Maybe<Activity_Details_Append_Input>
+  _delete_at_path?: Maybe<Activity_Details_Delete_At_Path_Input>
+  _delete_elem?: Maybe<Activity_Details_Delete_Elem_Input>
+  _delete_key?: Maybe<Activity_Details_Delete_Key_Input>
+  _prepend?: Maybe<Activity_Details_Prepend_Input>
+  _set?: Maybe<Activity_Details_Set_Input>
+  where: Activity_Details_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Activity_Details_By_PkArgs = {
+  _append?: Maybe<Activity_Details_Append_Input>
+  _delete_at_path?: Maybe<Activity_Details_Delete_At_Path_Input>
+  _delete_elem?: Maybe<Activity_Details_Delete_Elem_Input>
+  _delete_key?: Maybe<Activity_Details_Delete_Key_Input>
+  _prepend?: Maybe<Activity_Details_Prepend_Input>
+  _set?: Maybe<Activity_Details_Set_Input>
+  pk_columns: Activity_Details_Pk_Columns_Input
+}
+
+/** mutation root */
 export type Mutation_RootUpdate_BoardsArgs = {
   _set?: Maybe<Boards_Set_Input>
   where: Boards_Bool_Exp
@@ -570,6 +1267,30 @@ export type Mutation_RootUpdate_BoardsArgs = {
 export type Mutation_RootUpdate_Boards_By_PkArgs = {
   _set?: Maybe<Boards_Set_Input>
   pk_columns: Boards_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_DetailsArgs = {
+  _set?: Maybe<Notification_Details_Set_Input>
+  where: Notification_Details_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_Details_By_PkArgs = {
+  _set?: Maybe<Notification_Details_Set_Input>
+  pk_columns: Notification_Details_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_NotificationsArgs = {
+  _set?: Maybe<Notifications_Set_Input>
+  where: Notifications_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Notifications_By_PkArgs = {
+  _set?: Maybe<Notifications_Set_Input>
+  pk_columns: Notifications_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -592,6 +1313,18 @@ export type Mutation_RootUpdate_Task_Comment_By_PkArgs = {
   _prepend?: Maybe<Task_Comment_Prepend_Input>
   _set?: Maybe<Task_Comment_Set_Input>
   pk_columns: Task_Comment_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Task_DependenciesArgs = {
+  _set?: Maybe<Task_Dependencies_Set_Input>
+  where: Task_Dependencies_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Task_Dependencies_By_PkArgs = {
+  _set?: Maybe<Task_Dependencies_Set_Input>
+  pk_columns: Task_Dependencies_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -661,6 +1394,425 @@ export type Mutation_RootUserSetupArgs = {
   input: UserSetupInput
 }
 
+/** columns and relationships of "notification_details" */
+export type Notification_Details = {
+  __typename?: 'notification_details'
+  /** An object relationship */
+  activityDetail: Activity_Details
+  activityDetailId: Scalars['String']
+  createdAt: Scalars['timestamptz']
+  id: Scalars['String']
+  /** An object relationship */
+  notification: Notifications
+  notificationId: Scalars['String']
+  readAt: Scalars['timestamptz']
+  updatedAt: Scalars['timestamptz']
+}
+
+/** aggregated selection of "notification_details" */
+export type Notification_Details_Aggregate = {
+  __typename?: 'notification_details_aggregate'
+  aggregate?: Maybe<Notification_Details_Aggregate_Fields>
+  nodes: Array<Notification_Details>
+}
+
+/** aggregate fields of "notification_details" */
+export type Notification_Details_Aggregate_Fields = {
+  __typename?: 'notification_details_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<Notification_Details_Max_Fields>
+  min?: Maybe<Notification_Details_Min_Fields>
+}
+
+/** aggregate fields of "notification_details" */
+export type Notification_Details_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Notification_Details_Select_Column>>
+  distinct?: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "notification_details" */
+export type Notification_Details_Aggregate_Order_By = {
+  count?: Maybe<Order_By>
+  max?: Maybe<Notification_Details_Max_Order_By>
+  min?: Maybe<Notification_Details_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "notification_details" */
+export type Notification_Details_Arr_Rel_Insert_Input = {
+  data: Array<Notification_Details_Insert_Input>
+  /** on conflict condition */
+  on_conflict?: Maybe<Notification_Details_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "notification_details". All fields are combined with a logical 'AND'. */
+export type Notification_Details_Bool_Exp = {
+  _and?: Maybe<Array<Notification_Details_Bool_Exp>>
+  _not?: Maybe<Notification_Details_Bool_Exp>
+  _or?: Maybe<Array<Notification_Details_Bool_Exp>>
+  activityDetail?: Maybe<Activity_Details_Bool_Exp>
+  activityDetailId?: Maybe<String_Comparison_Exp>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  id?: Maybe<String_Comparison_Exp>
+  notification?: Maybe<Notifications_Bool_Exp>
+  notificationId?: Maybe<String_Comparison_Exp>
+  readAt?: Maybe<Timestamptz_Comparison_Exp>
+  updatedAt?: Maybe<Timestamptz_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "notification_details" */
+export enum Notification_Details_Constraint {
+  /** unique or primary key constraint */
+  NotificationDetailsPkey = 'notification_details_pkey',
+}
+
+/** input type for inserting data into table "notification_details" */
+export type Notification_Details_Insert_Input = {
+  activityDetail?: Maybe<Activity_Details_Obj_Rel_Insert_Input>
+  activityDetailId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  notification?: Maybe<Notifications_Obj_Rel_Insert_Input>
+  notificationId?: Maybe<Scalars['String']>
+  readAt?: Maybe<Scalars['timestamptz']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate max on columns */
+export type Notification_Details_Max_Fields = {
+  __typename?: 'notification_details_max_fields'
+  activityDetailId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  notificationId?: Maybe<Scalars['String']>
+  readAt?: Maybe<Scalars['timestamptz']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** order by max() on columns of table "notification_details" */
+export type Notification_Details_Max_Order_By = {
+  activityDetailId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  notificationId?: Maybe<Order_By>
+  readAt?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Notification_Details_Min_Fields = {
+  __typename?: 'notification_details_min_fields'
+  activityDetailId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  notificationId?: Maybe<Scalars['String']>
+  readAt?: Maybe<Scalars['timestamptz']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** order by min() on columns of table "notification_details" */
+export type Notification_Details_Min_Order_By = {
+  activityDetailId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  notificationId?: Maybe<Order_By>
+  readAt?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "notification_details" */
+export type Notification_Details_Mutation_Response = {
+  __typename?: 'notification_details_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Notification_Details>
+}
+
+/** on conflict condition type for table "notification_details" */
+export type Notification_Details_On_Conflict = {
+  constraint: Notification_Details_Constraint
+  update_columns?: Array<Notification_Details_Update_Column>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "notification_details". */
+export type Notification_Details_Order_By = {
+  activityDetail?: Maybe<Activity_Details_Order_By>
+  activityDetailId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  notification?: Maybe<Notifications_Order_By>
+  notificationId?: Maybe<Order_By>
+  readAt?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+}
+
+/** primary key columns input for table: notification_details */
+export type Notification_Details_Pk_Columns_Input = {
+  id: Scalars['String']
+}
+
+/** select columns of table "notification_details" */
+export enum Notification_Details_Select_Column {
+  /** column name */
+  ActivityDetailId = 'activityDetailId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NotificationId = 'notificationId',
+  /** column name */
+  ReadAt = 'readAt',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+}
+
+/** input type for updating data in table "notification_details" */
+export type Notification_Details_Set_Input = {
+  activityDetailId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  notificationId?: Maybe<Scalars['String']>
+  readAt?: Maybe<Scalars['timestamptz']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+}
+
+/** update columns of table "notification_details" */
+export enum Notification_Details_Update_Column {
+  /** column name */
+  ActivityDetailId = 'activityDetailId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  NotificationId = 'notificationId',
+  /** column name */
+  ReadAt = 'readAt',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+}
+
+/** columns and relationships of "notifications" */
+export type Notifications = {
+  __typename?: 'notifications'
+  /** An object relationship */
+  activity: Activities
+  activityId: Scalars['String']
+  createdAt: Scalars['timestamptz']
+  id: Scalars['String']
+  /** An array relationship */
+  notificationDetails: Array<Notification_Details>
+  /** An aggregate relationship */
+  notificationDetails_aggregate: Notification_Details_Aggregate
+  updatedAt: Scalars['timestamptz']
+  /** An object relationship */
+  user: Users
+  userId: Scalars['String']
+}
+
+/** columns and relationships of "notifications" */
+export type NotificationsNotificationDetailsArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+/** columns and relationships of "notifications" */
+export type NotificationsNotificationDetails_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+/** aggregated selection of "notifications" */
+export type Notifications_Aggregate = {
+  __typename?: 'notifications_aggregate'
+  aggregate?: Maybe<Notifications_Aggregate_Fields>
+  nodes: Array<Notifications>
+}
+
+/** aggregate fields of "notifications" */
+export type Notifications_Aggregate_Fields = {
+  __typename?: 'notifications_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<Notifications_Max_Fields>
+  min?: Maybe<Notifications_Min_Fields>
+}
+
+/** aggregate fields of "notifications" */
+export type Notifications_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Notifications_Select_Column>>
+  distinct?: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "notifications" */
+export type Notifications_Aggregate_Order_By = {
+  count?: Maybe<Order_By>
+  max?: Maybe<Notifications_Max_Order_By>
+  min?: Maybe<Notifications_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "notifications" */
+export type Notifications_Arr_Rel_Insert_Input = {
+  data: Array<Notifications_Insert_Input>
+  /** on conflict condition */
+  on_conflict?: Maybe<Notifications_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+export type Notifications_Bool_Exp = {
+  _and?: Maybe<Array<Notifications_Bool_Exp>>
+  _not?: Maybe<Notifications_Bool_Exp>
+  _or?: Maybe<Array<Notifications_Bool_Exp>>
+  activity?: Maybe<Activities_Bool_Exp>
+  activityId?: Maybe<String_Comparison_Exp>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  id?: Maybe<String_Comparison_Exp>
+  notificationDetails?: Maybe<Notification_Details_Bool_Exp>
+  updatedAt?: Maybe<Timestamptz_Comparison_Exp>
+  user?: Maybe<Users_Bool_Exp>
+  userId?: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "notifications" */
+export enum Notifications_Constraint {
+  /** unique or primary key constraint */
+  NotificationsPkey = 'notifications_pkey',
+}
+
+/** input type for inserting data into table "notifications" */
+export type Notifications_Insert_Input = {
+  activity?: Maybe<Activities_Obj_Rel_Insert_Input>
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  notificationDetails?: Maybe<Notification_Details_Arr_Rel_Insert_Input>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+  user?: Maybe<Users_Obj_Rel_Insert_Input>
+  userId?: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Notifications_Max_Fields = {
+  __typename?: 'notifications_max_fields'
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+  userId?: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "notifications" */
+export type Notifications_Max_Order_By = {
+  activityId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+  userId?: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Notifications_Min_Fields = {
+  __typename?: 'notifications_min_fields'
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+  userId?: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "notifications" */
+export type Notifications_Min_Order_By = {
+  activityId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  updatedAt?: Maybe<Order_By>
+  userId?: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "notifications" */
+export type Notifications_Mutation_Response = {
+  __typename?: 'notifications_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Notifications>
+}
+
+/** input type for inserting object relation for remote table "notifications" */
+export type Notifications_Obj_Rel_Insert_Input = {
+  data: Notifications_Insert_Input
+  /** on conflict condition */
+  on_conflict?: Maybe<Notifications_On_Conflict>
+}
+
+/** on conflict condition type for table "notifications" */
+export type Notifications_On_Conflict = {
+  constraint: Notifications_Constraint
+  update_columns?: Array<Notifications_Update_Column>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "notifications". */
+export type Notifications_Order_By = {
+  activity?: Maybe<Activities_Order_By>
+  activityId?: Maybe<Order_By>
+  createdAt?: Maybe<Order_By>
+  id?: Maybe<Order_By>
+  notificationDetails_aggregate?: Maybe<Notification_Details_Aggregate_Order_By>
+  updatedAt?: Maybe<Order_By>
+  user?: Maybe<Users_Order_By>
+  userId?: Maybe<Order_By>
+}
+
+/** primary key columns input for table: notifications */
+export type Notifications_Pk_Columns_Input = {
+  id: Scalars['String']
+}
+
+/** select columns of table "notifications" */
+export enum Notifications_Select_Column {
+  /** column name */
+  ActivityId = 'activityId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  UserId = 'userId',
+}
+
+/** input type for updating data in table "notifications" */
+export type Notifications_Set_Input = {
+  activityId?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['timestamptz']>
+  id?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
+  userId?: Maybe<Scalars['String']>
+}
+
+/** update columns of table "notifications" */
+export enum Notifications_Update_Column {
+  /** column name */
+  ActivityId = 'activityId',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  UserId = 'userId',
+}
+
 /** column ordering options */
 export enum Order_By {
   /** in ascending order, nulls last */
@@ -679,12 +1831,36 @@ export enum Order_By {
 
 export type Query_Root = {
   __typename?: 'query_root'
+  /** fetch data from the table: "activities" */
+  activities: Array<Activities>
+  /** fetch aggregated fields from the table: "activities" */
+  activities_aggregate: Activities_Aggregate
+  /** fetch data from the table: "activities" using primary key columns */
+  activities_by_pk?: Maybe<Activities>
+  /** An array relationship */
+  activity_details: Array<Activity_Details>
+  /** An aggregate relationship */
+  activity_details_aggregate: Activity_Details_Aggregate
+  /** fetch data from the table: "activity_details" using primary key columns */
+  activity_details_by_pk?: Maybe<Activity_Details>
   /** An array relationship */
   boards: Array<Boards>
   /** An aggregate relationship */
   boards_aggregate: Boards_Aggregate
   /** fetch data from the table: "boards" using primary key columns */
   boards_by_pk?: Maybe<Boards>
+  /** An array relationship */
+  notification_details: Array<Notification_Details>
+  /** An aggregate relationship */
+  notification_details_aggregate: Notification_Details_Aggregate
+  /** fetch data from the table: "notification_details" using primary key columns */
+  notification_details_by_pk?: Maybe<Notification_Details>
+  /** fetch data from the table: "notifications" */
+  notifications: Array<Notifications>
+  /** An aggregate relationship */
+  notifications_aggregate: Notifications_Aggregate
+  /** fetch data from the table: "notifications" using primary key columns */
+  notifications_by_pk?: Maybe<Notifications>
   /** execute function "search_users" which returns "users" */
   search_users: Array<Users>
   /** execute function "search_users" and query aggregates on result of table type "users" */
@@ -695,6 +1871,12 @@ export type Query_Root = {
   task_comment_aggregate: Task_Comment_Aggregate
   /** fetch data from the table: "task_comment" using primary key columns */
   task_comment_by_pk?: Maybe<Task_Comment>
+  /** fetch data from the table: "task_dependencies" */
+  task_dependencies: Array<Task_Dependencies>
+  /** fetch aggregated fields from the table: "task_dependencies" */
+  task_dependencies_aggregate: Task_Dependencies_Aggregate
+  /** fetch data from the table: "task_dependencies" using primary key columns */
+  task_dependencies_by_pk?: Maybe<Task_Dependencies>
   /** An array relationship */
   tasks: Array<Tasks>
   /** An aggregate relationship */
@@ -727,6 +1909,46 @@ export type Query_Root = {
   workspaces_by_pk?: Maybe<Workspaces>
 }
 
+export type Query_RootActivitiesArgs = {
+  distinct_on?: Maybe<Array<Activities_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activities_Order_By>>
+  where?: Maybe<Activities_Bool_Exp>
+}
+
+export type Query_RootActivities_AggregateArgs = {
+  distinct_on?: Maybe<Array<Activities_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activities_Order_By>>
+  where?: Maybe<Activities_Bool_Exp>
+}
+
+export type Query_RootActivities_By_PkArgs = {
+  id: Scalars['String']
+}
+
+export type Query_RootActivity_DetailsArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+export type Query_RootActivity_Details_AggregateArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+export type Query_RootActivity_Details_By_PkArgs = {
+  id: Scalars['String']
+}
+
 export type Query_RootBoardsArgs = {
   distinct_on?: Maybe<Array<Boards_Select_Column>>
   limit?: Maybe<Scalars['Int']>
@@ -744,6 +1966,46 @@ export type Query_RootBoards_AggregateArgs = {
 }
 
 export type Query_RootBoards_By_PkArgs = {
+  id: Scalars['String']
+}
+
+export type Query_RootNotification_DetailsArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+export type Query_RootNotification_Details_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+export type Query_RootNotification_Details_By_PkArgs = {
+  id: Scalars['String']
+}
+
+export type Query_RootNotificationsArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+export type Query_RootNotifications_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+export type Query_RootNotifications_By_PkArgs = {
   id: Scalars['String']
 }
 
@@ -783,6 +2045,27 @@ export type Query_RootTask_Comment_AggregateArgs = {
 
 export type Query_RootTask_Comment_By_PkArgs = {
   id: Scalars['String']
+}
+
+export type Query_RootTask_DependenciesArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+export type Query_RootTask_Dependencies_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+export type Query_RootTask_Dependencies_By_PkArgs = {
+  taskDependId: Scalars['String']
+  taskId: Scalars['String']
 }
 
 export type Query_RootTasksArgs = {
@@ -893,12 +2176,36 @@ export type Search_Users_Args = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root'
+  /** fetch data from the table: "activities" */
+  activities: Array<Activities>
+  /** fetch aggregated fields from the table: "activities" */
+  activities_aggregate: Activities_Aggregate
+  /** fetch data from the table: "activities" using primary key columns */
+  activities_by_pk?: Maybe<Activities>
+  /** An array relationship */
+  activity_details: Array<Activity_Details>
+  /** An aggregate relationship */
+  activity_details_aggregate: Activity_Details_Aggregate
+  /** fetch data from the table: "activity_details" using primary key columns */
+  activity_details_by_pk?: Maybe<Activity_Details>
   /** An array relationship */
   boards: Array<Boards>
   /** An aggregate relationship */
   boards_aggregate: Boards_Aggregate
   /** fetch data from the table: "boards" using primary key columns */
   boards_by_pk?: Maybe<Boards>
+  /** An array relationship */
+  notification_details: Array<Notification_Details>
+  /** An aggregate relationship */
+  notification_details_aggregate: Notification_Details_Aggregate
+  /** fetch data from the table: "notification_details" using primary key columns */
+  notification_details_by_pk?: Maybe<Notification_Details>
+  /** fetch data from the table: "notifications" */
+  notifications: Array<Notifications>
+  /** An aggregate relationship */
+  notifications_aggregate: Notifications_Aggregate
+  /** fetch data from the table: "notifications" using primary key columns */
+  notifications_by_pk?: Maybe<Notifications>
   /** execute function "search_users" which returns "users" */
   search_users: Array<Users>
   /** execute function "search_users" and query aggregates on result of table type "users" */
@@ -909,6 +2216,12 @@ export type Subscription_Root = {
   task_comment_aggregate: Task_Comment_Aggregate
   /** fetch data from the table: "task_comment" using primary key columns */
   task_comment_by_pk?: Maybe<Task_Comment>
+  /** fetch data from the table: "task_dependencies" */
+  task_dependencies: Array<Task_Dependencies>
+  /** fetch aggregated fields from the table: "task_dependencies" */
+  task_dependencies_aggregate: Task_Dependencies_Aggregate
+  /** fetch data from the table: "task_dependencies" using primary key columns */
+  task_dependencies_by_pk?: Maybe<Task_Dependencies>
   /** An array relationship */
   tasks: Array<Tasks>
   /** An aggregate relationship */
@@ -941,6 +2254,46 @@ export type Subscription_Root = {
   workspaces_by_pk?: Maybe<Workspaces>
 }
 
+export type Subscription_RootActivitiesArgs = {
+  distinct_on?: Maybe<Array<Activities_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activities_Order_By>>
+  where?: Maybe<Activities_Bool_Exp>
+}
+
+export type Subscription_RootActivities_AggregateArgs = {
+  distinct_on?: Maybe<Array<Activities_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activities_Order_By>>
+  where?: Maybe<Activities_Bool_Exp>
+}
+
+export type Subscription_RootActivities_By_PkArgs = {
+  id: Scalars['String']
+}
+
+export type Subscription_RootActivity_DetailsArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+export type Subscription_RootActivity_Details_AggregateArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+export type Subscription_RootActivity_Details_By_PkArgs = {
+  id: Scalars['String']
+}
+
 export type Subscription_RootBoardsArgs = {
   distinct_on?: Maybe<Array<Boards_Select_Column>>
   limit?: Maybe<Scalars['Int']>
@@ -958,6 +2311,46 @@ export type Subscription_RootBoards_AggregateArgs = {
 }
 
 export type Subscription_RootBoards_By_PkArgs = {
+  id: Scalars['String']
+}
+
+export type Subscription_RootNotification_DetailsArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+export type Subscription_RootNotification_Details_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notification_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notification_Details_Order_By>>
+  where?: Maybe<Notification_Details_Bool_Exp>
+}
+
+export type Subscription_RootNotification_Details_By_PkArgs = {
+  id: Scalars['String']
+}
+
+export type Subscription_RootNotificationsArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+export type Subscription_RootNotifications_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+export type Subscription_RootNotifications_By_PkArgs = {
   id: Scalars['String']
 }
 
@@ -997,6 +2390,27 @@ export type Subscription_RootTask_Comment_AggregateArgs = {
 
 export type Subscription_RootTask_Comment_By_PkArgs = {
   id: Scalars['String']
+}
+
+export type Subscription_RootTask_DependenciesArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+export type Subscription_RootTask_Dependencies_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+export type Subscription_RootTask_Dependencies_By_PkArgs = {
+  taskDependId: Scalars['String']
+  taskId: Scalars['String']
 }
 
 export type Subscription_RootTasksArgs = {
@@ -1340,6 +2754,181 @@ export enum Task_Comment_Update_Column {
   UpdatedAt = 'updatedAt',
 }
 
+/** columns and relationships of "task_dependencies" */
+export type Task_Dependencies = {
+  __typename?: 'task_dependencies'
+  createdAt: Scalars['timestamptz']
+  /** An object relationship */
+  dependTask: Tasks
+  status: Scalars['String']
+  /** An object relationship */
+  task: Tasks
+  taskDependId: Scalars['String']
+  taskId: Scalars['String']
+}
+
+/** aggregated selection of "task_dependencies" */
+export type Task_Dependencies_Aggregate = {
+  __typename?: 'task_dependencies_aggregate'
+  aggregate?: Maybe<Task_Dependencies_Aggregate_Fields>
+  nodes: Array<Task_Dependencies>
+}
+
+/** aggregate fields of "task_dependencies" */
+export type Task_Dependencies_Aggregate_Fields = {
+  __typename?: 'task_dependencies_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<Task_Dependencies_Max_Fields>
+  min?: Maybe<Task_Dependencies_Min_Fields>
+}
+
+/** aggregate fields of "task_dependencies" */
+export type Task_Dependencies_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Task_Dependencies_Select_Column>>
+  distinct?: Maybe<Scalars['Boolean']>
+}
+
+/** order by aggregate values of table "task_dependencies" */
+export type Task_Dependencies_Aggregate_Order_By = {
+  count?: Maybe<Order_By>
+  max?: Maybe<Task_Dependencies_Max_Order_By>
+  min?: Maybe<Task_Dependencies_Min_Order_By>
+}
+
+/** input type for inserting array relation for remote table "task_dependencies" */
+export type Task_Dependencies_Arr_Rel_Insert_Input = {
+  data: Array<Task_Dependencies_Insert_Input>
+  /** on conflict condition */
+  on_conflict?: Maybe<Task_Dependencies_On_Conflict>
+}
+
+/** Boolean expression to filter rows from the table "task_dependencies". All fields are combined with a logical 'AND'. */
+export type Task_Dependencies_Bool_Exp = {
+  _and?: Maybe<Array<Task_Dependencies_Bool_Exp>>
+  _not?: Maybe<Task_Dependencies_Bool_Exp>
+  _or?: Maybe<Array<Task_Dependencies_Bool_Exp>>
+  createdAt?: Maybe<Timestamptz_Comparison_Exp>
+  dependTask?: Maybe<Tasks_Bool_Exp>
+  status?: Maybe<String_Comparison_Exp>
+  task?: Maybe<Tasks_Bool_Exp>
+  taskDependId?: Maybe<String_Comparison_Exp>
+  taskId?: Maybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "task_dependencies" */
+export enum Task_Dependencies_Constraint {
+  /** unique or primary key constraint */
+  TaskDependenciesPkey = 'task_dependencies_pkey',
+}
+
+/** input type for inserting data into table "task_dependencies" */
+export type Task_Dependencies_Insert_Input = {
+  createdAt?: Maybe<Scalars['timestamptz']>
+  dependTask?: Maybe<Tasks_Obj_Rel_Insert_Input>
+  status?: Maybe<Scalars['String']>
+  task?: Maybe<Tasks_Obj_Rel_Insert_Input>
+  taskDependId?: Maybe<Scalars['String']>
+  taskId?: Maybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type Task_Dependencies_Max_Fields = {
+  __typename?: 'task_dependencies_max_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  status?: Maybe<Scalars['String']>
+  taskDependId?: Maybe<Scalars['String']>
+  taskId?: Maybe<Scalars['String']>
+}
+
+/** order by max() on columns of table "task_dependencies" */
+export type Task_Dependencies_Max_Order_By = {
+  createdAt?: Maybe<Order_By>
+  status?: Maybe<Order_By>
+  taskDependId?: Maybe<Order_By>
+  taskId?: Maybe<Order_By>
+}
+
+/** aggregate min on columns */
+export type Task_Dependencies_Min_Fields = {
+  __typename?: 'task_dependencies_min_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  status?: Maybe<Scalars['String']>
+  taskDependId?: Maybe<Scalars['String']>
+  taskId?: Maybe<Scalars['String']>
+}
+
+/** order by min() on columns of table "task_dependencies" */
+export type Task_Dependencies_Min_Order_By = {
+  createdAt?: Maybe<Order_By>
+  status?: Maybe<Order_By>
+  taskDependId?: Maybe<Order_By>
+  taskId?: Maybe<Order_By>
+}
+
+/** response of any mutation on the table "task_dependencies" */
+export type Task_Dependencies_Mutation_Response = {
+  __typename?: 'task_dependencies_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Task_Dependencies>
+}
+
+/** on conflict condition type for table "task_dependencies" */
+export type Task_Dependencies_On_Conflict = {
+  constraint: Task_Dependencies_Constraint
+  update_columns?: Array<Task_Dependencies_Update_Column>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "task_dependencies". */
+export type Task_Dependencies_Order_By = {
+  createdAt?: Maybe<Order_By>
+  dependTask?: Maybe<Tasks_Order_By>
+  status?: Maybe<Order_By>
+  task?: Maybe<Tasks_Order_By>
+  taskDependId?: Maybe<Order_By>
+  taskId?: Maybe<Order_By>
+}
+
+/** primary key columns input for table: task_dependencies */
+export type Task_Dependencies_Pk_Columns_Input = {
+  taskDependId: Scalars['String']
+  taskId: Scalars['String']
+}
+
+/** select columns of table "task_dependencies" */
+export enum Task_Dependencies_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  TaskDependId = 'taskDependId',
+  /** column name */
+  TaskId = 'taskId',
+}
+
+/** input type for updating data in table "task_dependencies" */
+export type Task_Dependencies_Set_Input = {
+  createdAt?: Maybe<Scalars['timestamptz']>
+  status?: Maybe<Scalars['String']>
+  taskDependId?: Maybe<Scalars['String']>
+  taskId?: Maybe<Scalars['String']>
+}
+
+/** update columns of table "task_dependencies" */
+export enum Task_Dependencies_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  TaskDependId = 'taskDependId',
+  /** column name */
+  TaskId = 'taskId',
+}
+
 /** columns and relationships of "tasks" */
 export type Tasks = {
   __typename?: 'tasks'
@@ -1355,8 +2944,16 @@ export type Tasks = {
   comments: Array<Task_Comment>
   /** An aggregate relationship */
   comments_aggregate: Task_Comment_Aggregate
+  /** An array relationship */
+  createDepend: Array<Task_Dependencies>
+  /** An aggregate relationship */
+  createDepend_aggregate: Task_Dependencies_Aggregate
   createdAt?: Maybe<Scalars['timestamptz']>
   createdBy?: Maybe<Scalars['String']>
+  /** An array relationship */
+  dependOn: Array<Task_Dependencies>
+  /** An aggregate relationship */
+  dependOn_aggregate: Task_Dependencies_Aggregate
   description?: Maybe<Scalars['String']>
   dueDate?: Maybe<Scalars['timestamptz']>
   id: Scalars['String']
@@ -1402,6 +2999,42 @@ export type TasksComments_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>
   order_by?: Maybe<Array<Task_Comment_Order_By>>
   where?: Maybe<Task_Comment_Bool_Exp>
+}
+
+/** columns and relationships of "tasks" */
+export type TasksCreateDependArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+/** columns and relationships of "tasks" */
+export type TasksCreateDepend_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+/** columns and relationships of "tasks" */
+export type TasksDependOnArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
+}
+
+/** columns and relationships of "tasks" */
+export type TasksDependOn_AggregateArgs = {
+  distinct_on?: Maybe<Array<Task_Dependencies_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Task_Dependencies_Order_By>>
+  where?: Maybe<Task_Dependencies_Bool_Exp>
 }
 
 /** aggregated selection of "tasks" */
@@ -1476,8 +3109,10 @@ export type Tasks_Bool_Exp = {
   boardId?: Maybe<String_Comparison_Exp>
   code?: Maybe<Int_Comparison_Exp>
   comments?: Maybe<Task_Comment_Bool_Exp>
+  createDepend?: Maybe<Task_Dependencies_Bool_Exp>
   createdAt?: Maybe<Timestamptz_Comparison_Exp>
   createdBy?: Maybe<String_Comparison_Exp>
+  dependOn?: Maybe<Task_Dependencies_Bool_Exp>
   description?: Maybe<String_Comparison_Exp>
   dueDate?: Maybe<Timestamptz_Comparison_Exp>
   id?: Maybe<String_Comparison_Exp>
@@ -1506,8 +3141,10 @@ export type Tasks_Insert_Input = {
   boardId?: Maybe<Scalars['String']>
   code?: Maybe<Scalars['Int']>
   comments?: Maybe<Task_Comment_Arr_Rel_Insert_Input>
+  createDepend?: Maybe<Task_Dependencies_Arr_Rel_Insert_Input>
   createdAt?: Maybe<Scalars['timestamptz']>
   createdBy?: Maybe<Scalars['String']>
+  dependOn?: Maybe<Task_Dependencies_Arr_Rel_Insert_Input>
   description?: Maybe<Scalars['String']>
   dueDate?: Maybe<Scalars['timestamptz']>
   id?: Maybe<Scalars['String']>
@@ -1610,8 +3247,10 @@ export type Tasks_Order_By = {
   boardId?: Maybe<Order_By>
   code?: Maybe<Order_By>
   comments_aggregate?: Maybe<Task_Comment_Aggregate_Order_By>
+  createDepend_aggregate?: Maybe<Task_Dependencies_Aggregate_Order_By>
   createdAt?: Maybe<Order_By>
   createdBy?: Maybe<Order_By>
+  dependOn_aggregate?: Maybe<Task_Dependencies_Aggregate_Order_By>
   description?: Maybe<Order_By>
   dueDate?: Maybe<Order_By>
   id?: Maybe<Order_By>
@@ -2118,6 +3757,10 @@ export enum User_Workspace_Update_Column {
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users'
+  /** An array relationship */
+  activity_details: Array<Activity_Details>
+  /** An aggregate relationship */
+  activity_details_aggregate: Activity_Details_Aggregate
   created_at?: Maybe<Scalars['timestamptz']>
   dialCode?: Maybe<Scalars['String']>
   /** A computed field, executes function "display_name" */
@@ -2126,6 +3769,10 @@ export type Users = {
   firstName?: Maybe<Scalars['String']>
   id: Scalars['String']
   lastName?: Maybe<Scalars['String']>
+  /** fetch data from the table: "notifications" */
+  notifications: Array<Notifications>
+  /** An aggregate relationship */
+  notifications_aggregate: Notifications_Aggregate
   phone?: Maybe<Scalars['String']>
   photoUrl?: Maybe<Scalars['String']>
   role: Scalars['String']
@@ -2150,6 +3797,42 @@ export type Users = {
   workspaces: Array<Workspaces>
   /** An aggregate relationship */
   workspaces_aggregate: Workspaces_Aggregate
+}
+
+/** columns and relationships of "users" */
+export type UsersActivity_DetailsArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+/** columns and relationships of "users" */
+export type UsersActivity_Details_AggregateArgs = {
+  distinct_on?: Maybe<Array<Activity_Details_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Activity_Details_Order_By>>
+  where?: Maybe<Activity_Details_Bool_Exp>
+}
+
+/** columns and relationships of "users" */
+export type UsersNotificationsArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
+}
+
+/** columns and relationships of "users" */
+export type UsersNotifications_AggregateArgs = {
+  distinct_on?: Maybe<Array<Notifications_Select_Column>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+  order_by?: Maybe<Array<Notifications_Order_By>>
+  where?: Maybe<Notifications_Bool_Exp>
 }
 
 /** columns and relationships of "users" */
@@ -2268,6 +3951,7 @@ export type Users_Bool_Exp = {
   _and?: Maybe<Array<Users_Bool_Exp>>
   _not?: Maybe<Users_Bool_Exp>
   _or?: Maybe<Array<Users_Bool_Exp>>
+  activity_details?: Maybe<Activity_Details_Bool_Exp>
   created_at?: Maybe<Timestamptz_Comparison_Exp>
   dialCode?: Maybe<String_Comparison_Exp>
   displayName?: Maybe<String_Comparison_Exp>
@@ -2275,6 +3959,7 @@ export type Users_Bool_Exp = {
   firstName?: Maybe<String_Comparison_Exp>
   id?: Maybe<String_Comparison_Exp>
   lastName?: Maybe<String_Comparison_Exp>
+  notifications?: Maybe<Notifications_Bool_Exp>
   phone?: Maybe<String_Comparison_Exp>
   photoUrl?: Maybe<String_Comparison_Exp>
   role?: Maybe<String_Comparison_Exp>
@@ -2296,12 +3981,14 @@ export enum Users_Constraint {
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
+  activity_details?: Maybe<Activity_Details_Arr_Rel_Insert_Input>
   created_at?: Maybe<Scalars['timestamptz']>
   dialCode?: Maybe<Scalars['String']>
   email?: Maybe<Scalars['String']>
   firstName?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   lastName?: Maybe<Scalars['String']>
+  notifications?: Maybe<Notifications_Arr_Rel_Insert_Input>
   phone?: Maybe<Scalars['String']>
   photoUrl?: Maybe<Scalars['String']>
   role?: Maybe<Scalars['String']>
@@ -2368,6 +4055,7 @@ export type Users_On_Conflict = {
 
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
+  activity_details_aggregate?: Maybe<Activity_Details_Aggregate_Order_By>
   created_at?: Maybe<Order_By>
   dialCode?: Maybe<Order_By>
   displayName?: Maybe<Order_By>
@@ -2375,6 +4063,7 @@ export type Users_Order_By = {
   firstName?: Maybe<Order_By>
   id?: Maybe<Order_By>
   lastName?: Maybe<Order_By>
+  notifications_aggregate?: Maybe<Notifications_Aggregate_Order_By>
   phone?: Maybe<Order_By>
   photoUrl?: Maybe<Order_By>
   role?: Maybe<Order_By>

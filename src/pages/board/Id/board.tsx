@@ -4,9 +4,6 @@ import {
   ButtonGroup,
   Flex,
   IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
   SimpleGrid,
 } from '@chakra-ui/react'
 import React from 'react'
@@ -15,11 +12,11 @@ import { Outlet, useParams } from 'react-router-dom'
 import { CardBoard } from '../../../components/board/CardBoard'
 import { useGetTasksQuery } from '../../../generated/hooks'
 import { Error } from '../../../components/shared/Error'
-import { BiSearch } from 'react-icons/bi'
 import { HiUser, HiUsers } from 'react-icons/hi'
 import { ProgressLoading } from '../../../components/shared/Loading'
 import { useAuth } from '../../../hooks/use-auth'
 import useDebounce from '../../../hooks/use-debounce'
+import { SearchInput } from '../../../components/shared/SearchInput'
 
 export const BoardViewPage = () => {
   const { id: boardId } = useParams()
@@ -114,18 +111,12 @@ export const BoardViewPage = () => {
                 icon={<HiUsers />}
               />
             </ButtonGroup>
-            <InputGroup size="sm">
-              <InputLeftElement pointerEvents="none">
-                <BiSearch color="gray" />
-              </InputLeftElement>
-              <Input
-                borderRadius={5}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Search task by title"
-              />
-            </InputGroup>
+            <SearchInput
+              size="sm"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Search task by title"
+            />
           </Flex>
         </Flex>
         <div>
