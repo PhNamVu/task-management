@@ -7,7 +7,6 @@ import {
   usePostTaskDependencyMutation,
 } from '../../../generated/hooks'
 import { negativeToast, positiveToast } from '../../../helpers/toaster'
-import { ProgressLoading } from '../../shared/Loading'
 import { Modaler } from '../../shared/Modaler'
 import { SearchInput } from '../../shared/SearchInput'
 import { ToolTipIconButton } from '../../shared/ToolTipIconButton'
@@ -15,6 +14,7 @@ import { AddBlocking } from './AddBlocking'
 import { AddWaiting } from './AddWaiting'
 import { TaskItemDepends } from './TaskItemDepend'
 import { Error } from '../../shared/Error'
+import useDebounce from '../../../hooks/use-debounce'
 
 interface Props {
   fetchDetail: any
@@ -25,14 +25,20 @@ export const DependButton: React.FC<Props> = ({ fetchDetail }) => {
   const [status, setStatus] = React.useState('')
   const { id, taskId } = useParams()
   const [input, setInput] = React.useState('')
+  const searchTerm = useDebounce(input, 1000)
 
-  const { data, loading, error, refetch } = useGetDependenciesQuery({
+  const { data, error, refetch } = useGetDependenciesQuery({
     variables: {
       where: {
         _and: [
           { boardId: { _eq: id } },
           { id: { _neq: taskId } },
           { code: { _neq: 0 } },
+          {
+            title: {
+              _ilike: `%${searchTerm}%`,
+            },
+          },
         ],
       },
     },
@@ -63,7 +69,7 @@ export const DependButton: React.FC<Props> = ({ fetchDetail }) => {
       console.error(err)
     }
   }
-  if (loading) return <ProgressLoading />
+  // if (loading) return <ProgressLoading />
   if (error) return <Error />
 
   const tasks = data?.tasks || []
