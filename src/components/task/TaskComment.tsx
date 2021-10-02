@@ -18,7 +18,7 @@ import { StartDate } from './StartDate'
 export const TaskComment = () => {
   const { taskId: id } = useParams()
   const [limit, setLimit] = useState(5)
-  const [goBottom, setGoBottom] = useState(true)
+  const [goBottom, setGoBottom] = useState(false)
 
   const { data, loading, error, fetchMore } = useTaskCommentQuery({
     variables: {
@@ -53,7 +53,7 @@ export const TaskComment = () => {
       })
 
       if (res.data) {
-        setGoBottom(true)
+        // setGoBottom(true)
         if (limit > 5) {
           setLimit(limit + 1)
         } else {

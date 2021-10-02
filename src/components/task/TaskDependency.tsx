@@ -62,14 +62,11 @@ export const CreateDependendTask: React.FC<Props> = ({
         </Box>
       </Tooltip>
       <Flex>
-        <Text textTransform="capitalize" color="white">
-          {status}
-        </Text>
-        <Text ml={1} color="white">
-          on
-        </Text>
+        <Text textTransform="capitalize">{status}</Text>
+        <Text ml={1}>on</Text>
 
         <Text
+          color="blue.300"
           ml={1}
           textDecoration="underline"
           _hover={{ cursor: 'pointer' }}
@@ -124,14 +121,11 @@ export const DepenOnTask: React.FC<Props> = ({ status, task, refetch }) => {
         </Box>
       </Tooltip>
       <Flex>
-        <Text textTransform="capitalize" color="white">
-          {revertStatus}
-        </Text>
-        <Text ml={1} color="white">
-          on
-        </Text>
+        <Text textTransform="capitalize">{revertStatus}</Text>
+        <Text ml={1}>on</Text>
 
         <Text
+          color="blue.300"
           ml={1}
           textDecoration="underline"
           _hover={{ cursor: 'pointer' }}

@@ -54,9 +54,9 @@ query taskDetail($id: String!) {
         code
       }
     }
-  }
-  task_dependencies(where: { task_id: { _eq: $id } }) {
-
+    owner {
+      email
+    }
   }
 }
 
@@ -390,4 +390,3 @@ query getDependencies($where: tasks_bool_exp) {
     }
   }
 }
-

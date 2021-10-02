@@ -212,6 +212,9 @@ export type TaskDetailQuery = { __typename?: 'query_root' } & {
               >
             }
         >
+        owner?: Types.Maybe<
+          { __typename?: 'users' } & Pick<Types.Users, 'email'>
+        >
       }
   >
 }

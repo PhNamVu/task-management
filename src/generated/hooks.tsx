@@ -599,6 +599,9 @@ export const TaskDetailDocument = gql`
           code
         }
       }
+      owner {
+        email
+      }
     }
   }
 `

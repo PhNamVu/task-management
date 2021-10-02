@@ -1,3 +1,4 @@
+import { gql, useMutation } from '@apollo/client'
 import {
   AvatarGroup,
   Flex,
@@ -19,6 +20,7 @@ import {
   useUpdateTaskMutation,
 } from '../../generated/hooks'
 import { NotFoundError } from '../../helpers/notFoundError'
+import { useAuth } from '../../hooks/use-auth'
 import { EditableText } from '../shared/EditableText'
 import { ProgressLoading } from '../shared/Loading'
 import { StyledAvatar } from '../shared/StyledAvatar'
@@ -30,6 +32,8 @@ import { CreateDependendTask, DepenOnTask } from './TaskDependency'
 import { UpdatePriority } from './UpdatePriority'
 
 export const TaskDetail = () => {
+  const { state }: any = useAuth()
+
   const { taskId: id } = useParams()
   const { data, loading, error, refetch } = useTaskDetailQuery({
     variables: { id },
@@ -38,13 +42,26 @@ export const TaskDetail = () => {
   const [updateTask] = useUpdateTaskMutation()
 
   const task = data?.tasks[0]
-  const code = task?.code.toString()
+  const code = task?.code.toString() || '1'
   const assignee = data && data.tasks[0].assignee
   const priority = task?.priority || 'medium'
+  const url = window.location.href
+
+  const [submitDoneTask] = useMutation(gql`
+    mutation SubmitDoneTask($input: SubmitDoneTaskInput!) {
+      submitDoneTask(input: $input) {
+        status
+        statusCode
+        message
+      }
+    }
+  `)
+
   if (loading) return <ProgressLoading />
   if (error || data?.tasks.length === 0) {
     throw new NotFoundError('Not found task')
   }
+  const { displayName } = state.user
   const createDepend = task?.createDepend
   const depenOn = task?.dependOn
   return (
@@ -74,6 +91,18 @@ export const TaskDetail = () => {
                         },
                       },
                     })
+                    if (e === '3') {
+                      submitDoneTask({
+                        variables: {
+                          input: {
+                            url,
+                            displayName,
+                            taskName: task?.title,
+                            ownerMail: task?.owner?.email,
+                          },
+                        },
+                      })
+                    }
                     refetch()
                   }}
                 >

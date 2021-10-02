@@ -63,6 +63,20 @@ export type String_Comparison_Exp = {
   _similar?: Maybe<Scalars['String']>
 }
 
+export type SubmitDoneTaskInput = {
+  displayName: Scalars['String']
+  ownerMail: Scalars['String']
+  taskName: Scalars['String']
+  url: Scalars['String']
+}
+
+export type SubmitDoneTaskRes = {
+  __typename?: 'SubmitDoneTaskRes'
+  message?: Maybe<Scalars['String']>
+  status: Scalars['String']
+  statusCode?: Maybe<Scalars['Int']>
+}
+
 export type UserSetupInput = {
   firstName: Scalars['String']
   lastName: Scalars['String']
@@ -905,6 +919,7 @@ export type Mutation_Root = {
   insert_workspaces?: Maybe<Workspaces_Mutation_Response>
   /** insert a single row into the table: "workspaces" */
   insert_workspaces_one?: Maybe<Workspaces>
+  submitDoneTask?: Maybe<SubmitDoneTaskRes>
   /** update data of the table: "activities" */
   update_activities?: Maybe<Activities_Mutation_Response>
   /** update single row of the table: "activities" */
@@ -1221,6 +1236,11 @@ export type Mutation_RootInsert_WorkspacesArgs = {
 export type Mutation_RootInsert_Workspaces_OneArgs = {
   object: Workspaces_Insert_Input
   on_conflict?: Maybe<Workspaces_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootSubmitDoneTaskArgs = {
+  input: SubmitDoneTaskInput
 }
 
 /** mutation root */
