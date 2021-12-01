@@ -50,14 +50,14 @@ export const LoginForm = () => {
         password: '',
       }}
       validationSchema={LoginSchemaValidation}
-      onSubmit={async(values, actions) => {
+      onSubmit={async (values, actions) => {
         try {
           actions.setSubmitting(true)
           await fbase
             .auth()
             .signInWithEmailAndPassword(values.email, values.password)
         } catch (error) {
-          negativeToast({ title: 'Login fail', description: error.message })
+          negativeToast({ title: 'Login fail' })
         }
         actions.setSubmitting(false)
       }}

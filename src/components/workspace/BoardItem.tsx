@@ -57,7 +57,6 @@ export const BoardItem: React.FC<BoardItemProps> = ({ item, refetch }) => {
               } catch (err) {
                 negativeToast({
                   title: 'Delete error',
-                  description: err,
                 })
               }
             }}
