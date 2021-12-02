@@ -17,6 +17,7 @@ import { ProgressLoading } from '../../../components/shared/Loading'
 import { useAuth } from '../../../hooks/use-auth'
 import useDebounce from '../../../hooks/use-debounce'
 import { SearchInput } from '../../../components/shared/SearchInput'
+import { StyledSpinner } from '../../../components/shared/StyledSpinner'
 
 export const BoardViewPage = () => {
   const { id: boardId } = useParams()
@@ -29,7 +30,7 @@ export const BoardViewPage = () => {
 
   const [me, setMe] = React.useState(false)
   const [input, setInput] = React.useState('')
-  const searchTerm = useDebounce(input, 1000)
+  const searchTerm = useDebounce(input, 400)
 
   const { data, loading, error } = useGetTasksQuery({
     variables: {
@@ -81,7 +82,6 @@ export const BoardViewPage = () => {
     fetchPolicy: 'network-only',
   })
   if (error) return <Error />
-  if (loading) return <ProgressLoading />
 
   const todo = data?.tasks.filter(({ code }) => code === 1)
   const inProgress = data?.tasks.filter(({ code }) => code === 2)
@@ -124,9 +124,15 @@ export const BoardViewPage = () => {
         </div>
       </Box>
       <SimpleGrid columns={[1, 1, 3]} spacingX="4rem" spacingY="2rem" mt={8}>
-        <CardBoard code={1} title="To Do" data={todo} />
-        <CardBoard code={2} title="In progress" data={inProgress} />
-        <CardBoard code={3} title="Done" data={done} />
+        {loading ? (
+          <StyledSpinner />
+        ) : (
+          <>
+            <CardBoard code={1} title="To Do" data={todo} />
+            <CardBoard code={2} title="In progress" data={inProgress} />
+            <CardBoard code={3} title="Done" data={done} />
+          </>
+        )}
       </SimpleGrid>
       <Outlet />
     </>
