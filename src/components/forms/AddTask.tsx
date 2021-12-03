@@ -3,6 +3,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Flex,
+  Box,
 } from '@chakra-ui/react'
 import React from 'react'
 import { Form, Formik } from 'formik'
@@ -18,6 +19,7 @@ import { PrimaryBtn } from '../shared/PrimaryBtn'
 import { StyledInput } from '../shared/StyledInput'
 import { StyledTextArea } from '../shared/StyledTextArea'
 import { GetTasksDocument, usePostTaskMutation } from '../../generated/hooks'
+import { StyledSelect } from '../shared/StyledSelect'
 
 interface Props {
   onClose: () => void
@@ -32,6 +34,7 @@ export const AddTaskForm: React.FC<Props> = ({ onClose, code }) => {
     <Formik
       initialValues={{
         id: randomstring.generate(5),
+        priority: 'medium',
         title: '',
         description: '',
         startDate: new Date(),
@@ -74,29 +77,36 @@ export const AddTaskForm: React.FC<Props> = ({ onClose, code }) => {
     >
       {(formik: any) => (
         <Form>
-          {/* <Flex mb={3} alignItems="center">
-            <Text fontSize="md" fontWeight="500">
-              Assignee:
-            </Text>
-            <IconButton
-              variant="ghost"
-              border="2px dotted #4FD1C5"
-              ml={2}
-              isRound
-              aria-label="assignee"
-              icon={<AiOutlineUserAdd />}
-            />
-          </Flex> */}
-          <FormControl
-            mb="0.5em"
-            isRequired
-            isInvalid={formik.errors.title && formik.touched.title}
-          >
-            <FormLabel htmlFor="title">Title</FormLabel>
-            <StyledInput placeholder="Enter your title" name="title" />
-            <FormErrorMessage>{formik.errors.title}</FormErrorMessage>
-          </FormControl>
+          <Flex alignItems="center" justifyContent="space-between">
+            <FormControl
+              isRequired
+              isInvalid={formik.errors.title && formik.touched.title}
+              w="80%"
+              mb="0.5em"
+            >
+              <FormLabel htmlFor="title">Title</FormLabel>
+              <StyledInput placeholder="Enter your title" name="title" />
+              <FormErrorMessage>{formik.errors.title}</FormErrorMessage>
+            </FormControl>
+            <Box ml={5} w="20%">
+              <FormControl mb="0.5em" isRequired>
+                <FormLabel htmlFor="startDate">Priority</FormLabel>
 
+                <StyledSelect
+                  size="md"
+                  value={formik.values.priority}
+                  onChange={(e) =>
+                    formik.setFieldValue('priority', e.target.value)
+                  }
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="important">Important</option>
+                  <option value="urgent">Urgent</option>
+                </StyledSelect>
+              </FormControl>
+            </Box>
+          </Flex>
           <Flex justifyContent="space-between">
             <FormControl mb="0.5em" isRequired w="48%">
               <FormLabel htmlFor="startDate">Start date</FormLabel>

@@ -11,7 +11,7 @@ interface WorkspaceBoardProps {
 }
 
 export const WorkspaceBoard: React.FC<WorkspaceBoardProps> = ({ id }) => {
-  const { data, loading, error } = useGetBoardsQuery({
+  const { data, loading, error, refetch } = useGetBoardsQuery({
     variables: {
       id,
     },
@@ -24,7 +24,7 @@ export const WorkspaceBoard: React.FC<WorkspaceBoardProps> = ({ id }) => {
   return (
     <SimpleGrid columns={[1, 2, 3, 5]} spacingX="3rem" spacingY="2rem" mt={5}>
       {boards?.map((board) => {
-        return <BoardItem key={board.id} title={board.title} id={board.id} />
+        return <BoardItem key={board.id} item={board} refetch={refetch} />
       })}
       <AddBoardButton id={id} />
     </SimpleGrid>

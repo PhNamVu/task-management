@@ -58,7 +58,7 @@ export type PostBoardMutationOptions = Apollo.BaseMutationOptions<
 >
 export const GetBoardsDocument = gql`
   query getBoards($id: String) {
-    boards(where: { workspaceId: { _eq: $id } }) {
+    boards(where: { workspaceId: { _eq: $id } }, order_by: { createdAt: asc }) {
       title
       id
     }
@@ -172,6 +172,231 @@ export type GetBoardDetailLazyQueryHookResult = ReturnType<
 export type GetBoardDetailQueryResult = Apollo.QueryResult<
   Types.GetBoardDetailQuery,
   Types.GetBoardDetailQueryVariables
+>
+export const UpdateBoardDocument = gql`
+  mutation updateBoard($id: String, $object: boards_set_input!) {
+    update_boards(where: { id: { _eq: $id } }, _set: $object) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type UpdateBoardMutationFn = Apollo.MutationFunction<
+  Types.UpdateBoardMutation,
+  Types.UpdateBoardMutationVariables
+>
+
+/**
+ * __useUpdateBoardMutation__
+ *
+ * To run a mutation, you first call `useUpdateBoardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateBoardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateBoardMutation, { data, loading, error }] = useUpdateBoardMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useUpdateBoardMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.UpdateBoardMutation,
+    Types.UpdateBoardMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.UpdateBoardMutation,
+    Types.UpdateBoardMutationVariables
+  >(UpdateBoardDocument, options)
+}
+export type UpdateBoardMutationHookResult = ReturnType<
+  typeof useUpdateBoardMutation
+>
+export type UpdateBoardMutationResult = Apollo.MutationResult<Types.UpdateBoardMutation>
+export type UpdateBoardMutationOptions = Apollo.BaseMutationOptions<
+  Types.UpdateBoardMutation,
+  Types.UpdateBoardMutationVariables
+>
+export const CountUserBoardTaskDocument = gql`
+  query countUserBoardTask($id: String, $now: timestamptz!) {
+    boards(where: { id: { _eq: $id } }) {
+      workspace {
+        user_workspaces {
+          user {
+            id
+            displayName
+            todo: tasks_aggregate(
+              where: {
+                task: {
+                  _and: {
+                    boardId: { _eq: $id }
+                    dueDate: { _gt: $now }
+                    code: { _eq: 1 }
+                  }
+                }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+            inProgress: tasks_aggregate(
+              where: {
+                task: {
+                  _and: {
+                    boardId: { _eq: $id }
+                    dueDate: { _gt: $now }
+                    code: { _eq: 2 }
+                  }
+                }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+            done: tasks_aggregate(
+              where: {
+                task: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+            late: tasks_aggregate(
+              where: {
+                task: {
+                  _and: {
+                    boardId: { _eq: $id }
+                    dueDate: { _lt: $now }
+                    code: { _in: [1, 2] }
+                  }
+                }
+              }
+            ) {
+              aggregate {
+                count
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useCountUserBoardTaskQuery__
+ *
+ * To run a query within a React component, call `useCountUserBoardTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountUserBoardTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountUserBoardTaskQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountUserBoardTaskQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >(CountUserBoardTaskDocument, options)
+}
+export function useCountUserBoardTaskLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountUserBoardTaskQuery,
+    Types.CountUserBoardTaskQueryVariables
+  >(CountUserBoardTaskDocument, options)
+}
+export type CountUserBoardTaskQueryHookResult = ReturnType<
+  typeof useCountUserBoardTaskQuery
+>
+export type CountUserBoardTaskLazyQueryHookResult = ReturnType<
+  typeof useCountUserBoardTaskLazyQuery
+>
+export type CountUserBoardTaskQueryResult = Apollo.QueryResult<
+  Types.CountUserBoardTaskQuery,
+  Types.CountUserBoardTaskQueryVariables
+>
+export const DeleteBoardDocument = gql`
+  mutation deleteBoard($id: String!) {
+    delete_boards(where: { id: { _eq: $id } }) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type DeleteBoardMutationFn = Apollo.MutationFunction<
+  Types.DeleteBoardMutation,
+  Types.DeleteBoardMutationVariables
+>
+
+/**
+ * __useDeleteBoardMutation__
+ *
+ * To run a mutation, you first call `useDeleteBoardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBoardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBoardMutation, { data, loading, error }] = useDeleteBoardMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteBoardMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteBoardMutation,
+    Types.DeleteBoardMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteBoardMutation,
+    Types.DeleteBoardMutationVariables
+  >(DeleteBoardDocument, options)
+}
+export type DeleteBoardMutationHookResult = ReturnType<
+  typeof useDeleteBoardMutation
+>
+export type DeleteBoardMutationResult = Apollo.MutationResult<Types.DeleteBoardMutation>
+export type DeleteBoardMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteBoardMutation,
+  Types.DeleteBoardMutationVariables
 >
 export const AddTaskCommentDocument = gql`
   mutation addTaskComment($object: task_comment_insert_input!) {
@@ -288,6 +513,7 @@ export const GetTasksDocument = gql`
       dueDate
       id
       code
+      priority
     }
   }
 `
@@ -345,6 +571,7 @@ export const TaskDetailDocument = gql`
   query taskDetail($id: String!) {
     tasks(where: { id: { _eq: $id } }) {
       id
+      priority
       title
       description
       code
@@ -355,6 +582,25 @@ export const TaskDetailDocument = gql`
           displayName
           photoUrl
         }
+      }
+      createDepend {
+        status
+        dependTask {
+          id
+          title
+          code
+        }
+      }
+      dependOn {
+        status
+        task {
+          id
+          title
+          code
+        }
+      }
+      owner {
+        email
       }
     }
   }
@@ -462,11 +708,30 @@ export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateTaskMutationVariables
 >
 export const TaskCommentDocument = gql`
-  query taskComment($id: String!) {
+  query taskComment($id: String!, $limit: Int!, $offset: Int!) {
     tasks(where: { id: { _eq: $id } }) {
       createdAt
       startDate
       dueDate
+      owner {
+        displayName
+      }
+      comments(limit: $limit, order_by: { createdAt: desc }, offset: $offset) {
+        id
+        text
+        attachments
+        user {
+          displayName
+          photoUrl
+          id
+        }
+        createdAt
+      }
+      comments_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `
@@ -484,6 +749,8 @@ export const TaskCommentDocument = gql`
  * const { data, loading, error } = useTaskCommentQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
  *   },
  * });
  */
@@ -518,6 +785,737 @@ export type TaskCommentLazyQueryHookResult = ReturnType<
 export type TaskCommentQueryResult = Apollo.QueryResult<
   Types.TaskCommentQuery,
   Types.TaskCommentQueryVariables
+>
+export const DeleteTaskDocument = gql`
+  mutation deleteTask($id: String!) {
+    delete_tasks(where: { id: { _eq: $id } }) {
+      affected_rows
+      returning {
+        id
+      }
+    }
+  }
+`
+export type DeleteTaskMutationFn = Apollo.MutationFunction<
+  Types.DeleteTaskMutation,
+  Types.DeleteTaskMutationVariables
+>
+
+/**
+ * __useDeleteTaskMutation__
+ *
+ * To run a mutation, you first call `useDeleteTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTaskMutation, { data, loading, error }] = useDeleteTaskMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteTaskMutation,
+    Types.DeleteTaskMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteTaskMutation,
+    Types.DeleteTaskMutationVariables
+  >(DeleteTaskDocument, options)
+}
+export type DeleteTaskMutationHookResult = ReturnType<
+  typeof useDeleteTaskMutation
+>
+export type DeleteTaskMutationResult = Apollo.MutationResult<Types.DeleteTaskMutation>
+export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteTaskMutation,
+  Types.DeleteTaskMutationVariables
+>
+export const CountTotalTaskDocument = gql`
+  query countTotalTask($id: String, $now: timestamptz!) {
+    todo: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 1 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    inProgress: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 2 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    done: tasks_aggregate(
+      where: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    overDue: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          code: { _in: [1, 2] }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useCountTotalTaskQuery__
+ *
+ * To run a query within a React component, call `useCountTotalTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountTotalTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountTotalTaskQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountTotalTaskQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >(CountTotalTaskDocument, options)
+}
+export function useCountTotalTaskLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountTotalTaskQuery,
+    Types.CountTotalTaskQueryVariables
+  >(CountTotalTaskDocument, options)
+}
+export type CountTotalTaskQueryHookResult = ReturnType<
+  typeof useCountTotalTaskQuery
+>
+export type CountTotalTaskLazyQueryHookResult = ReturnType<
+  typeof useCountTotalTaskLazyQuery
+>
+export type CountTotalTaskQueryResult = Apollo.QueryResult<
+  Types.CountTotalTaskQuery,
+  Types.CountTotalTaskQueryVariables
+>
+export const CountStackTaskDocument = gql`
+  query countStackTask($id: String, $now: timestamptz!) {
+    todo: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 1 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    todoLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          code: { _eq: 1 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    inProgress: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          code: { _eq: 2 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    inProgressLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          code: { _eq: 2 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    done: tasks_aggregate(
+      where: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useCountStackTaskQuery__
+ *
+ * To run a query within a React component, call `useCountStackTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountStackTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountStackTaskQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountStackTaskQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >(CountStackTaskDocument, options)
+}
+export function useCountStackTaskLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountStackTaskQuery,
+    Types.CountStackTaskQueryVariables
+  >(CountStackTaskDocument, options)
+}
+export type CountStackTaskQueryHookResult = ReturnType<
+  typeof useCountStackTaskQuery
+>
+export type CountStackTaskLazyQueryHookResult = ReturnType<
+  typeof useCountStackTaskLazyQuery
+>
+export type CountStackTaskQueryResult = Apollo.QueryResult<
+  Types.CountStackTaskQuery,
+  Types.CountStackTaskQueryVariables
+>
+export const CountTaskPriorityDocument = gql`
+  query countTaskPriority($id: String, $now: timestamptz!) {
+    low: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "low" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    lowLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "low" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    lowDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "low" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    important: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "important" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    importantLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "important" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    importantDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "important" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    medium: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "medium" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    mediumLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "medium" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    mediumDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "medium" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    urgent: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _gt: $now }
+          priority: { _eq: "urgent" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    urgentLate: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          dueDate: { _lt: $now }
+          priority: { _eq: "urgent" }
+          code: { _neq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    urgentDone: tasks_aggregate(
+      where: {
+        _and: {
+          boardId: { _eq: $id }
+          priority: { _eq: "urgent" }
+          code: { _eq: 3 }
+        }
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useCountTaskPriorityQuery__
+ *
+ * To run a query within a React component, call `useCountTaskPriorityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountTaskPriorityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountTaskPriorityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      now: // value for 'now'
+ *   },
+ * });
+ */
+export function useCountTaskPriorityQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >(CountTaskPriorityDocument, options)
+}
+export function useCountTaskPriorityLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.CountTaskPriorityQuery,
+    Types.CountTaskPriorityQueryVariables
+  >(CountTaskPriorityDocument, options)
+}
+export type CountTaskPriorityQueryHookResult = ReturnType<
+  typeof useCountTaskPriorityQuery
+>
+export type CountTaskPriorityLazyQueryHookResult = ReturnType<
+  typeof useCountTaskPriorityLazyQuery
+>
+export type CountTaskPriorityQueryResult = Apollo.QueryResult<
+  Types.CountTaskPriorityQuery,
+  Types.CountTaskPriorityQueryVariables
+>
+export const GetTasksScheduleDocument = gql`
+  query getTasksSchedule($boardId: String) {
+    tasks(where: { boardId: { _eq: $boardId } }) {
+      title
+      end: dueDate
+      start: startDate
+      id
+    }
+  }
+`
+
+/**
+ * __useGetTasksScheduleQuery__
+ *
+ * To run a query within a React component, call `useGetTasksScheduleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTasksScheduleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTasksScheduleQuery({
+ *   variables: {
+ *      boardId: // value for 'boardId'
+ *   },
+ * });
+ */
+export function useGetTasksScheduleQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >(GetTasksScheduleDocument, options)
+}
+export function useGetTasksScheduleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetTasksScheduleQuery,
+    Types.GetTasksScheduleQueryVariables
+  >(GetTasksScheduleDocument, options)
+}
+export type GetTasksScheduleQueryHookResult = ReturnType<
+  typeof useGetTasksScheduleQuery
+>
+export type GetTasksScheduleLazyQueryHookResult = ReturnType<
+  typeof useGetTasksScheduleLazyQuery
+>
+export type GetTasksScheduleQueryResult = Apollo.QueryResult<
+  Types.GetTasksScheduleQuery,
+  Types.GetTasksScheduleQueryVariables
+>
+export const GetDependenciesDocument = gql`
+  query getDependencies($where: tasks_bool_exp) {
+    tasks(where: $where, limit: 10) {
+      id
+      title
+      code
+      createDepend {
+        taskDependId
+      }
+      dependOn {
+        taskId
+      }
+      assignee {
+        user {
+          displayName
+          photoUrl
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useGetDependenciesQuery__
+ *
+ * To run a query within a React component, call `useGetDependenciesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDependenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDependenciesQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGetDependenciesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >(GetDependenciesDocument, options)
+}
+export function useGetDependenciesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    Types.GetDependenciesQuery,
+    Types.GetDependenciesQueryVariables
+  >(GetDependenciesDocument, options)
+}
+export type GetDependenciesQueryHookResult = ReturnType<
+  typeof useGetDependenciesQuery
+>
+export type GetDependenciesLazyQueryHookResult = ReturnType<
+  typeof useGetDependenciesLazyQuery
+>
+export type GetDependenciesQueryResult = Apollo.QueryResult<
+  Types.GetDependenciesQuery,
+  Types.GetDependenciesQueryVariables
+>
+export const PostTaskDependencyDocument = gql`
+  mutation postTaskDependency($object: task_dependencies_insert_input!) {
+    insert_task_dependencies(objects: [$object]) {
+      affected_rows
+      returning {
+        status
+      }
+    }
+  }
+`
+export type PostTaskDependencyMutationFn = Apollo.MutationFunction<
+  Types.PostTaskDependencyMutation,
+  Types.PostTaskDependencyMutationVariables
+>
+
+/**
+ * __usePostTaskDependencyMutation__
+ *
+ * To run a mutation, you first call `usePostTaskDependencyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostTaskDependencyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postTaskDependencyMutation, { data, loading, error }] = usePostTaskDependencyMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function usePostTaskDependencyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.PostTaskDependencyMutation,
+    Types.PostTaskDependencyMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.PostTaskDependencyMutation,
+    Types.PostTaskDependencyMutationVariables
+  >(PostTaskDependencyDocument, options)
+}
+export type PostTaskDependencyMutationHookResult = ReturnType<
+  typeof usePostTaskDependencyMutation
+>
+export type PostTaskDependencyMutationResult = Apollo.MutationResult<Types.PostTaskDependencyMutation>
+export type PostTaskDependencyMutationOptions = Apollo.BaseMutationOptions<
+  Types.PostTaskDependencyMutation,
+  Types.PostTaskDependencyMutationVariables
+>
+export const DeleteDependencyDocument = gql`
+  mutation deleteDependency($taskId: String!, $taskDependId: String!) {
+    delete_task_dependencies(
+      where: {
+        _and: { taskId: { _eq: $taskId }, taskDependId: { _eq: $taskDependId } }
+      }
+    ) {
+      affected_rows
+      returning {
+        status
+      }
+    }
+  }
+`
+export type DeleteDependencyMutationFn = Apollo.MutationFunction<
+  Types.DeleteDependencyMutation,
+  Types.DeleteDependencyMutationVariables
+>
+
+/**
+ * __useDeleteDependencyMutation__
+ *
+ * To run a mutation, you first call `useDeleteDependencyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDependencyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDependencyMutation, { data, loading, error }] = useDeleteDependencyMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *      taskDependId: // value for 'taskDependId'
+ *   },
+ * });
+ */
+export function useDeleteDependencyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.DeleteDependencyMutation,
+    Types.DeleteDependencyMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    Types.DeleteDependencyMutation,
+    Types.DeleteDependencyMutationVariables
+  >(DeleteDependencyDocument, options)
+}
+export type DeleteDependencyMutationHookResult = ReturnType<
+  typeof useDeleteDependencyMutation
+>
+export type DeleteDependencyMutationResult = Apollo.MutationResult<Types.DeleteDependencyMutation>
+export type DeleteDependencyMutationOptions = Apollo.BaseMutationOptions<
+  Types.DeleteDependencyMutation,
+  Types.DeleteDependencyMutationVariables
 >
 export const AssignTaskDocument = gql`
   mutation assignTask($object: user_task_insert_input!) {
@@ -861,55 +1859,6 @@ export type MembersLazyQueryHookResult = ReturnType<typeof useMembersLazyQuery>
 export type MembersQueryResult = Apollo.QueryResult<
   Types.MembersQuery,
   Types.MembersQueryVariables
->
-export const UpdateUserAvatarDocument = gql`
-  mutation updateUserAvatar($photoUrl: String) {
-    update_users(where: {}, _set: { photoUrl: $photoUrl }) {
-      affected_rows
-    }
-  }
-`
-export type UpdateUserAvatarMutationFn = Apollo.MutationFunction<
-  Types.UpdateUserAvatarMutation,
-  Types.UpdateUserAvatarMutationVariables
->
-
-/**
- * __useUpdateUserAvatarMutation__
- *
- * To run a mutation, you first call `useUpdateUserAvatarMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserAvatarMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserAvatarMutation, { data, loading, error }] = useUpdateUserAvatarMutation({
- *   variables: {
- *      photoUrl: // value for 'photoUrl'
- *   },
- * });
- */
-export function useUpdateUserAvatarMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    Types.UpdateUserAvatarMutation,
-    Types.UpdateUserAvatarMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<
-    Types.UpdateUserAvatarMutation,
-    Types.UpdateUserAvatarMutationVariables
-  >(UpdateUserAvatarDocument, options)
-}
-export type UpdateUserAvatarMutationHookResult = ReturnType<
-  typeof useUpdateUserAvatarMutation
->
-export type UpdateUserAvatarMutationResult = Apollo.MutationResult<Types.UpdateUserAvatarMutation>
-export type UpdateUserAvatarMutationOptions = Apollo.BaseMutationOptions<
-  Types.UpdateUserAvatarMutation,
-  Types.UpdateUserAvatarMutationVariables
 >
 export const UsersDocument = gql`
   query users($id: String) {

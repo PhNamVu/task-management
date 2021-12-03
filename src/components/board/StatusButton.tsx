@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react'
+import { Button, MenuButton } from '@chakra-ui/react'
 import React from 'react'
 import { BoardStatus } from '../../constants/board'
 
@@ -19,13 +19,14 @@ export const StatusButton: React.FC<StatusButtonProps> = ({ status }) => {
   }
 
   return (
-    <Button
+    <MenuButton
+      as={Button}
       colorScheme={colorScheme(status)}
       variant="outline"
       textTransform="uppercase"
       size="xs"
     >
       {status}
-    </Button>
+    </MenuButton>
   )
 }

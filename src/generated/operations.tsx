@@ -33,6 +33,92 @@ export type GetBoardDetailQuery = { __typename?: 'query_root' } & {
   >
 }
 
+export type UpdateBoardMutationVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  object: Types.Boards_Set_Input
+}>
+
+export type UpdateBoardMutation = { __typename?: 'mutation_root' } & {
+  update_boards?: Types.Maybe<
+    { __typename?: 'boards_mutation_response' } & Pick<
+      Types.Boards_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<{ __typename?: 'boards' } & Pick<Types.Boards, 'id'>>
+      }
+  >
+}
+
+export type CountUserBoardTaskQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountUserBoardTaskQuery = { __typename?: 'query_root' } & {
+  boards: Array<
+    { __typename?: 'boards' } & {
+      workspace: { __typename?: 'workspaces' } & {
+        user_workspaces: Array<
+          { __typename?: 'user_workspace' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'id' | 'displayName'
+            > & {
+                todo: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+                inProgress: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+                done: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+                late: { __typename?: 'user_task_aggregate' } & {
+                  aggregate?: Types.Maybe<
+                    { __typename?: 'user_task_aggregate_fields' } & Pick<
+                      Types.User_Task_Aggregate_Fields,
+                      'count'
+                    >
+                  >
+                }
+              }
+          }
+        >
+      }
+    }
+  >
+}
+
+export type DeleteBoardMutationVariables = Types.Exact<{
+  id: Types.Scalars['String']
+}>
+
+export type DeleteBoardMutation = { __typename?: 'mutation_root' } & {
+  delete_boards?: Types.Maybe<
+    { __typename?: 'boards_mutation_response' } & Pick<
+      Types.Boards_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<{ __typename?: 'boards' } & Pick<Types.Boards, 'id'>>
+      }
+  >
+}
+
 export type AddTaskCommentMutationVariables = Types.Exact<{
   object: Types.Task_Comment_Insert_Input
 }>
@@ -72,7 +158,7 @@ export type GetTasksQuery = { __typename?: 'query_root' } & {
   tasks: Array<
     { __typename?: 'tasks' } & Pick<
       Types.Tasks,
-      'title' | 'dueDate' | 'id' | 'code'
+      'title' | 'dueDate' | 'id' | 'code' | 'priority'
     > & {
         assignee: Array<
           { __typename?: 'user_task' } & {
@@ -94,7 +180,7 @@ export type TaskDetailQuery = { __typename?: 'query_root' } & {
   tasks: Array<
     { __typename?: 'tasks' } & Pick<
       Types.Tasks,
-      'id' | 'title' | 'description' | 'code'
+      'id' | 'priority' | 'title' | 'description' | 'code'
     > & {
         assignee: Array<
           { __typename?: 'user_task' } & {
@@ -103,6 +189,31 @@ export type TaskDetailQuery = { __typename?: 'query_root' } & {
               'id' | 'email' | 'displayName' | 'photoUrl'
             >
           }
+        >
+        createDepend: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          > & {
+              dependTask: { __typename?: 'tasks' } & Pick<
+                Types.Tasks,
+                'id' | 'title' | 'code'
+              >
+            }
+        >
+        dependOn: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          > & {
+              task: { __typename?: 'tasks' } & Pick<
+                Types.Tasks,
+                'id' | 'title' | 'code'
+              >
+            }
+        >
+        owner?: Types.Maybe<
+          { __typename?: 'users' } & Pick<Types.Users, 'email'>
         >
       }
   >
@@ -124,6 +235,8 @@ export type UpdateTaskMutation = { __typename?: 'mutation_root' } & {
 
 export type TaskCommentQueryVariables = Types.Exact<{
   id: Types.Scalars['String']
+  limit: Types.Scalars['Int']
+  offset: Types.Scalars['Int']
 }>
 
 export type TaskCommentQuery = { __typename?: 'query_root' } & {
@@ -131,7 +244,320 @@ export type TaskCommentQuery = { __typename?: 'query_root' } & {
     { __typename?: 'tasks' } & Pick<
       Types.Tasks,
       'createdAt' | 'startDate' | 'dueDate'
+    > & {
+        owner?: Types.Maybe<
+          { __typename?: 'users' } & Pick<Types.Users, 'displayName'>
+        >
+        comments: Array<
+          { __typename?: 'task_comment' } & Pick<
+            Types.Task_Comment,
+            'id' | 'text' | 'attachments' | 'createdAt'
+          > & {
+              user: { __typename?: 'users' } & Pick<
+                Types.Users,
+                'displayName' | 'photoUrl' | 'id'
+              >
+            }
+        >
+        comments_aggregate: { __typename?: 'task_comment_aggregate' } & {
+          aggregate?: Types.Maybe<
+            { __typename?: 'task_comment_aggregate_fields' } & Pick<
+              Types.Task_Comment_Aggregate_Fields,
+              'count'
+            >
+          >
+        }
+      }
+  >
+}
+
+export type DeleteTaskMutationVariables = Types.Exact<{
+  id: Types.Scalars['String']
+}>
+
+export type DeleteTaskMutation = { __typename?: 'mutation_root' } & {
+  delete_tasks?: Types.Maybe<
+    { __typename?: 'tasks_mutation_response' } & Pick<
+      Types.Tasks_Mutation_Response,
+      'affected_rows'
+    > & { returning: Array<{ __typename?: 'tasks' } & Pick<Types.Tasks, 'id'>> }
+  >
+}
+
+export type CountTotalTaskQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountTotalTaskQuery = { __typename?: 'query_root' } & {
+  todo: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
     >
+  }
+  inProgress: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  done: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  overDue: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+}
+
+export type CountStackTaskQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountStackTaskQuery = { __typename?: 'query_root' } & {
+  todo: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  todoLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  inProgress: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  inProgressLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  done: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+}
+
+export type CountTaskPriorityQueryVariables = Types.Exact<{
+  id?: Types.Maybe<Types.Scalars['String']>
+  now: Types.Scalars['timestamptz']
+}>
+
+export type CountTaskPriorityQuery = { __typename?: 'query_root' } & {
+  low: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  lowLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  lowDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  important: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  importantLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  importantDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  medium: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  mediumLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  mediumDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  urgent: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  urgentLate: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+  urgentDone: { __typename?: 'tasks_aggregate' } & {
+    aggregate?: Types.Maybe<
+      { __typename?: 'tasks_aggregate_fields' } & Pick<
+        Types.Tasks_Aggregate_Fields,
+        'count'
+      >
+    >
+  }
+}
+
+export type GetTasksScheduleQueryVariables = Types.Exact<{
+  boardId?: Types.Maybe<Types.Scalars['String']>
+}>
+
+export type GetTasksScheduleQuery = { __typename?: 'query_root' } & {
+  tasks: Array<
+    { __typename?: 'tasks' } & Pick<Types.Tasks, 'title' | 'id'> & {
+        end: Types.Tasks['dueDate']
+        start: Types.Tasks['startDate']
+      }
+  >
+}
+
+export type GetDependenciesQueryVariables = Types.Exact<{
+  where?: Types.Maybe<Types.Tasks_Bool_Exp>
+}>
+
+export type GetDependenciesQuery = { __typename?: 'query_root' } & {
+  tasks: Array<
+    { __typename?: 'tasks' } & Pick<Types.Tasks, 'id' | 'title' | 'code'> & {
+        createDepend: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'taskDependId'
+          >
+        >
+        dependOn: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'taskId'
+          >
+        >
+        assignee: Array<
+          { __typename?: 'user_task' } & {
+            user: { __typename?: 'users' } & Pick<
+              Types.Users,
+              'displayName' | 'photoUrl'
+            >
+          }
+        >
+      }
+  >
+}
+
+export type PostTaskDependencyMutationVariables = Types.Exact<{
+  object: Types.Task_Dependencies_Insert_Input
+}>
+
+export type PostTaskDependencyMutation = { __typename?: 'mutation_root' } & {
+  insert_task_dependencies?: Types.Maybe<
+    { __typename?: 'task_dependencies_mutation_response' } & Pick<
+      Types.Task_Dependencies_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          >
+        >
+      }
+  >
+}
+
+export type DeleteDependencyMutationVariables = Types.Exact<{
+  taskId: Types.Scalars['String']
+  taskDependId: Types.Scalars['String']
+}>
+
+export type DeleteDependencyMutation = { __typename?: 'mutation_root' } & {
+  delete_task_dependencies?: Types.Maybe<
+    { __typename?: 'task_dependencies_mutation_response' } & Pick<
+      Types.Task_Dependencies_Mutation_Response,
+      'affected_rows'
+    > & {
+        returning: Array<
+          { __typename?: 'task_dependencies' } & Pick<
+            Types.Task_Dependencies,
+            'status'
+          >
+        >
+      }
   >
 }
 
@@ -250,19 +676,6 @@ export type MembersQuery = { __typename?: 'query_root' } & {
         'id' | 'displayName' | 'photoUrl'
       >
     }
-  >
-}
-
-export type UpdateUserAvatarMutationVariables = Types.Exact<{
-  photoUrl?: Types.Maybe<Types.Scalars['String']>
-}>
-
-export type UpdateUserAvatarMutation = { __typename?: 'mutation_root' } & {
-  update_users?: Types.Maybe<
-    { __typename?: 'users_mutation_response' } & Pick<
-      Types.Users_Mutation_Response,
-      'affected_rows'
-    >
   >
 }
 

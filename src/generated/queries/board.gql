@@ -8,7 +8,7 @@ mutation postBoard($object: boards_insert_input!) {
 }
 
 query getBoards($id: String) {
-  boards(where: { workspaceId: { _eq: $id } }) {
+  boards(where: { workspaceId: { _eq: $id } }, order_by: { createdAt: asc }) {
     title
     id
   }
@@ -19,5 +19,90 @@ query getBoardDetail($id: String) {
     title
     id
     status
+  }
+}
+
+mutation updateBoard($id: String, $object: boards_set_input!) {
+  update_boards(where: { id: { _eq: $id } }, _set: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+query countUserBoardTask($id: String, $now: timestamptz!) {
+  boards(where: { id: { _eq: $id } }) {
+    workspace {
+      user_workspaces {
+        user {
+          id
+          displayName
+          todo: tasks_aggregate(
+            where: {
+              task: {
+                _and: {
+                  boardId: { _eq: $id }
+                  dueDate: { _gt: $now }
+                  code: { _eq: 1 }
+                }
+              }
+            }
+          ) {
+            aggregate {
+              count
+            }
+          }
+          inProgress: tasks_aggregate(
+            where: {
+              task: {
+                _and: {
+                  boardId: { _eq: $id }
+                  dueDate: { _gt: $now }
+                  code: { _eq: 2 }
+                }
+              }
+            }
+          ) {
+            aggregate {
+              count
+            }
+          }
+          done: tasks_aggregate(
+            where: {
+              task: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+            }
+          ) {
+            aggregate {
+              count
+            }
+          }
+          late: tasks_aggregate(
+            where: {
+              task: {
+                _and: {
+                  boardId: { _eq: $id }
+                  dueDate: { _lt: $now }
+                  code: { _in: [1, 2] }
+                }
+              }
+            }
+          ) {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation deleteBoard($id: String!) {
+  delete_boards(where: { id: { _eq: $id } }) {
+    affected_rows
+    returning {
+      id
+    }
   }
 }

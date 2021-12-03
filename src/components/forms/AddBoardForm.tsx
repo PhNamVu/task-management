@@ -50,7 +50,6 @@ export const AddBoardForm: React.FC<Props> = ({ onClose, workspaceId }) => {
         } catch (error) {
           negativeToast({
             title: 'Error. Please try again!',
-            description: error.message,
           })
           actions.setSubmitting(false)
         }

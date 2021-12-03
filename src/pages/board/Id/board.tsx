@@ -4,9 +4,6 @@ import {
   ButtonGroup,
   Flex,
   IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
   SimpleGrid,
 } from '@chakra-ui/react'
 import React from 'react'
@@ -15,11 +12,12 @@ import { Outlet, useParams } from 'react-router-dom'
 import { CardBoard } from '../../../components/board/CardBoard'
 import { useGetTasksQuery } from '../../../generated/hooks'
 import { Error } from '../../../components/shared/Error'
-import { BiSearch } from 'react-icons/bi'
 import { HiUser, HiUsers } from 'react-icons/hi'
 import { ProgressLoading } from '../../../components/shared/Loading'
 import { useAuth } from '../../../hooks/use-auth'
 import useDebounce from '../../../hooks/use-debounce'
+import { SearchInput } from '../../../components/shared/SearchInput'
+import { StyledSpinner } from '../../../components/shared/StyledSpinner'
 
 export const BoardViewPage = () => {
   const { id: boardId } = useParams()
@@ -32,7 +30,7 @@ export const BoardViewPage = () => {
 
   const [me, setMe] = React.useState(false)
   const [input, setInput] = React.useState('')
-  const searchTerm = useDebounce(input, 1000)
+  const searchTerm = useDebounce(input, 400)
 
   const { data, loading, error } = useGetTasksQuery({
     variables: {
@@ -52,6 +50,11 @@ export const BoardViewPage = () => {
                       _ilike: `%${searchTerm}%`,
                     },
                   },
+                  {
+                    code: {
+                      _neq: 0,
+                    },
+                  },
                 ],
               },
             ]
@@ -66,6 +69,11 @@ export const BoardViewPage = () => {
                       _ilike: `%${searchTerm}%`,
                     },
                   },
+                  {
+                    code: {
+                      _neq: 0,
+                    },
+                  },
                 ],
               },
             ],
@@ -73,9 +81,7 @@ export const BoardViewPage = () => {
     },
     fetchPolicy: 'network-only',
   })
-
   if (error) return <Error />
-  if (loading) return <ProgressLoading />
 
   const todo = data?.tasks.filter(({ code }) => code === 1)
   const inProgress = data?.tasks.filter(({ code }) => code === 2)
@@ -105,18 +111,12 @@ export const BoardViewPage = () => {
                 icon={<HiUsers />}
               />
             </ButtonGroup>
-            <InputGroup size="sm">
-              <InputLeftElement pointerEvents="none">
-                <BiSearch color="gray" />
-              </InputLeftElement>
-              <Input
-                borderRadius={5}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Search task by title"
-              />
-            </InputGroup>
+            <SearchInput
+              size="sm"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Search task by title"
+            />
           </Flex>
         </Flex>
         <div>
@@ -124,9 +124,15 @@ export const BoardViewPage = () => {
         </div>
       </Box>
       <SimpleGrid columns={[1, 1, 3]} spacingX="4rem" spacingY="2rem" mt={8}>
-        <CardBoard code={1} title="To Do" data={todo} />
-        <CardBoard code={2} title="In progress" data={inProgress} />
-        <CardBoard code={3} title="Done" data={done} />
+        {loading ? (
+          <StyledSpinner />
+        ) : (
+          <>
+            <CardBoard code={1} title="To Do" data={todo} />
+            <CardBoard code={2} title="In progress" data={inProgress} />
+            <CardBoard code={3} title="Done" data={done} />
+          </>
+        )}
       </SimpleGrid>
       <Outlet />
     </>

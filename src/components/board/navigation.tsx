@@ -19,6 +19,7 @@ import { ColorModeSwitcher } from '../../ColorModeSwitcher'
 export const BoardNavigation = () => {
   const {
     state: { user },
+    signout,
   }: any = useAuth()
   const navigate = useNavigate()
   return (
@@ -49,6 +50,10 @@ export const BoardNavigation = () => {
               <MenuItem
                 color="red.500"
                 _hover={{ textDecoration: 'underline' }}
+                onClick={() => {
+                  signout()
+                  navigate('/')
+                }}
               >
                 Log out
               </MenuItem>

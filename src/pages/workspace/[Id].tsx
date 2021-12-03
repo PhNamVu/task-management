@@ -1,18 +1,11 @@
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Editable,
-  EditableInput,
-  EditablePreview,
-  Flex,
-  Text,
-} from '@chakra-ui/react'
+import { AvatarGroup, Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
+import { EditableText } from '../../components/shared/EditableText'
 
 import { ProgressLoading } from '../../components/shared/Loading'
+import { StyledAvatar } from '../../components/shared/StyledAvatar'
 import { AddMember } from '../../components/workspace/AddMember'
 import {
   useGetWorkspaceDetailQuery,
@@ -48,7 +41,7 @@ const WorkspaceDetail = () => {
       </Helmet>
       <Box>
         <Flex w="100%" justifyContent="center">
-          <Editable
+          <EditableText
             defaultValue={detail?.title}
             my={5}
             mr={5}
@@ -60,25 +53,22 @@ const WorkspaceDetail = () => {
                 variables: {
                   id,
                   object: {
-                    title: e,
+                    title: e.length > 0 ? e : 'untitled',
                   },
                 },
               })
             }}
-          >
-            <EditablePreview />
-            <EditableInput />
-          </Editable>
+          />
         </Flex>
 
         <Flex ml={2} mb={10}>
           <Text fontSize="lg" mr={3}>
             Members:
           </Text>
-          <AvatarGroup size="sm" max={3}>
+          <AvatarGroup size="sm" max={10}>
             {data?.members.map((item: any) => {
               return (
-                <Avatar
+                <StyledAvatar
                   key={item.user.id}
                   name={item.user.displayName}
                   src={item.user.photoUrl}

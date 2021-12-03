@@ -5,6 +5,7 @@ import {
   IconButton,
   Spinner,
   Textarea,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import randomstring from 'randomstring'
 import React, { useState } from 'react'
@@ -151,6 +152,7 @@ export const CommentInput: React.FC<Props> = ({
       onFileChange(acceptedFiles)
     },
   })
+  const bg = useColorModeValue('white', 'gray.700')
 
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <ul>
@@ -176,7 +178,7 @@ export const CommentInput: React.FC<Props> = ({
     </ul>
   ))
   return (
-    <Flex bottom="0" position="sticky" pl={5}>
+    <Flex bottom="0" pl={5} bg={bg}>
       <Box h="100%" w="100%">
         <Flex h="100%">
           <Textarea

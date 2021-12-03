@@ -31,7 +31,7 @@ export const WorkspaceItem: React.FC<WorkspaceItemProps> = ({ id }) => {
       <Flex w="100%" justifyContent="space-between" mb={3}>
         <WorkspaceTitle title={title} id={id} />
         <Flex>
-          <WorkspaceMember id={id} members={members} />
+          <WorkspaceMember id={id} members={members} ownerId={ownerId} />
           <WorkspaceSetting id={id} ownerId={ownerId} />
         </Flex>
       </Flex>

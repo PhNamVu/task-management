@@ -19,12 +19,14 @@ query getTasks($boardId: String, $where: tasks_bool_exp) {
     dueDate
     id
     code
+    priority
   }
 }
 
 query taskDetail($id: String!) {
   tasks(where: { id: { _eq: $id } }) {
     id
+    priority
     title
     description
     code
@@ -35,6 +37,25 @@ query taskDetail($id: String!) {
         displayName
         photoUrl
       }
+    }
+    createDepend {
+      status
+      dependTask {
+        id
+        title
+        code
+      }
+    }
+    dependOn {
+      status
+      task {
+        id
+        title
+        code
+      }
+    }
+    owner {
+      email
     }
   }
 }
@@ -48,10 +69,324 @@ mutation updateTask($id: String, $object: tasks_set_input!) {
   }
 }
 
-query taskComment($id: String!) {
+query taskComment($id: String!, $limit: Int!, $offset: Int!) {
   tasks(where: { id: { _eq: $id } }) {
     createdAt
     startDate
     dueDate
+    owner {
+      displayName
+    }
+    comments(limit: $limit, order_by: { createdAt: desc }, offset: $offset) {
+      id
+      text
+      attachments
+      user {
+        displayName
+        photoUrl
+        id
+      }
+      createdAt
+    }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}
+
+mutation deleteTask($id: String!) {
+  delete_tasks(where: { id: { _eq: $id } }) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+query countTotalTask($id: String, $now: timestamptz!) {
+  todo: tasks_aggregate(
+    where: {
+      _and: { boardId: { _eq: $id }, dueDate: { _gt: $now }, code: { _eq: 1 } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  inProgress: tasks_aggregate(
+    where: {
+      _and: { boardId: { _eq: $id }, dueDate: { _gt: $now }, code: { _eq: 2 } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  done: tasks_aggregate(
+    where: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  overDue: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        code: { _in: [1, 2] }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query countStackTask($id: String, $now: timestamptz!) {
+  todo: tasks_aggregate(
+    where: {
+      _and: { boardId: { _eq: $id }, dueDate: { _gt: $now }, code: { _eq: 1 } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  todoLate: tasks_aggregate(
+    where: {
+      _and: { boardId: { _eq: $id }, dueDate: { _lt: $now }, code: { _eq: 1 } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  inProgress: tasks_aggregate(
+    where: {
+      _and: { boardId: { _eq: $id }, dueDate: { _gt: $now }, code: { _eq: 2 } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  inProgressLate: tasks_aggregate(
+    where: {
+      _and: { boardId: { _eq: $id }, dueDate: { _lt: $now }, code: { _eq: 2 } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  done: tasks_aggregate(
+    where: { _and: { boardId: { _eq: $id }, code: { _eq: 3 } } }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query countTaskPriority($id: String, $now: timestamptz!) {
+  low: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "low" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  lowLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "low" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  lowDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "low" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+
+  important: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "important" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  importantLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "important" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  importantDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "important" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+
+  medium: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "medium" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  mediumLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "medium" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  mediumDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "medium" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+
+  urgent: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _gt: $now }
+        priority: { _eq: "urgent" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  urgentLate: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        dueDate: { _lt: $now }
+        priority: { _eq: "urgent" }
+        code: { _neq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  urgentDone: tasks_aggregate(
+    where: {
+      _and: {
+        boardId: { _eq: $id }
+        priority: { _eq: "urgent" }
+        code: { _eq: 3 }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+
+query getTasksSchedule($boardId: String) {
+  tasks(where: { boardId: { _eq: $boardId } }) {
+    title
+    end: dueDate
+    start: startDate
+    id
+  }
+}
+
+query getDependencies($where: tasks_bool_exp) {
+  tasks(where: $where, limit: 10) {
+    id
+    title
+    code
+    createDepend {
+      taskDependId
+    }
+    dependOn {
+      taskId
+    }
+    assignee {
+      user {
+        displayName
+        photoUrl
+      }
+    }
   }
 }

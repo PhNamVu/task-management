@@ -73,7 +73,6 @@ export const NewAssigneeButton = ({ assignees }: any) => {
       } catch (err) {
         negativeToast({
           title: 'Remove fail',
-          description: err,
         })
       }
     }
@@ -110,7 +109,6 @@ export const NewAssigneeButton = ({ assignees }: any) => {
       } catch (err) {
         negativeToast({
           title: 'Assign fail',
-          description: err,
         })
       }
     }

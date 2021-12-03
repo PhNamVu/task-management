@@ -21,6 +21,7 @@ export const Modaler: React.FC<ModalerProps> = ({
   const { onClose, isOpen, children } = props
   return (
     <Modal
+      {...props}
       isCentered
       onClose={onClose}
       isOpen={isOpen}

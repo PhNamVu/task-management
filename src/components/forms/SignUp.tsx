@@ -10,7 +10,7 @@ import {
   InputRightElement,
   Stack,
   Text,
-  Image
+  Image,
 } from '@chakra-ui/react'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 
@@ -37,7 +37,7 @@ export const SignUpForm = () => {
       })
       .catch((error) => {
         if (error.code !== 'auth/popup-closed-by-user')
-        negativeToast({ title: 'Login fail', description: error.message })
+          negativeToast({ title: 'Login fail', description: error.message })
       })
   }
   return (
@@ -48,7 +48,7 @@ export const SignUpForm = () => {
         passwordConfirmation: '',
       }}
       validationSchema={SignUpSchemaValidation}
-      onSubmit={async(values) => {
+      onSubmit={async (values) => {
         try {
           const userRes = await fbase
             .auth()
@@ -58,7 +58,7 @@ export const SignUpForm = () => {
             fana.setUserId(userRes.user?.uid as string)
           }
         } catch (error) {
-          negativeToast({ title: 'Login fail', description: error.message })
+          negativeToast({ title: 'Login fail' })
         }
       }}
     >
@@ -104,9 +104,14 @@ export const SignUpForm = () => {
 
           <FormControl
             isRequired
-            isInvalid={formik.errors.passwordConfirmation && formik.touched.passwordConfirmation}
+            isInvalid={
+              formik.errors.passwordConfirmation &&
+              formik.touched.passwordConfirmation
+            }
           >
-            <FormLabel htmlFor="passwordConfirmation">Confirm Password</FormLabel>
+            <FormLabel htmlFor="passwordConfirmation">
+              Confirm Password
+            </FormLabel>
             <InputGroup size="md">
               <StyledInput
                 pr="4.5rem"
@@ -126,7 +131,9 @@ export const SignUpForm = () => {
               </InputRightElement>
             </InputGroup>
 
-            <FormErrorMessage>{formik.errors.passwordConfirmation}</FormErrorMessage>
+            <FormErrorMessage>
+              {formik.errors.passwordConfirmation}
+            </FormErrorMessage>
           </FormControl>
 
           <PrimaryBtn
